@@ -1,0 +1,32 @@
+# https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms#top-level-syntax
+name: Feature request
+description: Request a new package
+title: 'package request: '
+labels: [package-request]
+body:
+  - type: input
+    attributes:
+      label: package link
+      description: A link to the package you'd like to have on the OT-2 on PyPI or condaforge or some other index
+      placeholder: https://pypi.org/project/pandas/
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: minimum version
+      description: The minimum version of the package you'd need. If you don't know or don't care, you can specify "latest".
+      placeholder: latest
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Extra notes
+      description: |
+        Use this section to describe any extra things that might be needed to handle the package, and if you want, a
+        general description of why you might need it and what the presence of the package will allow you to do.
+  - type: checkboxes
+    attributes:
+      label: Things to check while adding the request
+      options:
+        - label: Installing the package on the OT-2 fails while installing _this package_
+        - label: Installing the package on the OT-2 fails at some other time, like while installing a dependency
