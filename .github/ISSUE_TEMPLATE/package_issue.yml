@@ -17,6 +17,7 @@ body:
         ## Thanks for taking the time to file an issue with a package!
   - type: textarea
     attributes:
+      label: Overview
       description: |
         Use this section to describe the bug at a high level.
         Please include any issues you can find that may be related.
