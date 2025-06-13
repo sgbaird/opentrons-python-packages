@@ -62,26 +62,43 @@ Once built and deployed, the package can be installed on an OT-2 using:
 pip install prefect --index-url <opentrons-package-index-url>
 ```
 
-### Specific Instructions for sgbaird/opentrons-python-packages
+### For sgbaird/opentrons-python-packages Fork
 
-For this specific fork, once the build system is deployed:
+**Important**: This fork does not have access to the upstream repository's AWS deployment infrastructure. You have two options for distribution:
 
-1. **Development builds**: Packages built from branches will be available at:
+#### Option 1: Manual Distribution
+1. Build the package locally:
    ```bash
-   pip install prefect --index-url https://dev.pypi.opentrons.com/[branch-name]/simple/
+   ./build-packages --verbose --build-type packages-only
    ```
 
-2. **For the current branch** (`copilot/fix-1`):
+2. Transfer the generated wheel file from `dist/` to your OT-2 robot
+
+3. Install directly on the OT-2:
    ```bash
-   pip install prefect --index-url https://dev.pypi.opentrons.com/copilot/fix-1/simple/
+   pip install /path/to/prefect-3.3.4-py3-none-any.whl
    ```
 
-3. **Production builds**: Once merged and tagged with `packages@v*`, packages will be available at:
-   ```bash
-   pip install prefect --index-url http://pypi.opentrons.com/simple/
-   ```
+#### Option 2: Set Up Your Own Package Index
 
-**Note**: The URLs above assume the same deployment infrastructure as the upstream repository. If deploying to different infrastructure, replace the base URLs accordingly.
+To deploy an automated package index like the upstream repo, you would need to:
+
+1. **Set up cloud storage** (AWS S3, Google Cloud Storage, etc.)
+2. **Configure GitHub Actions secrets** with your cloud credentials
+3. **Modify the workflow files** (.github/workflows/*.yaml) to use your storage endpoints
+4. **Update the deployment URLs** in the workflows
+
+Example for AWS S3:
+- Create an S3 bucket (e.g., `your-pypi-bucket`)
+- Configure IAM roles/users with S3 permissions
+- Update workflows to use your bucket: `s3://your-pypi-bucket`
+- Packages would then be available at: `https://your-pypi-bucket.s3.amazonaws.com/simple/`
+
+#### Option 3: Upstream Integration
+
+If the upstream repository eventually merges your changes, packages would be available at:
+- **Development**: `https://dev.pypi.opentrons.com/[branch-name]/simple/`
+- **Production**: `http://pypi.opentrons.com/simple/`
 
 ## Notes
 
