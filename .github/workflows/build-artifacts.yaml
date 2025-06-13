@@ -27,7 +27,7 @@ jobs:
           ./build-packages --container-source=pull --container-tag=main --verbose --build-type packages-only
       
       - name: 'Upload package wheels as artifacts'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: opentrons-packages-${{ github.sha }}
           path: dist/**/*.whl
