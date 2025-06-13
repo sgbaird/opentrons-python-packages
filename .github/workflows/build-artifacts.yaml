@@ -1,0 +1,42 @@
+name: Build Package Artifacts
+
+on:
+  push:
+    branches:
+      - "*"
+    paths:
+      - "packages/**/*"
+      - ".github/workflows/build-artifacts.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-artifacts:
+    runs-on: 'ubuntu-latest'
+    name: 'Build packages and create artifacts'
+    steps:
+      - uses: 'actions/checkout@v3'
+      - uses: 'actions/setup-python@v4'
+        with:
+          python-version: '3.10'
+      
+      - name: 'Build packages'
+        run: |
+          ./build-packages --container-source=pull --container-tag=main --verbose --build-type packages-only
+      
+      - name: 'Upload package wheels as artifacts'
+        uses: actions/upload-artifact@v3
+        with:
+          name: opentrons-packages-${{ github.sha }}
+          path: dist/**/*.whl
+          retention-days: 30
+      
+      - name: 'List built packages'
+        run: |
+          echo "Built packages:"
+          ls -la dist/
+          echo ""
+          echo "Package artifacts uploaded with name: opentrons-packages-${{ github.sha }}"
+          echo "Download artifacts from: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
