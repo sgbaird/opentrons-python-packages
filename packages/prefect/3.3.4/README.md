@@ -64,9 +64,23 @@ pip install prefect --index-url <opentrons-package-index-url>
 
 ### For sgbaird/opentrons-python-packages Fork
 
-**Important**: This fork does not have access to the upstream repository's AWS deployment infrastructure. You have two options for distribution:
+**Important**: This fork does not have access to the upstream repository's AWS deployment infrastructure. You have three options for distribution:
 
-#### Option 1: Manual Distribution
+#### Option 1: Download from GitHub Artifacts
+
+When you push changes to this repository, GitHub Actions automatically builds the packages and uploads them as artifacts:
+
+1. **Check the latest GitHub Actions run** at: https://github.com/sgbaird/opentrons-python-packages/actions
+2. **Find the workflow run** for your branch/commit
+3. **Download the artifacts** named `opentrons-packages-[commit-sha]`
+4. **Extract the downloaded zip** to get the wheel files
+5. **Transfer the wheel file** to your OT-2 robot
+6. **Install on the OT-2**:
+   ```bash
+   pip install /path/to/prefect-3.3.4-py3-none-any.whl
+   ```
+
+#### Option 2: Manual Local Build
 1. Build the package locally:
    ```bash
    ./build-packages --verbose --build-type packages-only
@@ -79,7 +93,7 @@ pip install prefect --index-url <opentrons-package-index-url>
    pip install /path/to/prefect-3.3.4-py3-none-any.whl
    ```
 
-#### Option 2: Set Up Your Own Package Index
+#### Option 3: Set Up Your Own Package Index
 
 To deploy an automated package index like the upstream repo, you would need to:
 
@@ -94,7 +108,7 @@ Example for AWS S3:
 - Update workflows to use your bucket: `s3://your-pypi-bucket`
 - Packages would then be available at: `https://your-pypi-bucket.s3.amazonaws.com/simple/`
 
-#### Option 3: Upstream Integration
+#### Option 4: Upstream Integration
 
 If the upstream repository eventually merges your changes, packages would be available at:
 - **Development**: `https://dev.pypi.opentrons.com/[branch-name]/simple/`
