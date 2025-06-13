@@ -64,11 +64,51 @@ pip install prefect --index-url <opentrons-package-index-url>
 
 ### For sgbaird/opentrons-python-packages Fork
 
-**Important**: This fork does not have access to the upstream repository's AWS deployment infrastructure. You have three options for distribution:
+**Important**: This fork does not have access to the upstream repository's AWS deployment infrastructure. You have several options for distribution:
 
-#### Option 1: Download from GitHub Artifacts
+#### Option 1: Install from GitHub Releases (Recommended)
 
-When you push changes to this repository, GitHub Actions automatically builds the packages and uploads them as artifacts:
+The repository automatically creates GitHub releases with wheel files when code is pushed to the main branch:
+
+```bash
+# Find the latest release at: https://github.com/sgbaird/opentrons-python-packages/releases
+# Then install directly on your OT-2:
+curl -L https://github.com/sgbaird/opentrons-python-packages/releases/download/[RELEASE_TAG]/prefect-3.3.4-py3-none-any.whl \
+  -o /tmp/prefect-3.3.4-py3-none-any.whl
+pip install /tmp/prefect-3.3.4-py3-none-any.whl
+```
+
+**Example with a specific release:**
+```bash
+# Replace [RELEASE_TAG] with actual tag from releases page
+curl -L https://github.com/sgbaird/opentrons-python-packages/releases/download/build-20241209-143022-a1b2c3d/prefect-3.3.4-py3-none-any.whl \
+  -o /tmp/prefect-3.3.4-py3-none-any.whl
+pip install /tmp/prefect-3.3.4-py3-none-any.whl
+```
+
+#### Option 2: Install from GitHub Artifacts
+
+GitHub Actions artifacts require authentication to download via API. The easiest approach is:
+
+**Manual approach (one-time setup):**
+1. Go to https://github.com/sgbaird/opentrons-python-packages/actions
+2. Find the latest successful workflow run for your branch
+3. Download the `opentrons-packages-[commit-sha]` artifact manually
+4. Extract the zip file to get the wheel file
+5. Upload the wheel file to a simple HTTP server or cloud storage
+6. Then on your OT-2:
+   ```bash
+   curl -L "https://your-server.com/prefect-3.3.4-py3-none-any.whl" \
+     -o /tmp/prefect-3.3.4-py3-none-any.whl
+**Verification for all methods:**
+```bash
+python -c "import prefect; print(f'Prefect {prefect.__version__} installed successfully')"
+```
+   ```
+
+#### Option 3: Download from GitHub Artifacts (Manual Transfer)
+
+If direct installation doesn't work, you can download the artifacts manually:
 
 1. **Check the latest GitHub Actions run** at: https://github.com/sgbaird/opentrons-python-packages/actions
 2. **Find the workflow run** for your branch/commit
@@ -80,7 +120,7 @@ When you push changes to this repository, GitHub Actions automatically builds th
    pip install /path/to/prefect-3.3.4-py3-none-any.whl
    ```
 
-#### Option 2: Manual Local Build
+#### Option 4: Manual Local Build
 1. Build the package locally:
    ```bash
    ./build-packages --verbose --build-type packages-only
@@ -93,7 +133,7 @@ When you push changes to this repository, GitHub Actions automatically builds th
    pip install /path/to/prefect-3.3.4-py3-none-any.whl
    ```
 
-#### Option 3: Set Up Your Own Package Index
+#### Option 5: Set Up Your Own Package Index
 
 To deploy an automated package index like the upstream repo, you would need to:
 
@@ -108,7 +148,7 @@ Example for AWS S3:
 - Update workflows to use your bucket: `s3://your-pypi-bucket`
 - Packages would then be available at: `https://your-pypi-bucket.s3.amazonaws.com/simple/`
 
-#### Option 4: Upstream Integration
+#### Option 6: Upstream Integration
 
 If the upstream repository eventually merges your changes, packages would be available at:
 - **Development**: `https://dev.pypi.opentrons.com/[branch-name]/simple/`
