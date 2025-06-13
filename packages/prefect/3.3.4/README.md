@@ -38,20 +38,50 @@ To build this package:
 ./build-packages --verbose --build-type packages-only
 ```
 
+Or to build the package and generate a package index:
+
+```bash
+./build-packages --verbose --build-type both
+```
+
 The build system will:
 1. Pull the Prefect source code from GitHub
 2. Set up a cross-compilation environment using Buildroot SDK
 3. Create a Python virtual environment with build dependencies
 4. Build the wheel package for arm7hf architecture
 5. Output the wheel to the dist/ directory
+6. Generate a PEP 503 package index (if using `--build-type both`)
 
 ## Installation on OT-2
 
-Once built, the package can be installed on an OT-2 using:
+### Generic Instructions
+
+Once built and deployed, the package can be installed on an OT-2 using:
 
 ```bash
 pip install prefect --index-url <opentrons-package-index-url>
 ```
+
+### Specific Instructions for sgbaird/opentrons-python-packages
+
+For this specific fork, once the build system is deployed:
+
+1. **Development builds**: Packages built from branches will be available at:
+   ```bash
+   pip install prefect --index-url https://dev.pypi.opentrons.com/[branch-name]/simple/
+   ```
+
+2. **For the current branch** (`copilot/fix-1`):
+   ```bash
+   pip install prefect --index-url https://dev.pypi.opentrons.com/copilot/fix-1/simple/
+   ```
+
+3. **Production builds**: Once merged and tagged with `packages@v*`, packages will be available at:
+   ```bash
+   pip install prefect --index-url http://pypi.opentrons.com/simple/
+   ```
+
+**Note**: The URLs above assume the same deployment infrastructure as the upstream repository. If deploying to different infrastructure, replace the base URLs accordingly.
 
 ## Notes
 
