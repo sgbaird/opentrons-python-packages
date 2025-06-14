@@ -5,13 +5,20 @@ Unable to connect to OT-2 simulator via SSH due to hostname resolution failure.
 
 **Connection String**: `root@ot2-simulator-53ad71.tail6a1dd7.ts.net`
 
-**Error**: `ssh: Could not resolve hostname ot2-simulator-53ad71.tail6a1dd7.ts.net: Temporary failure in name resolution`
+**Error**: `ssh: Could not resolve hostname ot2-simulator-53ad71.tail6a1dd7.ts.net: No address associated with hostname`
+
+**Latest Status (2024-12-16)**: 
+- Hostname was leaked in firewall notification and has been added to allow list
+- DNS resolution still failing after allow list update
+- Multiple connection attempts with different timeouts unsuccessful
+- Need alternative connection method or updated hostname
 
 ## Analysis
 - The hostname uses Tailscale domain (`ts.net`)
 - This sandbox environment doesn't have access to the Tailscale network
-- Standard DNS resolution fails consistently
+- Standard DNS resolution fails consistently (`REFUSED` from DNS server)
 - Cannot install Tailscale due to network restrictions
+- Firewall allow list addition did not resolve DNS resolution issue
 
 ## What's Ready for Testing
 
@@ -32,7 +39,7 @@ Unable to connect to OT-2 simulator via SSH due to hostname resolution failure.
 Ready-to-run commands for OT-2 shell:
 ```bash
 # Download and run automated installer
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/e7394f6/ot2_prefect_installer.py -o ot2_installer.py
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/ot2_prefect_installer.py -o ot2_installer.py
 python ot2_installer.py
 ```
 

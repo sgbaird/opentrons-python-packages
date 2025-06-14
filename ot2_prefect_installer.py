@@ -13,7 +13,7 @@ import shutil
 
 class OT2PrefectInstaller:
     def __init__(self):
-        self.base_url = "https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/79767ae/wheels"
+        self.base_url = "https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/wheels"
         self.temp_dir = None
         
     def setup_temp_dir(self):

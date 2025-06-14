@@ -10,7 +10,7 @@ Download and run the automated installer:
 
 ```python
 # Download the installer
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/79767ae/ot2_prefect_installer.py -o ot2_prefect_installer.py
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/ot2_prefect_installer.py -o ot2_prefect_installer.py
 
 # Run the installer
 python ot2_prefect_installer.py
@@ -30,7 +30,7 @@ If you prefer manual control:
 
 ```python
 # Step 1: Download the Python installer
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/79767ae/install.py -o install.py
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/install.py -o install.py
 
 # Step 2: Install pendulum (Prefect dependency)
 python install.py pendulum
@@ -122,7 +122,7 @@ If downloads fail:
 
 1. **Check network connectivity**:
    ```python
-   curl -I https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/79767ae/wheels/prefect-3.3.4-py3-none-any.whl
+   curl -I https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/wheels/prefect-3.3.4-py3-none-any.whl
    ```
 
 2. **Use alternative download method**:
@@ -130,7 +130,7 @@ If downloads fail:
    python -c "
    import urllib.request
    urllib.request.urlretrieve(
-       'https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/79767ae/wheels/prefect-3.3.4-py3-none-any.whl',
+       'https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec54b/wheels/prefect-3.3.4-py3-none-any.whl',
        'prefect.whl'
    )
    print('Downloaded successfully')
