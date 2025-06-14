@@ -22,6 +22,9 @@ sdist/
 var/
 wheels/
 index/
+# Allow committed wheel files in the wheels directory
+!wheels/README.md
+!wheels/*.whl
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
