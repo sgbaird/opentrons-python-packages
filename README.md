@@ -7,6 +7,26 @@ The OT-2 uses a custom Buildroot-created Linux system running on a Raspberry Pi.
 
 Any package identified here can be installed on an OT-2 through `pip`.
 
+## Quick Installation
+
+### Option 1: One-line installer
+```bash
+# Install pandas
+curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
+```
+
+### Option 2: Manual download
+For immediate use, pre-built wheel files are available in the [wheels/](wheels/) directory:
+
+```bash
+# Install pandas directly from repository  
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+pip install /tmp/pandas.whl
+```
+
+### Option 3: CI Artifacts
+Download wheel files from the latest [GitHub Actions artifacts](../../actions) or [releases](../../releases).
+
 ## Requesting Packages
 
 Please open an issue if there is a Python package that you want that is not present, or if there is a specific version of a Python package that the index does not have. Please also feel free to open a pull request to add it! Before requesting a package or new version, please try installing it on an OT-2 first; only packages with native code components need to be here, since pure-python packages are installable from PyPI.
