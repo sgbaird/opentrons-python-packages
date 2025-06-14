@@ -8,26 +8,26 @@ Download and install directly:
 
 ```bash
 # Example: Install prefect
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
 pip install /tmp/prefect.whl
 
 # Example: Install pandas
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
 pip install /tmp/pandas.whl
 
-# Example: Install pendulum (Prefect dependency) - universal wheel
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pendulum-3.1.0-py3-none-any.whl -o /tmp/pendulum.whl
+# Example: Install pendulum (Prefect dependency) - for ARMv7l (Opentrons OT-2)
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/pendulum-3.1.0-cp310-cp310-linux_armv7l.whl -o /tmp/pendulum.whl
 pip install /tmp/pendulum.whl
 
-# Example: Install pendulum (Prefect dependency) - optimized for ARM64
-curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl -o /tmp/pendulum-optimized.whl
-pip install /tmp/pendulum-optimized.whl
+# Alternative: Direct pip install from GitHub (single command)
+pip install https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/pendulum-3.1.0-cp310-cp310-linux_armv7l.whl
 ```
 
 ## Available Packages
 
-- `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf) - 14MB
-- `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB
+- `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for ARMv7l/Opentrons OT-2) - 14MB
+- `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB  
+- `pendulum-3.1.0-cp310-cp310-linux_armv7l.whl` - Date/time manipulation library (ARMv7l-compatible) - 113KB
 - `pendulum-3.1.0-py3-none-any.whl` - Date/time manipulation library (universal Python wheel) - 109KB
 - `pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl` - Date/time library (compiled for aarch64/ARM64) - 336KB
 
