@@ -14,12 +14,22 @@ pip install /tmp/prefect.whl
 # Example: Install pandas
 curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
 pip install /tmp/pandas.whl
+
+# Example: Install pendulum (Prefect dependency) - universal wheel
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pendulum-3.1.0-py3-none-any.whl -o /tmp/pendulum.whl
+pip install /tmp/pendulum.whl
+
+# Example: Install pendulum (Prefect dependency) - optimized for ARM64
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl -o /tmp/pendulum-optimized.whl
+pip install /tmp/pendulum-optimized.whl
 ```
 
 ## Available Packages
 
 - `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf) - 14MB
 - `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB
+- `pendulum-3.1.0-py3-none-any.whl` - Date/time manipulation library (universal Python wheel) - 109KB
+- `pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl` - Date/time library (compiled for aarch64/ARM64) - 336KB
 
 All wheels are ready for immediate download and installation.
 

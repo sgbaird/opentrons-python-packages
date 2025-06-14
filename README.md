@@ -13,6 +13,12 @@ Any package identified here can be installed on an OT-2 through `pip`.
 ```bash
 # Install pandas
 curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
+
+# Install prefect workflow framework
+curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- prefect
+
+# Install pendulum (date/time library, Prefect dependency)
+curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pendulum
 ```
 
 ### Option 2: Manual download
@@ -22,6 +28,14 @@ For immediate use, pre-built wheel files are available in the [wheels/](wheels/)
 # Install pandas directly from repository  
 curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
 pip install /tmp/pandas.whl
+
+# Install prefect workflow framework
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
+pip install /tmp/prefect.whl
+
+# Install pendulum (universal wheel for maximum compatibility)
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pendulum-3.1.0-py3-none-any.whl -o /tmp/pendulum.whl
+pip install /tmp/pendulum.whl
 ```
 
 ### Option 3: CI Artifacts
