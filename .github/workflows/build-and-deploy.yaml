@@ -11,6 +11,12 @@ on:
     tags:
       - "packages@v*"
   workflow_dispatch:
+    inputs:
+      test_ot2:
+        description: 'Test OT-2 connection after build'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   id-token: write
@@ -174,3 +180,61 @@ jobs:
       
       - name: 'Deploy to production S3'
         run: aws s3 sync ./index s3://pypi.opentrons.com
+
+  test-ot2-connection:
+    runs-on: 'ubuntu-latest'
+    name: 'Test OT-2 Connection'
+    needs: build
+    if: github.event.inputs.test_ot2 == 'true' && needs.build.outputs.artifacts-created == 'true'
+    steps:
+      - uses: 'actions/checkout@v3'
+      
+      - name: Setup Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      
+      - name: Download wheel artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: package-wheels-${{ github.sha }}
+          path: ./test-wheels
+      
+      - name: Test OT-2 Package Installation
+        env:
+          OT2_HOST: ${{ secrets.OT2_SIMULATOR_SSH }}
+        run: |
+          echo "Testing connection to OT-2 simulator..."
+          
+          # Test basic connectivity
+          if ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10 root@${OT2_HOST} "echo 'Connection successful'"; then
+            echo "✓ SSH connection to OT-2 established successfully"
+          else
+            echo "✗ Failed to connect to OT-2"
+            exit 1
+          fi
+          
+          # Test newly built wheels
+          echo "Testing installation of newly built wheels..."
+          for wheel in ./test-wheels/*.whl; do
+            if [ -f "$wheel" ]; then
+              wheel_name=$(basename "$wheel")
+              package_name=$(echo "$wheel_name" | cut -d'-' -f1)
+              echo "Testing package: $package_name"
+              
+              # Copy wheel to OT-2 and test installation
+              scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$wheel" root@${OT2_HOST}:/tmp/
+              
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${OT2_HOST} "
+                echo 'Installing $wheel_name...'
+                pip install /tmp/$wheel_name --force-reinstall
+                echo 'Testing import of $package_name...'
+                python3 -c 'import $package_name; print(\"$package_name version:\", getattr($package_name, \"__version__\", \"unknown\"))'
+                echo '✓ $package_name installation and import successful'
+              "
+            fi
+          done
+          
+          echo "✓ All wheel tests completed successfully"

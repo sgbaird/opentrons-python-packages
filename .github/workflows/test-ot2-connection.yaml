@@ -1,0 +1,78 @@
+name: OT-2 Package Testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_package:
+        description: 'Package to test installation'
+        required: false
+        default: 'prefect'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  test-ot2:
+    runs-on: ubuntu-latest
+    name: Test OT-2 Package Installation
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      
+      - name: Test Connection
+        env:
+          OT2_HOST: ${{ secrets.OT2_SIMULATOR_SSH }}
+        run: |
+          OT2_HOST=${OT2_HOST#@}
+          echo "Testing connection to: $OT2_HOST"
+          
+          if ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30 root@${OT2_HOST} "echo 'Connection successful'"; then
+            echo "✓ SSH connection established"
+          else
+            echo "✗ Connection failed"
+            exit 1
+          fi
+      
+      - name: Test Package
+        env:
+          OT2_HOST: ${{ secrets.OT2_SIMULATOR_SSH }}
+          PACKAGE: ${{ github.event.inputs.test_package }}
+        run: |
+          OT2_HOST=${OT2_HOST#@}
+          echo "Testing package: $PACKAGE"
+          
+          # Check if already installed
+          if ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${OT2_HOST} "python3 -c 'import $PACKAGE' 2>/dev/null"; then
+            echo "✓ $PACKAGE already installed"
+          else
+            echo "Installing $PACKAGE..."
+            
+            # Find and install wheel
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@${OT2_HOST} "
+              wheels=\$(curl -sSL https://api.github.com/repos/sgbaird/opentrons-python-packages/contents/wheels | grep '\"name\"' | grep '.whl' | cut -d'\"' -f4 | grep \"^$PACKAGE\")
+              
+              for wheel in \$wheels; do
+                echo \"Trying: \$wheel\"
+                if curl -sSLf \"https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/\$wheel\" -o /tmp/test.whl; then
+                  pip install /tmp/test.whl && python3 -c 'import $PACKAGE; print(\"Success!\")' && exit 0
+                fi
+              done
+              
+              echo 'No compatible wheel found'
+              exit 1
+            "
+          fi
+      
+      - name: Report Results
+        if: always()
+        run: |
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "Package: ${{ github.event.inputs.test_package }}" >> $GITHUB_STEP_SUMMARY
