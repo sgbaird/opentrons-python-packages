@@ -16,12 +16,14 @@ def main():
         print("Usage: python install.py PACKAGE_NAME")
         print("")
         print("Available packages:")
-        print("  pandas      - Data analysis library")
-        print("  prefect     - Workflow orchestration framework")
-        print("  pendulum    - Date/time manipulation library (Prefect dependency)")
+        print("  pandas        - Data analysis library")
+        print("  prefect       - Full workflow orchestration framework")
+        print("  prefect-client- Lightweight workflow orchestration (recommended for OT-2)")
+        print("  pendulum      - Date/time manipulation library (required for Prefect)")
         print("")
         print("Example:")
         print("  python install.py pandas")
+        print("  python install.py prefect-client")
         print("  python install.py prefect")
         print("  python install.py pendulum")
         sys.exit(1)
@@ -33,6 +35,7 @@ def main():
     wheel_map = {
         "pandas": "pandas-1.5.0-cp310-cp310-linux_armv7l.whl",
         "prefect": "prefect-3.3.4-py3-none-any.whl", 
+        "prefect-client": "prefect_client-3.4.6-py3-none-any.whl",
         "pendulum": "pendulum-3.1.0-cp310-cp310-linux_armv7l.whl"
     }
     

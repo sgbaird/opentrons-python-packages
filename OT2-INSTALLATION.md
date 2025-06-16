@@ -35,11 +35,14 @@ curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/49ec
 # Step 2: Install pendulum (Prefect dependency)
 python install.py pendulum
 
-# Step 3: Install Prefect
-python install.py prefect
+# Step 3: Install Prefect (lightweight version recommended)
+python install.py prefect-client
 
 # Step 4: Test the installation
 python -c "import prefect; print('Prefect version:', prefect.__version__)"
+
+# Alternative if using prefect-client:
+python -c "import prefect.client; print('Prefect client installed successfully')"
 ```
 
 ### Method 3: Direct Wheel Installation
@@ -51,16 +54,26 @@ For systems without curl or for debugging:
 # Then install directly:
 
 python -m pip install pendulum-3.1.0-cp310-cp310-linux_armv7l.whl
-python -m pip install prefect-3.3.4-py3-none-any.whl
+python -m pip install prefect_client-3.4.6-py3-none-any.whl
 ```
 
 ## Available Wheels
 
 This repository provides pre-built wheels for ARMv7l (OT-2 architecture):
 
-- `pendulum-3.1.0-cp310-cp310-linux_armv7l.whl` (116KB)
-- `prefect-3.3.4-py3-none-any.whl` (5.8MB)
+- `pendulum-3.1.0-cp310-cp310-linux_armv7l.whl` (116KB) - Required dependency
+- `prefect-client-3.4.6-py3-none-any.whl` (803KB) - **Recommended: Lightweight Prefect**
+- `prefect-3.3.4-py3-none-any.whl` (5.8MB) - Full Prefect (requires more dependencies)
 - `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` (14MB)
+
+### Prefect vs Prefect-Client
+
+**For OT-2 systems, we recommend `prefect-client`** instead of the full `prefect` package:
+
+- **prefect-client**: Minimal installation (~803KB) designed for resource-constrained environments
+- **prefect**: Full installation (~5.8MB) with CLI and server components that may not be needed on OT-2
+
+The `prefect-client` package provides all the core workflow functionality you need for OT-2 automation while avoiding complex dependencies that can cause installation issues.
 
 ## Basic Usage Example
 

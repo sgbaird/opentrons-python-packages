@@ -7,7 +7,11 @@ This directory contains pre-built Python wheel files for arm7hf architecture tha
 Download and install directly:
 
 ```bash
-# Example: Install prefect
+# Example: Install prefect-client (recommended lightweight version)
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/prefect_client-3.4.6-py3-none-any.whl -o /tmp/prefect_client.whl
+pip install /tmp/prefect_client.whl
+
+# Example: Install prefect (full version)
 curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
 pip install /tmp/prefect.whl
 
@@ -26,10 +30,20 @@ pip install https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/
 ## Available Packages
 
 - `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for ARMv7l/Opentrons OT-2) - 14MB
-- `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB  
+- `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (full version) - 5.8MB  
+- `prefect_client-3.4.6-py3-none-any.whl` - **Prefect Client (lightweight/recommended)** - 803KB
 - `pendulum-3.1.0-cp310-cp310-linux_armv7l.whl` - Date/time manipulation library (ARMv7l-compatible) - 113KB
 - `pendulum-3.1.0-py3-none-any.whl` - Date/time manipulation library (universal Python wheel) - 109KB
 - `pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl` - Date/time library (compiled for aarch64/ARM64) - 336KB
+
+### Prefect vs Prefect-Client
+
+For OT-2 and other resource-constrained environments, **use `prefect_client-3.4.6-py3-none-any.whl`** instead of the full Prefect package:
+
+- **prefect-client**: Minimal installation (~803KB) designed for lightweight environments
+- **prefect**: Full installation (~5.8MB) with CLI and server components
+
+The prefect-client package provides all core workflow functionality while avoiding complex dependencies.
 
 All wheels are ready for immediate download and installation.
 

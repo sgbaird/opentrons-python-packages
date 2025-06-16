@@ -12,12 +12,14 @@ if [ -z "$PACKAGE_NAME" ]; then
     echo "Usage: $0 PACKAGE_NAME"
     echo ""
     echo "Available packages:"
-    echo "  pandas      - Data analysis library"
-    echo "  prefect     - Workflow orchestration framework"
-    echo "  pendulum    - Date/time manipulation library (Prefect dependency)"
+    echo "  pandas        - Data analysis library"
+    echo "  prefect       - Full workflow orchestration framework"
+    echo "  prefect-client- Lightweight workflow orchestration (recommended for OT-2)"
+    echo "  pendulum      - Date/time manipulation library (required for Prefect)"
     echo ""
     echo "Example:"
     echo "  $0 pandas"
+    echo "  $0 prefect-client"
     echo "  $0 prefect"
     echo "  $0 pendulum"
     exit 1
@@ -31,6 +33,10 @@ case "$PACKAGE_NAME" in
         ;;
     "prefect")
         WHEEL_FILE="prefect-3.3.4-py3-none-any.whl"
+        ;;
+    "prefect-client")
+        WHEEL_FILE="prefect_client-3.4.6-py3-none-any.whl"
+        echo "Installing Prefect Client (lightweight version recommended for OT-2)..."
         ;;
     "pendulum")
         # Use ARMv7l-specific wheel for Opentrons OT-2

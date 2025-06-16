@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OT-2 Prefect Installation and Test Script
-Run this script on the OT-2 to install and test Prefect functionality
+OT-2 Prefect Client Installation and Test Script
+Run this script on the OT-2 to install and test Prefect Client functionality
 """
 
 import sys
@@ -148,8 +148,8 @@ if __name__ == "__main__":
             return False
             
     def install_prefect_stack(self):
-        """Install the complete Prefect stack with dependencies"""
-        print("Starting OT-2 Prefect installation...")
+        """Install the complete Prefect Client stack with dependencies"""
+        print("Starting OT-2 Prefect Client installation...")
         print("=" * 50)
         
         # Setup
@@ -168,16 +168,16 @@ if __name__ == "__main__":
                 print("❌ Pendulum import test failed")
                 return False
                 
-            # Step 2: Install Prefect
-            print("\nStep 2: Installing Prefect")
-            prefect_wheel = self.download_wheel("prefect-3.3.4-py3-none-any.whl")
+            # Step 2: Install Prefect Client (lightweight version)
+            print("\nStep 2: Installing Prefect Client (lightweight version)")
+            prefect_wheel = self.download_wheel("prefect_client-3.4.6-py3-none-any.whl")
             if not prefect_wheel or not self.install_wheel(prefect_wheel):
-                print("❌ Failed to install Prefect")
+                print("❌ Failed to install Prefect Client")
                 return False
                 
             # Test Prefect import
             if not self.test_import("prefect"):
-                print("❌ Prefect import test failed")
+                print("❌ Prefect Client import test failed")
                 return False
                 
             # Step 3: Test Prefect functionality
@@ -187,11 +187,12 @@ if __name__ == "__main__":
                 return False
                 
             print("\n" + "=" * 50)
-            print("🎉 SUCCESS: Prefect is now installed and working on OT-2!")
+            print("🎉 SUCCESS: Prefect Client is now installed and working on OT-2!")
             print("\nNext steps:")
             print("1. You can now import prefect in your Python scripts")
             print("2. Create and run Prefect flows for your OT-2 workflows")
-            print("3. Refer to Prefect documentation for advanced usage")
+            print("3. Note: You're using prefect-client (lightweight version)")
+            print("4. Refer to Prefect documentation for advanced usage")
             
             return True
             
@@ -199,7 +200,7 @@ if __name__ == "__main__":
             self.cleanup()
 
 def main():
-    print("OT-2 Prefect Installation Script")
+    print("OT-2 Prefect Client Installation Script")
     print(f"Python version: {sys.version}")
     print(f"Platform: {sys.platform}")
     
