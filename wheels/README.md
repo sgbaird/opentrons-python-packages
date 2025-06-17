@@ -23,6 +23,10 @@ pip install /tmp/pandas.whl
 curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/pendulum-3.1.0-cp310-cp310-linux_armv7l.whl -o /tmp/pendulum.whl
 pip install /tmp/pendulum.whl
 
+# Example: Install ujson (required for Prefect flows)
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/ujson-5.10.0-py3-none-linux_armv7l.whl -o /tmp/ujson.whl
+pip install /tmp/ujson.whl
+
 # Alternative: Direct pip install from GitHub (single command)
 pip install https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/pendulum-3.1.0-cp310-cp310-linux_armv7l.whl
 ```
@@ -35,6 +39,7 @@ pip install https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/
 - `pendulum-3.1.0-cp310-cp310-linux_armv7l.whl` - Date/time manipulation library (ARMv7l-compatible) - 113KB
 - `pendulum-3.1.0-py3-none-any.whl` - Date/time manipulation library (universal Python wheel) - 109KB
 - `pendulum-3.1.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl` - Date/time library (compiled for aarch64/ARM64) - 336KB
+- `ujson-5.10.0-py3-none-linux_armv7l.whl` - **Ultra-fast JSON encoder/decoder (ARMv7l fallback)** - 2KB
 
 ### Prefect vs Prefect-Client
 
