@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-OT-2 Prefect Complete Installation Script
-Successfully installs Prefect v3.3.4 with full flow/task functionality on OT-2
+OT-2 Prefect Partial Installation Script
+Successfully installs Prefect v3.3.4 with BASIC flow/task functionality on OT-2
 
-ACHIEVEMENT: Resolves all compilation issues and enables Prefect workflows on OT-2
+⚠️ LIMITATION: Only provides 3 of 15+ required wheels for FULL functionality
+✅ ACHIEVEMENT: Resolves core compilation issues and enables basic Prefect workflows
 """
 
 import subprocess
@@ -57,8 +58,9 @@ def set_pythonpath():
 
 
 def main():
-    print("=== OT-2 COMPLETE PREFECT INSTALLATION ===")
-    print("🎯 Installing Prefect v3.3.4 with full workflow functionality\n")
+    print("=== OT-2 BASIC PREFECT INSTALLATION ===")
+    print("🎯 Installing Prefect v3.3.4 with basic workflow functionality")
+    print("⚠️  Note: Only 3 of 15+ required wheels provided (see documentation)\n")
     
     # Set Python path for OT-2 compatibility
     set_pythonpath()
@@ -68,9 +70,9 @@ def main():
     
     # Core wheels that resolve compilation issues
     wheels = [
-        ("pendulum-3.1.0-cp310-cp310-linux_armv7l.whl", "Resolves Prefect's root dependency issue"),
+        ("pendulum-3.1.0-cp310-cp310-linux_armv7l.whl", "Resolves Prefect's core dependency issue"),
         ("ujson-5.10.0-py3-none-linux_armv7l.whl", "Custom ARMv7l fallback for JSON processing"),
-        ("prefect-3.3.4-py3-none-any.whl", "Full Prefect workflow engine"),
+        ("prefect-3.3.4-py3-none-any.whl", "Basic Prefect workflow engine"),
     ]
     
     print("Phase 1: Installing core pre-built wheels...")
@@ -150,12 +152,12 @@ if __name__ == "__main__":
     result = run_command(test_cmd, check=False)
     if result.returncode == 0:
         print("✅ Complete flow execution: SUCCESS")
-        print("\n🎉 INSTALLATION COMPLETE! 🎉")
+        print("\n🎉 BASIC INSTALLATION COMPLETE! 🎉")
         print("=" * 50)
-        print("✅ Prefect v3.3.4 fully working on OT-2")
+        print("✅ Prefect v3.3.4 basic functionality working on OT-2")
         print("✅ Flow and task decorators functional")
-        print("✅ All compilation issues resolved")
-        print("✅ Ready for production workflows")
+        print("✅ Core compilation issues resolved")
+        print("⚠️  Limited functionality - see docs for missing wheels")
         print("=" * 50)
     else:
         print("❌ Flow execution: FAILED")
@@ -166,7 +168,12 @@ if __name__ == "__main__":
     print('   export PYTHONPATH="/var/user-packages/root/.local/lib/python3.10/site-packages:$PYTHONPATH"')
     print("2. Import and use Prefect normally:")
     print("   from prefect import flow, task")
-    print("3. Create and run workflows as usual")
+    print("3. Create and run basic workflows")
+    print("\n⚠️  LIMITATIONS:")
+    print("   • Advanced database features may fail (missing asyncpg, cryptography)")
+    print("   • Date parsing limited (missing dateparser, regex)")
+    print("   • Performance may be reduced (missing orjson)")
+    print("   • See WHEEL-BUILD-INSTRUCTIONS.md for complete wheel list")
 
 
 if __name__ == "__main__":

@@ -110,11 +110,31 @@ prefect cloud login --help
 
 ### 1. Pre-built ARM Wheels
 
-The installation uses specially built ARMv7l-compatible wheels:
+The installation uses specially built ARMv7l-compatible wheels. **Currently only 3 of 15+ required wheels are provided:**
 
+**Available (3/15+):**
 - **pendulum-3.1.0**: Solves Rust compilation issues that blocked Prefect installation
 - **ujson-5.10.0**: Custom fallback wheel for JSON processing on ARM
 - **prefect-3.3.4**: Full Prefect package with flow/task decorator support
+
+**⚠️ Still Required for Full Functionality (12+ packages):**
+- **cryptography**: SSL/TLS support (compilation-heavy)
+- **asyncpg**: PostgreSQL adapter with C extensions
+- **sqlalchemy**: Database toolkit (with asyncio support)
+- **orjson**: High-performance JSON with Rust components
+- **uvicorn**: ASGI web server
+- **aiosqlite**: Async SQLite adapter
+- **alembic**: Database migration tool
+- **dateparser**: Date parsing library (depends on regex)
+- **docker**: Docker client library
+- **graphviz**: Graph visualization
+- **ruamel-yaml**: Advanced YAML processing
+- **prometheus-client**: Metrics collection
+- **readchar**: Terminal input handling
+- **uv**: Modern package installer (Rust-based)
+- **griffe**: Documentation generation tool
+
+> **⚠️ LIMITATION**: Current installation provides basic Prefect functionality but may fail for advanced features requiring the missing compiled dependencies.
 
 > **Build Instructions**: For details on how these wheels were built, see `WHEEL-BUILD-INSTRUCTIONS.md`
 
@@ -254,11 +274,19 @@ print('Downloaded successfully')
 
 After successful installation, you can:
 
-✅ **Create and run Prefect flows** with `@flow` and `@task` decorators  
-✅ **Serve flows** using `flow.serve()` for remote execution  
-✅ **Use Prefect CLI** for workflow management  
+✅ **Create and run basic Prefect flows** with `@flow` and `@task` decorators  
+⚠️ **Limited flow serving** (may timeout on resource-constrained OT-2)  
+✅ **Use Prefect CLI** for basic workflow management  
 ✅ **Connect to Prefect Cloud** for monitoring and orchestration  
-✅ **Build complex OT-2 automation workflows** with task dependencies  
+⚠️ **Build simple OT-2 automation workflows** with task dependencies  
+
+**⚠️ KNOWN LIMITATIONS:**
+- Advanced database features may fail (missing asyncpg, aiosqlite, alembic)
+- Some web serving features limited (missing uvicorn optimizations)
+- Date parsing limitations (missing dateparser)
+- Docker integration unavailable (missing docker package)
+- Advanced serialization limited (missing orjson)
+- SSL/TLS features may be limited (missing cryptography optimizations)  
 
 ## Architecture Notes
 
