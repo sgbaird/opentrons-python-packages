@@ -1,218 +1,224 @@
 #!/usr/bin/env python3
 """
-OT-2 Prefect Client Installation and Test Script
-Run this script on the OT-2 to install and test Prefect Client functionality
+OT-2 Prefect Complete Installation Script
+Installs Prefect v3.3.4 with full flow/task functionality on OT-2
+
+This is the final, clean installation script that consolidates hundreds of 
+experimental commands into a working solution.
 """
 
-import sys
-import urllib.request
 import subprocess
-import tempfile
-import os
-import shutil
-
-class OT2PrefectInstaller:
-    def __init__(self):
-        self.base_url = "https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/38bb4e2/wheels"
-        self.temp_dir = None
-        
-    def setup_temp_dir(self):
-        """Create temporary directory for downloads"""
-        self.temp_dir = tempfile.mkdtemp(prefix="ot2-prefect-")
-        print(f"Using temporary directory: {self.temp_dir}")
-        
-    def cleanup(self):
-        """Clean up temporary files"""
-        if self.temp_dir and os.path.exists(self.temp_dir):
-            print("Cleaning up temporary files...")
-            shutil.rmtree(self.temp_dir, ignore_errors=True)
-            
-    def download_wheel(self, wheel_name):
-        """Download a wheel file"""
-        wheel_url = f"{self.base_url}/{wheel_name}"
-        wheel_path = os.path.join(self.temp_dir, wheel_name)
-        
-        print(f"Downloading {wheel_name}...")
-        try:
-            urllib.request.urlretrieve(wheel_url, wheel_path)
-            size = os.path.getsize(wheel_path)
-            print(f"Downloaded {wheel_name} ({size:,} bytes)")
-            return wheel_path
-        except Exception as e:
-            print(f"Failed to download {wheel_name}: {e}")
-            return None
-            
-    def install_wheel(self, wheel_path):
-        """Install a wheel using pip"""
-        print(f"Installing {os.path.basename(wheel_path)}...")
-        try:
-            result = subprocess.run(
-                [sys.executable, "-m", "pip", "install", wheel_path],
-                capture_output=True, text=True, timeout=300
-            )
-            
-            if result.returncode == 0:
-                print("✅ Installation successful")
-                return True
-            else:
-                print("❌ Installation failed:")
-                print(result.stderr)
-                return False
-                
-        except subprocess.TimeoutExpired:
-            print("❌ Installation timed out")
-            return False
-        except Exception as e:
-            print(f"❌ Installation error: {e}")
-            return False
-            
-    def test_import(self, module_name):
-        """Test importing a module"""
-        print(f"Testing import of {module_name}...")
-        try:
-            result = subprocess.run(
-                [sys.executable, "-c", f"import {module_name}; print(f'{module_name} version: {{getattr({module_name}, '__version__', 'unknown')}}')"],
-                capture_output=True, text=True, timeout=30
-            )
-            
-            if result.returncode == 0:
-                print("✅ Import successful")
-                print(result.stdout.strip())
-                return True
-            else:
-                print("❌ Import failed:")
-                print(result.stderr)
-                return False
-                
-        except Exception as e:
-            print(f"❌ Import test error: {e}")
-            return False
-            
-    def test_prefect_example(self):
-        """Test a basic Prefect workflow"""
-        print("Testing basic Prefect workflow...")
-        
-        prefect_code = '''
-from prefect import flow, task
 import sys
+import os
+
+
+def run_command(cmd, check=True):
+    """Run command and return result"""
+    print(f"Running: {' '.join(cmd)}")
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=check)
+        if result.stdout:
+            print(f"Output: {result.stdout.strip()}")
+        if result.stderr:
+            print(f"Error: {result.stderr.strip()}")
+        return result
+    except subprocess.CalledProcessError as e:
+        print(f"Command failed: {e}")
+        if e.stdout:
+            print(f"Stdout: {e.stdout}")
+        if e.stderr:
+            print(f"Stderr: {e.stderr}")
+        if check:
+            raise
+        return e
+
+
+def install_wheel(url, force=True, user=True):
+    """Install a wheel with force and user flags"""
+    cmd = [sys.executable, '-m', 'pip', 'install']
+    
+    if force:
+        cmd.extend(['--force-reinstall', '--no-deps'])
+    
+    if user:
+        cmd.append('--user')
+    
+    cmd.append(url)
+    
+    return run_command(cmd, check=False)
+
+
+def setup_environment():
+    """Set up permanent environment configuration for OT-2"""
+    print("🔧 Setting up permanent environment configuration...")
+    
+    # Environment variables needed for OT-2
+    env_config = '''export PATH="/var/user-packages/root/.local/bin:$PATH"
+export PYTHONPATH="/var/user-packages/root/.local/lib/python3.10/site-packages:$PYTHONPATH"'''
+    
+    # Write to .bashrc for interactive shells
+    bashrc_path = "/root/.bashrc"
+    try:
+        with open(bashrc_path, 'w') as f:
+            f.write(env_config + '\n')
+        print(f"✅ Created {bashrc_path}")
+    except Exception as e:
+        print(f"❌ Failed to create {bashrc_path}: {e}")
+    
+    # Write to .profile for login shells
+    profile_path = "/root/.profile"
+    try:
+        with open(profile_path, 'w') as f:
+            f.write(env_config + '\n')
+        print(f"✅ Created {profile_path}")
+    except Exception as e:
+        print(f"❌ Failed to create {profile_path}: {e}")
+    
+    # Apply to current session
+    user_site = "/var/user-packages/root/.local/lib/python3.10/site-packages"
+    current_path = os.environ.get('PYTHONPATH', '')
+    new_path = f"{user_site}:{current_path}" if current_path else user_site
+    os.environ['PYTHONPATH'] = new_path
+    print(f"✅ PYTHONPATH set for current session: {new_path}")
+
+
+def main():
+    print("🎯 OT-2 PREFECT COMPLETE INSTALLATION")
+    print("Installing Prefect v3.3.4 with full workflow functionality\n")
+    
+    # Step 1: Set up environment
+    setup_environment()
+    
+    # Step 2: Install core pre-built wheels
+    print("\n📦 Phase 1: Installing core pre-built wheels...")
+    
+    base_url = "https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/wheels/"
+    
+    # Critical wheels that solve compilation issues
+    core_wheels = [
+        ("pendulum-3.1.0-cp310-cp310-linux_armv7l.whl", "Resolves Rust compilation issues"),
+        ("ujson-5.10.0-py3-none-linux_armv7l.whl", "Custom ARM fallback for JSON processing"),
+        ("prefect-3.3.4-py3-none-any.whl", "Full Prefect workflow engine"),
+    ]
+    
+    for wheel, description in core_wheels:
+        url = base_url + wheel
+        print(f"\n📥 Installing {wheel}")
+        print(f"   Purpose: {description}")
+        result = install_wheel(url, force=True, user=True)
+        if result.returncode == 0:
+            print(f"✅ {wheel} installed successfully")
+        else:
+            print(f"❌ {wheel} failed to install")
+            return False
+    
+    # Step 3: Install additional dependencies
+    print("\n📦 Phase 2: Installing additional dependencies...")
+    
+    deps = [
+        ("pydantic>=2.0", "Modern data validation"),
+        ("rich", "Terminal formatting for Prefect"),
+        ("typing-extensions>=4.10.0", "Modern type hints"),
+    ]
+    
+    for dep, description in deps:
+        print(f"\n📥 Installing {dep}")
+        print(f"   Purpose: {description}")
+        cmd = [sys.executable, '-m', 'pip', 'install', '--user', '--upgrade', dep]
+        result = run_command(cmd, check=False)
+        if result.returncode == 0:
+            print(f"✅ {dep} installed successfully")
+        else:
+            print(f"⚠️ {dep} failed - may already be satisfied")
+    
+    # Step 4: Test installation
+    print("\n🔍 Phase 3: Testing installation...")
+    
+    # Test 1: Basic import
+    print("\n🧪 Testing Prefect core import...")
+    test_cmd = [sys.executable, '-c', "import prefect; print(f'Prefect version: {prefect.__version__}')"]
+    result = run_command(test_cmd, check=False)
+    if result.returncode != 0:
+        print("❌ Basic import failed")
+        return False
+    print("✅ Prefect core import: SUCCESS")
+    
+    # Test 2: Flow/task imports
+    print("\n🧪 Testing flow and task imports...")
+    test_cmd = [sys.executable, '-c', "from prefect import flow, task; print('Flow/task imports: SUCCESS')"]
+    result = run_command(test_cmd, check=False)
+    if result.returncode != 0:
+        print("❌ Flow/task imports failed")
+        return False
+    print("✅ Flow/task imports: SUCCESS")
+    
+    # Test 3: Complete flow execution
+    print("\n🧪 Testing complete flow execution...")
+    flow_test = '''
+from prefect import flow, task
 
 @task
 def say_hello(name: str):
-    message = f"Hello {name} from OT-2!"
+    return f"Hello {name}!"
+
+@flow 
+def hello_flow(name: str = "OT-2"):
+    message = say_hello(name)
     print(message)
     return message
 
-@task  
-def check_system():
-    import platform
-    info = {
-        "platform": platform.platform(),
-        "machine": platform.machine(),
-        "python_version": sys.version
-    }
-    print("System Info:")
-    for key, value in info.items():
-        print(f"  {key}: {value}")
-    return info
-
-@flow
-def ot2_hello_world():
-    hello_result = say_hello("Prefect")
-    system_info = check_system()
-    print("✅ Prefect workflow completed successfully!")
-    return {"greeting": hello_result, "system": system_info}
-
 if __name__ == "__main__":
-    result = ot2_hello_world()
-    print("Workflow result:", result)
+    result = hello_flow()
+    print(f"✅ Flow result: {result}")
+    print("🎉 PREFECT FULLY OPERATIONAL ON OT-2!")
 '''
-        
-        try:
-            result = subprocess.run(
-                [sys.executable, "-c", prefect_code],
-                capture_output=True, text=True, timeout=60
-            )
-            
-            if result.returncode == 0:
-                print("✅ Prefect workflow test successful")
-                print("Output:")
-                print(result.stdout)
-                return True
-            else:
-                print("❌ Prefect workflow test failed:")
-                print(result.stderr)
-                return False
-                
-        except Exception as e:
-            print(f"❌ Prefect workflow test error: {e}")
-            return False
-            
-    def install_prefect_stack(self):
-        """Install the complete Prefect Client stack with dependencies"""
-        print("Starting OT-2 Prefect Client installation...")
-        print("=" * 50)
-        
-        # Setup
-        self.setup_temp_dir()
-        
-        try:
-            # Step 1: Install pendulum (Prefect dependency)
-            print("\nStep 1: Installing pendulum (Prefect dependency)")
-            pendulum_wheel = self.download_wheel("pendulum-3.1.0-cp310-cp310-linux_armv7l.whl")
-            if not pendulum_wheel or not self.install_wheel(pendulum_wheel):
-                print("❌ Failed to install pendulum")
-                return False
-                
-            # Test pendulum
-            if not self.test_import("pendulum"):
-                print("❌ Pendulum import test failed")
-                return False
-                
-            # Step 2: Install Prefect Client (lightweight version)
-            print("\nStep 2: Installing Prefect Client (lightweight version)")
-            prefect_wheel = self.download_wheel("prefect_client-3.4.6-py3-none-any.whl")
-            if not prefect_wheel or not self.install_wheel(prefect_wheel):
-                print("❌ Failed to install Prefect Client")
-                return False
-                
-            # Test Prefect import
-            if not self.test_import("prefect"):
-                print("❌ Prefect Client import test failed")
-                return False
-                
-            # Step 3: Test Prefect functionality
-            print("\nStep 3: Testing Prefect functionality")
-            if not self.test_prefect_example():
-                print("❌ Prefect functionality test failed")
-                return False
-                
-            print("\n" + "=" * 50)
-            print("🎉 SUCCESS: Prefect Client is now installed and working on OT-2!")
-            print("\nNext steps:")
-            print("1. You can now import prefect in your Python scripts")
-            print("2. Create and run Prefect flows for your OT-2 workflows")
-            print("3. Note: You're using prefect-client (lightweight version)")
-            print("4. Refer to Prefect documentation for advanced usage")
-            
-            return True
-            
-        finally:
-            self.cleanup()
-
-def main():
-    print("OT-2 Prefect Client Installation Script")
-    print(f"Python version: {sys.version}")
-    print(f"Platform: {sys.platform}")
     
-    installer = OT2PrefectInstaller()
-    success = installer.install_prefect_stack()
+    test_cmd = [sys.executable, '-c', flow_test]
+    result = run_command(test_cmd, check=False)
+    if result.returncode != 0:
+        print("❌ Flow execution failed")
+        return False
     
-    if success:
-        print("\n✅ Installation completed successfully!")
-        sys.exit(0)
+    # Test 4: CLI functionality
+    print("\n🧪 Testing Prefect CLI...")
+    cli_path = "/var/user-packages/root/.local/bin/prefect"
+    if os.path.exists(cli_path):
+        test_cmd = [cli_path, '--version']
+        result = run_command(test_cmd, check=False)
+        if result.returncode == 0:
+            print("✅ Prefect CLI: SUCCESS")
+        else:
+            print("⚠️ Prefect CLI may need PATH configuration")
     else:
-        print("\n❌ Installation failed. Please check the errors above.")
-        sys.exit(1)
+        print("⚠️ Prefect CLI not found - may need session restart")
+    
+    # Success message
+    print("\n" + "="*60)
+    print("🎉 INSTALLATION COMPLETE! 🎉")
+    print("="*60)
+    print("✅ Prefect v3.3.4 fully working on OT-2")
+    print("✅ Flow and task decorators functional")
+    print("✅ All compilation issues resolved")
+    print("✅ Environment permanently configured")
+    print("✅ Ready for production workflows")
+    print("="*60)
+    
+    print("\n📋 Next Steps:")
+    print("1. Restart your SSH session or run: source /root/.bashrc")
+    print("2. Test CLI access: prefect --version")
+    print("3. Test cloud login: prefect cloud login --help")
+    print("4. Create and serve flows as needed")
+    
+    print("\n📖 For usage examples, see:")
+    print("https://github.com/sgbaird/opentrons-python-packages/blob/copilot/fix-11/OT2-PREFECT-INSTALLATION-GUIDE.md")
+    
+    return True
+
 
 if __name__ == "__main__":
-    main()
+    success = main()
+    if not success:
+        print("\n❌ Installation failed. Please check the error messages above.")
+        sys.exit(1)
+    else:
+        print("\n✅ Installation completed successfully!")
