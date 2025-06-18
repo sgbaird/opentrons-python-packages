@@ -47,7 +47,23 @@ EOF
 source /root/.bashrc
 ```
 
-#### Step 2: Install Core Dependencies
+#### Step 2: Try Requirements Files First
+
+Try installing using the provided requirements files:
+
+```bash
+# Option A: Try relaxed requirements first
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/requirements.txt -o requirements.txt
+pip3 install -r requirements.txt --target /var/user-packages/root/.local/lib/python3.10/site-packages/
+
+# Option B: If that fails, try frozen versions
+curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/copilot/fix-11/requirements-frozen.txt -o requirements-frozen.txt
+pip3 install -r requirements-frozen.txt --target /var/user-packages/root/.local/lib/python3.10/site-packages/
+```
+
+If the requirements files work, skip to **Step 4: Test Installation**. If they fail due to ARM compilation issues, continue to Step 3.
+
+#### Step 3: Install Core Dependencies (Fallback)
 
 ```bash
 # Base URL for pre-built wheels
