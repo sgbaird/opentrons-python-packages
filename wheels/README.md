@@ -56,6 +56,8 @@ All wheels are ready for immediate download and installation.
 
 These wheels are provided as a backup when CI-built artifacts are not available or accessible. They are built using the same cross-compilation process as the automated CI system.
 
+> **Build Instructions**: For complete details on how to build these wheels yourself, see `../WHEEL-BUILD-INSTRUCTIONS.md`
+
 ## Updating
 
 Wheels in this directory are updated when:

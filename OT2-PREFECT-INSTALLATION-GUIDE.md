@@ -116,6 +116,8 @@ The installation uses specially built ARMv7l-compatible wheels:
 - **ujson-5.10.0**: Custom fallback wheel for JSON processing on ARM
 - **prefect-3.3.4**: Full Prefect package with flow/task decorator support
 
+> **Build Instructions**: For details on how these wheels were built, see `WHEEL-BUILD-INSTRUCTIONS.md`
+
 ### 2. Environment Configuration
 
 The OT-2 requires specific PATH and PYTHONPATH settings:
