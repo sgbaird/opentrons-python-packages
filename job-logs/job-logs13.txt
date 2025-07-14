@@ -1,0 +1,2624 @@
+﻿2025-06-14T20:17:57.2670685Z Current runner version: '2.325.0'
+2025-06-14T20:17:57.2703013Z ##[group]Runner Image Provisioner
+2025-06-14T20:17:57.2704339Z Hosted Compute Agent
+2025-06-14T20:17:57.2705313Z Version: 20250529.345
+2025-06-14T20:17:57.2706313Z Commit: 22237e57af968c281070ffa8ed912c1b754f9a23
+2025-06-14T20:17:57.2707492Z Build Date: 2025-05-29T20:18:30Z
+2025-06-14T20:17:57.2708474Z ##[endgroup]
+2025-06-14T20:17:57.2709325Z ##[group]Operating System
+2025-06-14T20:17:57.2710343Z Ubuntu
+2025-06-14T20:17:57.2711263Z 24.04.2
+2025-06-14T20:17:57.2712110Z LTS
+2025-06-14T20:17:57.2713045Z ##[endgroup]
+2025-06-14T20:17:57.2713877Z ##[group]Runner Image
+2025-06-14T20:17:57.2714911Z Image: ubuntu-24.04
+2025-06-14T20:17:57.2715818Z Version: 20250602.3.0
+2025-06-14T20:17:57.2717530Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250602.3/images/ubuntu/Ubuntu2404-Readme.md
+2025-06-14T20:17:57.2720290Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250602.3
+2025-06-14T20:17:57.2722279Z ##[endgroup]
+2025-06-14T20:17:57.2724063Z ##[group]GITHUB_TOKEN Permissions
+2025-06-14T20:17:57.2726517Z Deployments: write
+2025-06-14T20:17:57.2727645Z Metadata: read
+2025-06-14T20:17:57.2728601Z ##[endgroup]
+2025-06-14T20:17:57.2731614Z Secret source: Actions
+2025-06-14T20:17:57.2732819Z Prepare workflow directory
+2025-06-14T20:17:57.3195017Z Prepare all required actions
+2025-06-14T20:17:57.3249895Z Getting action download info
+2025-06-14T20:17:57.5490439Z ##[group]Download immutable action package 'actions/upload-artifact@v4'
+2025-06-14T20:17:57.5492182Z Version: 4.6.2
+2025-06-14T20:17:57.5493279Z Digest: sha256:290722aa3281d5caf23d0acdc3dbeb3424786a1a01a9cc97e72f147225e37c38
+2025-06-14T20:17:57.5494488Z Source commit SHA: ea165f8d65b6e75b540449e92b4886f43607fa02
+2025-06-14T20:17:57.5495318Z ##[endgroup]
+2025-06-14T20:17:57.8008061Z Complete job name: copilot
+2025-06-14T20:17:57.8866647Z ##[group]Run echo "Preparing Copilot..." && \
+2025-06-14T20:17:57.8867370Z [36;1mecho "Preparing Copilot..." && \[0m
+2025-06-14T20:17:57.8867998Z [36;1mmkdir -p "runtime-logs" && \[0m
+2025-06-14T20:17:57.8868591Z [36;1mMAX_RETRIES=3 && RETRY_COUNT=0 && \[0m
+2025-06-14T20:17:57.8869222Z [36;1mwhile [ $RETRY_COUNT -lt $MAX_RETRIES ]; do \[0m
+2025-06-14T20:17:57.8870164Z [36;1m  curl -f $GITHUB_COPILOT_ACTION_DOWNLOAD_URL -o ./action.tar.gz > "runtime-logs/download.log" 2>&1; \[0m
+2025-06-14T20:17:57.8871219Z [36;1m  if [ $? -eq 0 ]; then break; fi; \[0m
+2025-06-14T20:17:57.8871811Z [36;1m  RETRY_COUNT=$((RETRY_COUNT + 1)); \[0m
+2025-06-14T20:17:57.8872351Z [36;1m  sleep 1; \[0m
+2025-06-14T20:17:57.8872784Z [36;1mdone && \[0m
+2025-06-14T20:17:57.8873391Z [36;1mtar -zxvf ./action.tar.gz >> "runtime-logs/download.log" 2>&1  && \[0m
+2025-06-14T20:17:57.8874516Z [36;1m./***-action-main/script/setup.sh "/home/runner/work/_temp/ghcca-node" && \[0m
+2025-06-14T20:17:57.8875578Z [36;1mecho "Copilot prepared successfully." 2>&1 | tee -a "runtime-logs/download.log"[0m
+2025-06-14T20:17:57.8941540Z shell: /usr/bin/bash -e {0}
+2025-06-14T20:17:57.8942358Z env:
+2025-06-14T20:17:57.8944576Z   GITHUB_COPILOT_ACTION_DOWNLOAD_URL: ***
+2025-06-14T20:17:57.8945132Z ##[endgroup]
+2025-06-14T20:17:57.9083472Z Preparing Copilot...
+2025-06-14T20:17:58.7670211Z Using node from tool cache.
+2025-06-14T20:17:59.6813585Z v22.16.0
+2025-06-14T20:17:59.7012002Z Copilot prepared successfully.
+2025-06-14T20:17:59.7109474Z ##[group]Run set +e
+2025-06-14T20:17:59.7109874Z [36;1mset +e[0m
+2025-06-14T20:17:59.7110148Z [36;1mecho "Starting MCP servers..." && \[0m
+2025-06-14T20:17:59.7110481Z [36;1mexport HOME="$(realpath ~)"[0m
+2025-06-14T20:17:59.7110764Z [36;1m[0m
+2025-06-14T20:17:59.7111236Z [36;1mif [[ -n "$GITHUB_COPILOT_MCP_JSON_FROM_INPUT" ]]; then[0m
+2025-06-14T20:17:59.7111773Z [36;1m  export GITHUB_COPILOT_MCP_JSON="$(echo "$GITHUB_COPILOT_MCP_JSON_FROM_INPUT" | base64 --decode)"[0m
+2025-06-14T20:17:59.7112242Z [36;1melse[0m
+2025-06-14T20:17:59.7112544Z [36;1m  export GITHUB_COPILOT_MCP_JSON='{"mcpServers":{}}'[0m
+2025-06-14T20:17:59.7113132Z [36;1mfi[0m
+2025-06-14T20:17:59.7113362Z [36;1m[0m
+2025-06-14T20:17:59.7113637Z [36;1mif [[ "$GITHUB_COPILOT_MCP_JSON" =~ .*uvx.* ]]; then[0m
+2025-06-14T20:17:59.7114103Z [36;1m  echo "uvx servers detected. Installing uvx if not already present..."[0m
+2025-06-14T20:17:59.7115000Z [36;1m  "/home/runner/work/_temp/***-action-main/script/install-uv.sh" > /dev/null 2>&1[0m
+2025-06-14T20:17:59.7115449Z [36;1m  if [[ $? -eq 0 ]]; then[0m
+2025-06-14T20:17:59.7115735Z [36;1m    echo "uvx installed."[0m
+2025-06-14T20:17:59.7116017Z [36;1m  else[0m
+2025-06-14T20:17:59.7116307Z [36;1m    echo "Something went wrong during uvx install."[0m
+2025-06-14T20:17:59.7116633Z [36;1m  fi[0m
+2025-06-14T20:17:59.7116852Z [36;1mfi[0m
+2025-06-14T20:17:59.7117069Z [36;1m[0m
+2025-06-14T20:17:59.7117349Z [36;1mif [[ "$GITHUB_COPILOT_MCP_JSON" =~ .*python.* ]]; then[0m
+2025-06-14T20:17:59.7117833Z [36;1m  echo "python servers detected. Installing pipx if not already present..."[0m
+2025-06-14T20:17:59.7118506Z [36;1m  "/home/runner/work/_temp/***-action-main/script/install-pipx.sh" > /dev/null 2>&1[0m
+2025-06-14T20:17:59.7118946Z [36;1m  if [[ $? -eq 0 ]]; then[0m
+2025-06-14T20:17:59.7119236Z [36;1m    echo "pipx installed."[0m
+2025-06-14T20:17:59.7119527Z [36;1m  else[0m
+2025-06-14T20:17:59.7119839Z [36;1m    echo "Something went wrong during pipx install."[0m
+2025-06-14T20:17:59.7120169Z [36;1m  fi[0m
+2025-06-14T20:17:59.7120394Z [36;1mfi[0m
+2025-06-14T20:17:59.7120605Z [36;1m[0m
+2025-06-14T20:17:59.7121104Z [36;1mset -e[0m
+2025-06-14T20:17:59.7121415Z [36;1mmkdir -p "/home/runner/work/_temp/mcp-server" && \[0m
+2025-06-14T20:17:59.7122108Z [36;1m"/home/runner/work/_temp/ghcca-node/node/bin/node" "/home/runner/work/_temp/***-action-main/mcp/dist/index.js" &[0m
+2025-06-14T20:17:59.7122633Z [36;1m[0m
+2025-06-14T20:17:59.7122856Z [36;1mMAX_RETRIES=20[0m
+2025-06-14T20:17:59.7123110Z [36;1mRETRY_COUNT=0[0m
+2025-06-14T20:17:59.7123408Z [36;1mecho "Waiting for MCP servers to be ready..."[0m
+2025-06-14T20:17:59.7123787Z [36;1mwhile [ $RETRY_COUNT -lt $MAX_RETRIES ]; do[0m
+2025-06-14T20:17:59.7124293Z [36;1m  if curl -s -f http://localhost:2301/health > /dev/null; then[0m
+2025-06-14T20:17:59.7124708Z [36;1m    echo "MCP servers are ready."[0m
+2025-06-14T20:17:59.7125006Z [36;1m    break[0m
+2025-06-14T20:17:59.7125237Z [36;1m  else[0m
+2025-06-14T20:17:59.7125487Z [36;1m    RETRY_COUNT=$((RETRY_COUNT + 1))[0m
+2025-06-14T20:17:59.7125940Z [36;1m    echo "MCP servers not ready yet. Retrying in 5 seconds... ($RETRY_COUNT/$MAX_RETRIES)"[0m
+2025-06-14T20:17:59.7126371Z [36;1m    sleep 5[0m
+2025-06-14T20:17:59.7126603Z [36;1m  fi[0m
+2025-06-14T20:17:59.7126814Z [36;1mdone[0m
+2025-06-14T20:17:59.7127029Z [36;1m[0m
+2025-06-14T20:17:59.7127290Z [36;1mif [ $RETRY_COUNT -eq $MAX_RETRIES ]; then[0m
+2025-06-14T20:17:59.7127693Z [36;1m  echo "Failed to start MCP servers after $MAX_RETRIES attempts"[0m
+2025-06-14T20:17:59.7128055Z [36;1mfi[0m
+2025-06-14T20:17:59.7128269Z [36;1m[0m
+2025-06-14T20:17:59.7128493Z [36;1mecho "Ending MCP step"[0m
+2025-06-14T20:17:59.7180524Z shell: /usr/bin/bash -e {0}
+2025-06-14T20:17:59.7180797Z env:
+2025-06-14T20:17:59.7181211Z   BLACKBIRD_MODE: initial-search
+2025-06-14T20:17:59.7181757Z   GITHUB_PERSONAL_ACCESS_TOKEN: ***
+2025-06-14T20:17:59.7182267Z   GITHUB_COPILOT_3P_MCP_ENABLED: true
+2025-06-14T20:17:59.7182669Z   COPILOT_AGENT_MCP_SERVER_TEMP: /home/runner/work/_temp/mcp-server
+2025-06-14T20:17:59.7191037Z   GITHUB_COPILOT_MCP_JSON_FROM_INPUT: ewogICJtY3BTZXJ2ZXJzIjogewogICAgInBsYXl3cmlnaHQiOiB7CiAgICAgICJjb21tYW5kIjogImRvY2tlciIsCiAgICAgICJhcmdzIjogWyJydW4iLCAiLWkiLCAiLS1ybSIsICItLWluaXQiLCAibWNwL3BsYXl3cmlnaHQiXSwKICAgICAgInRvb2xzIjogWwogICAgICAgICJwbGF5d3JpZ2h0X25hdmlnYXRlIiwKICAgICAgICAicGxheXdyaWdodF9jbGljayIsCiAgICAgICAgInBsYXl3cmlnaHRfdHlwZSIsCiAgICAgICAgInBsYXl3cmlnaHRfc2VsZWN0IiwKICAgICAgICAicGxheXdyaWdodF93YWl0IiwKICAgICAgICAicGxheXdyaWdodF9ldmFsdWF0ZSIsCiAgICAgICAgInBsYXl3cmlnaHRfZ2V0X3RleHQiLAogICAgICAgICJwbGF5d3JpZ2h0X2dldF9hdHRyaWJ1dGUiLAogICAgICAgICJwbGF5d3JpZ2h0X2ZpbGxfZm9ybSIsCiAgICAgICAgInBsYXl3cmlnaHRfcHJlc3Nfa2V5IiwKICAgICAgICAicGxheXdyaWdodF9zY3JvbGwiLAogICAgICAgICJwbGF5d3JpZ2h0X3dhaXRfZm9yX3NlbGVjdG9yIiwKICAgICAgICAicGxheXdyaWdodF9nZXRfcGFnZV9zb3VyY2UiCiAgICAgIF0KICAgIH0KICB9Cn0=
+2025-06-14T20:17:59.7199397Z   GITHUB_COPILOT_REMOTE_MCP_ENABLED: false
+2025-06-14T20:17:59.7199705Z ##[endgroup]
+2025-06-14T20:17:59.7267484Z Starting MCP servers...
+2025-06-14T20:17:59.7303121Z Waiting for MCP servers to be ready...
+2025-06-14T20:17:59.7363471Z MCP servers not ready yet. Retrying in 5 seconds... (1/20)
+2025-06-14T20:18:00.9546945Z Created MCP Registry instance
+2025-06-14T20:18:00.9551647Z User-provided MCPs are enabled, checking for environment variable
+2025-06-14T20:18:00.9552505Z Adding default MCP servers to configuration
+2025-06-14T20:18:00.9553609Z Using local Blackbird MCP server configuration
+2025-06-14T20:18:00.9554721Z Using blackbird mode:  initial-search
+2025-06-14T20:18:00.9556524Z Using default local GitHub MCP server configuration
+2025-06-14T20:18:00.9560310Z Starting MCP client for playwright with command: docker and args: run,-i,--rm,--init,mcp/playwright
+2025-06-14T20:18:00.9562013Z Starting MCP client for playwright with command: docker and args: run,-i,--rm,--init,mcp/playwright
+2025-06-14T20:18:00.9564407Z Creating MCP client for playwright...
+2025-06-14T20:18:00.9568968Z Connecting MCP client for playwright...
+2025-06-14T20:18:02.0205201Z Unable to find image 'mcp/playwright:latest' locally
+2025-06-14T20:18:02.2592517Z latest: Pulling from mcp/playwright
+2025-06-14T20:18:02.3138719Z dad67da3f26b: Pulling fs layer
+2025-06-14T20:18:02.3139401Z 9d6aefa8c9bb: Pulling fs layer
+2025-06-14T20:18:02.3140003Z 32106569f4b8: Pulling fs layer
+2025-06-14T20:18:02.3140732Z 40361bc5801b: Pulling fs layer
+2025-06-14T20:18:02.3141637Z 6e47fd428ce2: Pulling fs layer
+2025-06-14T20:18:02.3142229Z aa3e1759cb7f: Pulling fs layer
+2025-06-14T20:18:02.3142809Z b1a8af4ec2a5: Pulling fs layer
+2025-06-14T20:18:02.3143410Z 98d42c143740: Pulling fs layer
+2025-06-14T20:18:02.3144069Z f86651cfa403: Pulling fs layer
+2025-06-14T20:18:02.3144541Z 90a73d155364: Pulling fs layer
+2025-06-14T20:18:02.3144832Z 2d77e9b840d6: Pulling fs layer
+2025-06-14T20:18:02.3145260Z 98d42c143740: Waiting
+2025-06-14T20:18:02.3145720Z f86651cfa403: Waiting
+2025-06-14T20:18:02.3146072Z 90a73d155364: Waiting
+2025-06-14T20:18:02.3146375Z 2d77e9b840d6: Waiting
+2025-06-14T20:18:02.3146625Z 40361bc5801b: Waiting
+2025-06-14T20:18:02.3146882Z 6e47fd428ce2: Waiting
+2025-06-14T20:18:02.3147239Z aa3e1759cb7f: Waiting
+2025-06-14T20:18:02.3147476Z b1a8af4ec2a5: Waiting
+2025-06-14T20:18:02.3764236Z 9d6aefa8c9bb: Verifying Checksum
+2025-06-14T20:18:02.3765732Z 9d6aefa8c9bb: Download complete
+2025-06-14T20:18:02.4456547Z 40361bc5801b: Verifying Checksum
+2025-06-14T20:18:02.4457219Z 40361bc5801b: Download complete
+2025-06-14T20:18:02.4656158Z dad67da3f26b: Verifying Checksum
+2025-06-14T20:18:02.4656631Z dad67da3f26b: Download complete
+2025-06-14T20:18:02.5056263Z 6e47fd428ce2: Download complete
+2025-06-14T20:18:02.5146700Z aa3e1759cb7f: Verifying Checksum
+2025-06-14T20:18:02.5147516Z aa3e1759cb7f: Download complete
+2025-06-14T20:18:02.5936381Z 98d42c143740: Verifying Checksum
+2025-06-14T20:18:02.5946266Z 98d42c143740: Download complete
+2025-06-14T20:18:02.6514468Z 32106569f4b8: Verifying Checksum
+2025-06-14T20:18:02.6535789Z 32106569f4b8: Download complete
+2025-06-14T20:18:02.7026266Z 90a73d155364: Verifying Checksum
+2025-06-14T20:18:02.7027754Z 90a73d155364: Download complete
+2025-06-14T20:18:02.7633777Z 2d77e9b840d6: Verifying Checksum
+2025-06-14T20:18:02.7634532Z 2d77e9b840d6: Download complete
+2025-06-14T20:18:03.3258818Z b1a8af4ec2a5: Verifying Checksum
+2025-06-14T20:18:03.3259724Z b1a8af4ec2a5: Download complete
+2025-06-14T20:18:03.4822893Z f86651cfa403: Verifying Checksum
+2025-06-14T20:18:03.4823810Z f86651cfa403: Download complete
+2025-06-14T20:18:03.8354063Z dad67da3f26b: Pull complete
+2025-06-14T20:18:04.7442976Z MCP servers not ready yet. Retrying in 5 seconds... (2/20)
+2025-06-14T20:18:05.3879631Z 9d6aefa8c9bb: Pull complete
+2025-06-14T20:18:06.9320374Z 32106569f4b8: Pull complete
+2025-06-14T20:18:06.9868766Z 40361bc5801b: Pull complete
+2025-06-14T20:18:06.9973220Z 6e47fd428ce2: Pull complete
+2025-06-14T20:18:07.0057679Z aa3e1759cb7f: Pull complete
+2025-06-14T20:18:09.7516475Z MCP servers not ready yet. Retrying in 5 seconds... (3/20)
+2025-06-14T20:18:10.2267250Z b1a8af4ec2a5: Pull complete
+2025-06-14T20:18:11.0347337Z 98d42c143740: Pull complete
+2025-06-14T20:18:14.7321790Z f86651cfa403: Pull complete
+2025-06-14T20:18:14.7471997Z 90a73d155364: Pull complete
+2025-06-14T20:18:14.7609316Z MCP servers not ready yet. Retrying in 5 seconds... (4/20)
+2025-06-14T20:18:14.7673185Z 2d77e9b840d6: Pull complete
+2025-06-14T20:18:14.7711836Z Digest: sha256:1884a5e766d7d937940ae4a7fffd18fdb85da22e76a8dbc0fccf4a40621e0c0b
+2025-06-14T20:18:14.7724652Z Status: Downloaded newer image for mcp/playwright:latest
+2025-06-14T20:18:15.7728252Z MCP client for playwright connected
+2025-06-14T20:18:15.7729155Z Started MCP client for playwright
+2025-06-14T20:18:15.7731175Z Filtered environment variables for blackbird-mcp-server: {
+2025-06-14T20:18:15.7734481Z   GITHUB_PERSONAL_ACCESS_TOKEN: '***'
+2025-06-14T20:18:15.7735201Z }
+2025-06-14T20:18:15.7736727Z Starting MCP client for blackbird-mcp-server with command: ./***-action-main/blackbird-mcp-server/blackbird-mcp-server and args: stdio
+2025-06-14T20:18:15.7739268Z Starting MCP client for blackbird-mcp-server with command: ./***-action-main/blackbird-mcp-server/blackbird-mcp-server and args: stdio
+2025-06-14T20:18:15.7744524Z Creating MCP client for blackbird-mcp-server...
+2025-06-14T20:18:15.7745235Z Connecting MCP client for blackbird-mcp-server...
+2025-06-14T20:18:15.7779802Z GitHub MCP Server running on stdio
+2025-06-14T20:18:15.7790499Z MCP client for blackbird-mcp-server connected
+2025-06-14T20:18:15.7791686Z Started MCP client for blackbird-mcp-server
+2025-06-14T20:18:15.7792956Z Filtered environment variables for github-mcp-server: {
+2025-06-14T20:18:15.7794250Z   GITHUB_PERSONAL_ACCESS_TOKEN: '***'
+2025-06-14T20:18:15.7794704Z }
+2025-06-14T20:18:15.7795779Z Starting MCP client for github-mcp-server with command: ./***-action-main/github-mcp-server/github-mcp-server and args: stdio,--read-only
+2025-06-14T20:18:15.7797572Z Starting MCP client for github-mcp-server with command: ./***-action-main/github-mcp-server/github-mcp-server and args: stdio,--read-only
+2025-06-14T20:18:15.7798648Z Creating MCP client for github-mcp-server...
+2025-06-14T20:18:15.7799263Z Connecting MCP client for github-mcp-server...
+2025-06-14T20:18:15.7835261Z GitHub MCP Server running on stdio
+2025-06-14T20:18:15.7846133Z MCP client for github-mcp-server connected
+2025-06-14T20:18:15.7846919Z Started MCP client for github-mcp-server
+2025-06-14T20:18:15.7849612Z Fetching tools from client: playwright
+2025-06-14T20:18:15.7896135Z Tool browser_close is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7897422Z Tool browser_resize is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7899984Z Tool browser_console_messages is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7901115Z Tool browser_handle_dialog is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7901950Z Tool browser_file_upload is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7904618Z Tool browser_install is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7905544Z Tool browser_press_key is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7906342Z Tool browser_navigate is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7907214Z Tool browser_navigate_back is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7908081Z Tool browser_navigate_forward is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7908973Z Tool browser_network_requests is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7909819Z Tool browser_pdf_save is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7911068Z Tool browser_take_screenshot is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7911863Z Tool browser_snapshot is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7912593Z Tool browser_click is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7913310Z Tool browser_drag is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7914053Z Tool browser_hover is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7914787Z Tool browser_type is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7915497Z Tool browser_select_option is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7916301Z Tool browser_tab_list is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7917078Z Tool browser_tab_new is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7917868Z Tool browser_tab_select is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7918683Z Tool browser_tab_close is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7919617Z Tool browser_generate_playwright_test is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7920542Z Tool browser_wait_for is not in the allowed list for client: playwright
+2025-06-14T20:18:15.7921490Z Successfully retrieved 25 tools from client: playwright
+2025-06-14T20:18:15.7922223Z Fetching tools from client: blackbird-mcp-server
+2025-06-14T20:18:15.7923050Z Tool search_repository_with_agent is not in the allowed list for client: blackbird-mcp-server
+2025-06-14T20:18:15.7923982Z Successfully retrieved 1 tools from client: blackbird-mcp-server
+2025-06-14T20:18:15.7924647Z Fetching tools from client: github-mcp-server
+2025-06-14T20:18:15.7934759Z Tool get_code_scanning_alert added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7935393Z Tool get_commit added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7935899Z Tool get_file_contents added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7936518Z Tool get_issue added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7936933Z Tool get_issue_comments added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7937345Z Tool get_me added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7937733Z Tool get_pull_request added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7938183Z Tool get_pull_request_comments added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7938843Z Tool get_pull_request_files added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7939448Z Tool get_pull_request_reviews added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7940187Z Tool get_pull_request_status added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7940701Z Tool get_secret_scanning_alert added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7941435Z Tool list_branches added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7941937Z Tool list_code_scanning_alerts added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7942435Z Tool list_commits added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7943005Z Tool list_issues added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7943442Z Tool list_pull_requests added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7943909Z Tool list_secret_scanning_alerts added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7944346Z Tool search_code added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7944742Z Tool search_issues added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7945169Z Tool search_repositories added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7945593Z Tool search_users added to tools list for client: github-mcp-server
+2025-06-14T20:18:15.7946487Z Successfully retrieved 22 tools from client: github-mcp-server
+2025-06-14T20:18:15.7947093Z All tools retrieved: {
+2025-06-14T20:18:15.7947509Z   "github-mcp-server/get_code_scanning_alert": {
+2025-06-14T20:18:15.7948016Z     "name": "get_code_scanning_alert",
+2025-06-14T20:18:15.7948714Z     "description": "Get details of a specific code scanning alert in a GitHub repository.",
+2025-06-14T20:18:15.7949327Z     "input_schema": {
+2025-06-14T20:18:15.7949687Z       "type": "object",
+2025-06-14T20:18:15.7950041Z       "properties": {
+2025-06-14T20:18:15.7950413Z         "alertNumber": {
+2025-06-14T20:18:15.7951014Z           "description": "The number of the alert.",
+2025-06-14T20:18:15.7951477Z           "type": "number"
+2025-06-14T20:18:15.7951827Z         },
+2025-06-14T20:18:15.7952118Z         "owner": {
+2025-06-14T20:18:15.7952498Z           "description": "The owner of the repository.",
+2025-06-14T20:18:15.7952977Z           "type": "string"
+2025-06-14T20:18:15.7953323Z         },
+2025-06-14T20:18:15.7953620Z         "repo": {
+2025-06-14T20:18:15.7954005Z           "description": "The name of the repository.",
+2025-06-14T20:18:15.7954456Z           "type": "string"
+2025-06-14T20:18:15.7954773Z         }
+2025-06-14T20:18:15.7955030Z       },
+2025-06-14T20:18:15.7955306Z       "required": [
+2025-06-14T20:18:15.7955598Z         "owner",
+2025-06-14T20:18:15.7955886Z         "repo",
+2025-06-14T20:18:15.7956179Z         "alertNumber"
+2025-06-14T20:18:15.7956499Z       ]
+2025-06-14T20:18:15.7956763Z     },
+2025-06-14T20:18:15.7957051Z     "safeForTelemetry": {
+2025-06-14T20:18:15.7957396Z       "name": true,
+2025-06-14T20:18:15.7957711Z       "inputsNames": true
+2025-06-14T20:18:15.7958035Z     }
+2025-06-14T20:18:15.7958290Z   },
+2025-06-14T20:18:15.7958577Z   "github-mcp-server/get_commit": {
+2025-06-14T20:18:15.7958974Z     "name": "get_commit",
+2025-06-14T20:18:15.7959476Z     "description": "Get details for a commit from a GitHub repository",
+2025-06-14T20:18:15.7960040Z     "input_schema": {
+2025-06-14T20:18:15.7960372Z       "type": "object",
+2025-06-14T20:18:15.7960711Z       "properties": {
+2025-06-14T20:18:15.7961249Z         "owner": {
+2025-06-14T20:18:15.7961617Z           "description": "Repository owner",
+2025-06-14T20:18:15.7962056Z           "type": "string"
+2025-06-14T20:18:15.7962395Z         },
+2025-06-14T20:18:15.7962686Z         "page": {
+2025-06-14T20:18:15.7963117Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.7963620Z           "minimum": 1,
+2025-06-14T20:18:15.7963966Z           "type": "number"
+2025-06-14T20:18:15.7964308Z         },
+2025-06-14T20:18:15.7964595Z         "perPage": {
+2025-06-14T20:18:15.7965085Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.7965678Z           "maximum": 100,
+2025-06-14T20:18:15.7966041Z           "minimum": 1,
+2025-06-14T20:18:15.7966390Z           "type": "number"
+2025-06-14T20:18:15.7966731Z         },
+2025-06-14T20:18:15.7967021Z         "repo": {
+2025-06-14T20:18:15.7967378Z           "description": "Repository name",
+2025-06-14T20:18:15.7967841Z           "type": "string"
+2025-06-14T20:18:15.7968186Z         },
+2025-06-14T20:18:15.7968472Z         "sha": {
+2025-06-14T20:18:15.7968898Z           "description": "Commit SHA, branch name, or tag name",
+2025-06-14T20:18:15.7969429Z           "type": "string"
+2025-06-14T20:18:15.7970004Z         }
+2025-06-14T20:18:15.7970306Z       },
+2025-06-14T20:18:15.7970568Z       "required": [
+2025-06-14T20:18:15.7971114Z         "owner",
+2025-06-14T20:18:15.7971418Z         "repo",
+2025-06-14T20:18:15.7971758Z         "sha"
+2025-06-14T20:18:15.7972061Z       ]
+2025-06-14T20:18:15.7972339Z     },
+2025-06-14T20:18:15.7972639Z     "safeForTelemetry": {
+2025-06-14T20:18:15.7972991Z       "name": true,
+2025-06-14T20:18:15.7973334Z       "inputsNames": true
+2025-06-14T20:18:15.7973694Z     }
+2025-06-14T20:18:15.7973965Z   },
+2025-06-14T20:18:15.7974299Z   "github-mcp-server/get_file_contents": {
+2025-06-14T20:18:15.7974766Z     "name": "get_file_contents",
+2025-06-14T20:18:15.7975679Z     "description": "Get the contents of a file or directory from a GitHub repository",
+2025-06-14T20:18:15.7976361Z     "input_schema": {
+2025-06-14T20:18:15.7976730Z       "type": "object",
+2025-06-14T20:18:15.7977083Z       "properties": {
+2025-06-14T20:18:15.7977421Z         "branch": {
+2025-06-14T20:18:15.7977806Z           "description": "Branch to get contents from",
+2025-06-14T20:18:15.7978305Z           "type": "string"
+2025-06-14T20:18:15.7978662Z         },
+2025-06-14T20:18:15.7978955Z         "owner": {
+2025-06-14T20:18:15.7979438Z           "description": "Repository owner (username or organization)",
+2025-06-14T20:18:15.7980019Z           "type": "string"
+2025-06-14T20:18:15.7980373Z         },
+2025-06-14T20:18:15.7980673Z         "path": {
+2025-06-14T20:18:15.7981246Z           "description": "Path to file/directory",
+2025-06-14T20:18:15.7981729Z           "type": "string"
+2025-06-14T20:18:15.7982078Z         },
+2025-06-14T20:18:15.7982367Z         "repo": {
+2025-06-14T20:18:15.7982740Z           "description": "Repository name",
+2025-06-14T20:18:15.7983180Z           "type": "string"
+2025-06-14T20:18:15.7983538Z         }
+2025-06-14T20:18:15.7983816Z       },
+2025-06-14T20:18:15.7984109Z       "required": [
+2025-06-14T20:18:15.7984436Z         "owner",
+2025-06-14T20:18:15.7984749Z         "repo",
+2025-06-14T20:18:15.7985068Z         "path"
+2025-06-14T20:18:15.7985370Z       ]
+2025-06-14T20:18:15.7985649Z     },
+2025-06-14T20:18:15.7985952Z     "safeForTelemetry": {
+2025-06-14T20:18:15.7986331Z       "name": true,
+2025-06-14T20:18:15.7986754Z       "inputsNames": true
+2025-06-14T20:18:15.7987106Z     }
+2025-06-14T20:18:15.7987388Z   },
+2025-06-14T20:18:15.7987713Z   "github-mcp-server/get_issue": {
+2025-06-14T20:18:15.7988161Z     "name": "get_issue",
+2025-06-14T20:18:15.7988725Z     "description": "Get details of a specific issue in a GitHub repository",
+2025-06-14T20:18:15.7989352Z     "input_schema": {
+2025-06-14T20:18:15.7989718Z       "type": "object",
+2025-06-14T20:18:15.7990087Z       "properties": {
+2025-06-14T20:18:15.7990428Z         "issue_number": {
+2025-06-14T20:18:15.7991018Z           "description": "The number of the issue",
+2025-06-14T20:18:15.7991581Z           "type": "number"
+2025-06-14T20:18:15.7991914Z         },
+2025-06-14T20:18:15.7992200Z         "owner": {
+2025-06-14T20:18:15.7992613Z           "description": "The owner of the repository",
+2025-06-14T20:18:15.7993077Z           "type": "string"
+2025-06-14T20:18:15.7993424Z         },
+2025-06-14T20:18:15.7993716Z         "repo": {
+2025-06-14T20:18:15.7994093Z           "description": "The name of the repository",
+2025-06-14T20:18:15.7994573Z           "type": "string"
+2025-06-14T20:18:15.7994913Z         }
+2025-06-14T20:18:15.7995263Z       },
+2025-06-14T20:18:15.7995635Z       "required": [
+2025-06-14T20:18:15.7995943Z         "owner",
+2025-06-14T20:18:15.7996241Z         "repo",
+2025-06-14T20:18:15.7996510Z         "issue_number"
+2025-06-14T20:18:15.7996831Z       ]
+2025-06-14T20:18:15.7997113Z     },
+2025-06-14T20:18:15.7997415Z     "safeForTelemetry": {
+2025-06-14T20:18:15.7997778Z       "name": true,
+2025-06-14T20:18:15.7998103Z       "inputsNames": true
+2025-06-14T20:18:15.7998458Z     }
+2025-06-14T20:18:15.7998730Z   },
+2025-06-14T20:18:15.7999065Z   "github-mcp-server/get_issue_comments": {
+2025-06-14T20:18:15.7999781Z     "name": "get_issue_comments",
+2025-06-14T20:18:15.8000258Z     "description": "Get comments for a GitHub issue",
+2025-06-14T20:18:15.8000721Z     "input_schema": {
+2025-06-14T20:18:15.8001275Z       "type": "object",
+2025-06-14T20:18:15.8001615Z       "properties": {
+2025-06-14T20:18:15.8001960Z         "issue_number": {
+2025-06-14T20:18:15.8002334Z           "description": "Issue number",
+2025-06-14T20:18:15.8002763Z           "type": "number"
+2025-06-14T20:18:15.8003112Z         },
+2025-06-14T20:18:15.8003410Z         "owner": {
+2025-06-14T20:18:15.8003770Z           "description": "Repository owner",
+2025-06-14T20:18:15.8004197Z           "type": "string"
+2025-06-14T20:18:15.8004794Z         },
+2025-06-14T20:18:15.8005074Z         "page": {
+2025-06-14T20:18:15.8005423Z           "description": "Page number",
+2025-06-14T20:18:15.8005827Z           "type": "number"
+2025-06-14T20:18:15.8006169Z         },
+2025-06-14T20:18:15.8006481Z         "per_page": {
+2025-06-14T20:18:15.8006909Z           "description": "Number of records per page",
+2025-06-14T20:18:15.8007409Z           "type": "number"
+2025-06-14T20:18:15.8007767Z         },
+2025-06-14T20:18:15.8008059Z         "repo": {
+2025-06-14T20:18:15.8008430Z           "description": "Repository name",
+2025-06-14T20:18:15.8008889Z           "type": "string"
+2025-06-14T20:18:15.8009237Z         }
+2025-06-14T20:18:15.8009464Z       },
+2025-06-14T20:18:15.8009631Z       "required": [
+2025-06-14T20:18:15.8009803Z         "owner",
+2025-06-14T20:18:15.8009978Z         "repo",
+2025-06-14T20:18:15.8010152Z         "issue_number"
+2025-06-14T20:18:15.8010329Z       ]
+2025-06-14T20:18:15.8010477Z     },
+2025-06-14T20:18:15.8010648Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8011080Z       "name": true,
+2025-06-14T20:18:15.8011296Z       "inputsNames": true
+2025-06-14T20:18:15.8011489Z     }
+2025-06-14T20:18:15.8011636Z   },
+2025-06-14T20:18:15.8011802Z   "github-mcp-server/get_me": {
+2025-06-14T20:18:15.8012019Z     "name": "get_me",
+2025-06-14T20:18:15.8012443Z     "description": "Get details of the authenticated GitHub user. Use this when a request include \"me\", \"my\"...",
+2025-06-14T20:18:15.8012888Z     "input_schema": {
+2025-06-14T20:18:15.8013077Z       "type": "object",
+2025-06-14T20:18:15.8013261Z       "properties": {
+2025-06-14T20:18:15.8013444Z         "reason": {
+2025-06-14T20:18:15.8071187Z           "description": "Optional: reason the session was created",
+2025-06-14T20:18:15.8071596Z           "type": "string"
+2025-06-14T20:18:15.8071804Z         }
+2025-06-14T20:18:15.8071974Z       }
+2025-06-14T20:18:15.8072158Z     },
+2025-06-14T20:18:15.8072351Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8072604Z       "name": true,
+2025-06-14T20:18:15.8072840Z       "inputsNames": true
+2025-06-14T20:18:15.8073067Z     }
+2025-06-14T20:18:15.8073241Z   },
+2025-06-14T20:18:15.8073462Z   "github-mcp-server/get_pull_request": {
+2025-06-14T20:18:15.8073732Z     "name": "get_pull_request",
+2025-06-14T20:18:15.8074022Z     "description": "Get details of a specific pull request",
+2025-06-14T20:18:15.8074335Z     "input_schema": {
+2025-06-14T20:18:15.8074544Z       "type": "object",
+2025-06-14T20:18:15.8074751Z       "properties": {
+2025-06-14T20:18:15.8074941Z         "owner": {
+2025-06-14T20:18:15.8075145Z           "description": "Repository owner",
+2025-06-14T20:18:15.8075388Z           "type": "string"
+2025-06-14T20:18:15.8075598Z         },
+2025-06-14T20:18:15.8075767Z         "pullNumber": {
+2025-06-14T20:18:15.8075989Z           "description": "Pull request number",
+2025-06-14T20:18:15.8076239Z           "type": "number"
+2025-06-14T20:18:15.8076419Z         },
+2025-06-14T20:18:15.8076581Z         "repo": {
+2025-06-14T20:18:15.8076782Z           "description": "Repository name",
+2025-06-14T20:18:15.8077022Z           "type": "string"
+2025-06-14T20:18:15.8077211Z         }
+2025-06-14T20:18:15.8077360Z       },
+2025-06-14T20:18:15.8077522Z       "required": [
+2025-06-14T20:18:15.8077693Z         "owner",
+2025-06-14T20:18:15.8077854Z         "repo",
+2025-06-14T20:18:15.8078194Z         "pullNumber"
+2025-06-14T20:18:15.8078374Z       ]
+2025-06-14T20:18:15.8078520Z     },
+2025-06-14T20:18:15.8078692Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8078885Z       "name": true,
+2025-06-14T20:18:15.8079058Z       "inputsNames": true
+2025-06-14T20:18:15.8079249Z     }
+2025-06-14T20:18:15.8079405Z   },
+2025-06-14T20:18:15.8079608Z   "github-mcp-server/get_pull_request_comments": {
+2025-06-14T20:18:15.8079899Z     "name": "get_pull_request_comments",
+2025-06-14T20:18:15.8080214Z     "description": "Get the review comments on a pull request",
+2025-06-14T20:18:15.8080509Z     "input_schema": {
+2025-06-14T20:18:15.8080704Z       "type": "object",
+2025-06-14T20:18:15.8081258Z       "properties": {
+2025-06-14T20:18:15.8081457Z         "owner": {
+2025-06-14T20:18:15.8081662Z           "description": "Repository owner",
+2025-06-14T20:18:15.8081907Z           "type": "string"
+2025-06-14T20:18:15.8082105Z         },
+2025-06-14T20:18:15.8082275Z         "pullNumber": {
+2025-06-14T20:18:15.8082503Z           "description": "Pull request number",
+2025-06-14T20:18:15.8082754Z           "type": "number"
+2025-06-14T20:18:15.8082969Z         },
+2025-06-14T20:18:15.8083126Z         "repo": {
+2025-06-14T20:18:15.8083347Z           "description": "Repository name",
+2025-06-14T20:18:15.8083626Z           "type": "string"
+2025-06-14T20:18:15.8083821Z         }
+2025-06-14T20:18:15.8083977Z       },
+2025-06-14T20:18:15.8084146Z       "required": [
+2025-06-14T20:18:15.8084324Z         "owner",
+2025-06-14T20:18:15.8084495Z         "repo",
+2025-06-14T20:18:15.8084668Z         "pullNumber"
+2025-06-14T20:18:15.8084848Z       ]
+2025-06-14T20:18:15.8084995Z     },
+2025-06-14T20:18:15.8085173Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8085378Z       "name": true,
+2025-06-14T20:18:15.8085564Z       "inputsNames": true
+2025-06-14T20:18:15.8085755Z     }
+2025-06-14T20:18:15.8085903Z   },
+2025-06-14T20:18:15.8086099Z   "github-mcp-server/get_pull_request_files": {
+2025-06-14T20:18:15.8086376Z     "name": "get_pull_request_files",
+2025-06-14T20:18:15.8086730Z     "description": "Get the list of files changed in a pull request",
+2025-06-14T20:18:15.8087048Z     "input_schema": {
+2025-06-14T20:18:15.8087237Z       "type": "object",
+2025-06-14T20:18:15.8087428Z       "properties": {
+2025-06-14T20:18:15.8087621Z         "owner": {
+2025-06-14T20:18:15.8087826Z           "description": "Repository owner",
+2025-06-14T20:18:15.8088073Z           "type": "string"
+2025-06-14T20:18:15.8088259Z         },
+2025-06-14T20:18:15.8088427Z         "pullNumber": {
+2025-06-14T20:18:15.8088643Z           "description": "Pull request number",
+2025-06-14T20:18:15.8088892Z           "type": "number"
+2025-06-14T20:18:15.8089087Z         },
+2025-06-14T20:18:15.8089239Z         "repo": {
+2025-06-14T20:18:15.8089438Z           "description": "Repository name",
+2025-06-14T20:18:15.8089687Z           "type": "string"
+2025-06-14T20:18:15.8089874Z         }
+2025-06-14T20:18:15.8090026Z       },
+2025-06-14T20:18:15.8090177Z       "required": [
+2025-06-14T20:18:15.8090358Z         "owner",
+2025-06-14T20:18:15.8090535Z         "repo",
+2025-06-14T20:18:15.8090713Z         "pullNumber"
+2025-06-14T20:18:15.8091003Z       ]
+2025-06-14T20:18:15.8091153Z     },
+2025-06-14T20:18:15.8091327Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8091530Z       "name": true,
+2025-06-14T20:18:15.8091716Z       "inputsNames": true
+2025-06-14T20:18:15.8091908Z     }
+2025-06-14T20:18:15.8092053Z   },
+2025-06-14T20:18:15.8092257Z   "github-mcp-server/get_pull_request_reviews": {
+2025-06-14T20:18:15.8092540Z     "name": "get_pull_request_reviews",
+2025-06-14T20:18:15.8092830Z     "description": "Get the reviews on a pull request",
+2025-06-14T20:18:15.8093107Z     "input_schema": {
+2025-06-14T20:18:15.8093298Z       "type": "object",
+2025-06-14T20:18:15.8093483Z       "properties": {
+2025-06-14T20:18:15.8093666Z         "owner": {
+2025-06-14T20:18:15.8093867Z           "description": "Repository owner",
+2025-06-14T20:18:15.8094115Z           "type": "string"
+2025-06-14T20:18:15.8094308Z         },
+2025-06-14T20:18:15.8094595Z         "pullNumber": {
+2025-06-14T20:18:15.8094815Z           "description": "Pull request number",
+2025-06-14T20:18:15.8095064Z           "type": "number"
+2025-06-14T20:18:15.8095255Z         },
+2025-06-14T20:18:15.8095415Z         "repo": {
+2025-06-14T20:18:15.8095603Z           "description": "Repository name",
+2025-06-14T20:18:15.8095843Z           "type": "string"
+2025-06-14T20:18:15.8096034Z         }
+2025-06-14T20:18:15.8096192Z       },
+2025-06-14T20:18:15.8096351Z       "required": [
+2025-06-14T20:18:15.8096520Z         "owner",
+2025-06-14T20:18:15.8096687Z         "repo",
+2025-06-14T20:18:15.8096863Z         "pullNumber"
+2025-06-14T20:18:15.8097191Z       ]
+2025-06-14T20:18:15.8097342Z     },
+2025-06-14T20:18:15.8097504Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8097706Z       "name": true,
+2025-06-14T20:18:15.8097889Z       "inputsNames": true
+2025-06-14T20:18:15.8098076Z     }
+2025-06-14T20:18:15.8098224Z   },
+2025-06-14T20:18:15.8098415Z   "github-mcp-server/get_pull_request_status": {
+2025-06-14T20:18:15.8098690Z     "name": "get_pull_request_status",
+2025-06-14T20:18:15.8099059Z     "description": "Get the combined status of all status checks for a pull request",
+2025-06-14T20:18:15.8099422Z     "input_schema": {
+2025-06-14T20:18:15.8099612Z       "type": "object",
+2025-06-14T20:18:15.8099802Z       "properties": {
+2025-06-14T20:18:15.8099978Z         "owner": {
+2025-06-14T20:18:15.8100181Z           "description": "Repository owner",
+2025-06-14T20:18:15.8100427Z           "type": "string"
+2025-06-14T20:18:15.8100616Z         },
+2025-06-14T20:18:15.8100781Z         "pullNumber": {
+2025-06-14T20:18:15.8101147Z           "description": "Pull request number",
+2025-06-14T20:18:15.8101398Z           "type": "number"
+2025-06-14T20:18:15.8101583Z         },
+2025-06-14T20:18:15.8101739Z         "repo": {
+2025-06-14T20:18:15.8101929Z           "description": "Repository name",
+2025-06-14T20:18:15.8102161Z           "type": "string"
+2025-06-14T20:18:15.8102346Z         }
+2025-06-14T20:18:15.8102502Z       },
+2025-06-14T20:18:15.8102661Z       "required": [
+2025-06-14T20:18:15.8102831Z         "owner",
+2025-06-14T20:18:15.8102992Z         "repo",
+2025-06-14T20:18:15.8103161Z         "pullNumber"
+2025-06-14T20:18:15.8103337Z       ]
+2025-06-14T20:18:15.8103488Z     },
+2025-06-14T20:18:15.8103652Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8103843Z       "name": true,
+2025-06-14T20:18:15.8104023Z       "inputsNames": true
+2025-06-14T20:18:15.8104212Z     }
+2025-06-14T20:18:15.8104363Z   },
+2025-06-14T20:18:15.8104557Z   "github-mcp-server/get_secret_scanning_alert": {
+2025-06-14T20:18:15.8104833Z     "name": "get_secret_scanning_alert",
+2025-06-14T20:18:15.8105224Z     "description": "Get details of a specific secret scanning alert in a GitHub repository.",
+2025-06-14T20:18:15.8105609Z     "input_schema": {
+2025-06-14T20:18:15.8105886Z       "type": "object",
+2025-06-14T20:18:15.8106078Z       "properties": {
+2025-06-14T20:18:15.8106266Z         "alertNumber": {
+2025-06-14T20:18:15.8106484Z           "description": "The number of the alert.",
+2025-06-14T20:18:15.8106741Z           "type": "number"
+2025-06-14T20:18:15.8106934Z         },
+2025-06-14T20:18:15.8107090Z         "owner": {
+2025-06-14T20:18:15.8107305Z           "description": "The owner of the repository.",
+2025-06-14T20:18:15.8107566Z           "type": "string"
+2025-06-14T20:18:15.8107744Z         },
+2025-06-14T20:18:15.8107898Z         "repo": {
+2025-06-14T20:18:15.8108105Z           "description": "The name of the repository.",
+2025-06-14T20:18:15.8108359Z           "type": "string"
+2025-06-14T20:18:15.8108538Z         }
+2025-06-14T20:18:15.8108682Z       },
+2025-06-14T20:18:15.8108842Z       "required": [
+2025-06-14T20:18:15.8109011Z         "owner",
+2025-06-14T20:18:15.8109178Z         "repo",
+2025-06-14T20:18:15.8109350Z         "alertNumber"
+2025-06-14T20:18:15.8109519Z       ]
+2025-06-14T20:18:15.8109666Z     },
+2025-06-14T20:18:15.8109829Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8110024Z       "name": true,
+2025-06-14T20:18:15.8110317Z       "inputsNames": true
+2025-06-14T20:18:15.8110503Z     }
+2025-06-14T20:18:15.8110648Z   },
+2025-06-14T20:18:15.8110992Z   "github-mcp-server/list_branches": {
+2025-06-14T20:18:15.8111306Z     "name": "list_branches",
+2025-06-14T20:18:15.8111590Z     "description": "List branches in a GitHub repository",
+2025-06-14T20:18:15.8111866Z     "input_schema": {
+2025-06-14T20:18:15.8112053Z       "type": "object",
+2025-06-14T20:18:15.8112238Z       "properties": {
+2025-06-14T20:18:15.8112420Z         "owner": {
+2025-06-14T20:18:15.8112615Z           "description": "Repository owner",
+2025-06-14T20:18:15.8112854Z           "type": "string"
+2025-06-14T20:18:15.8113157Z         },
+2025-06-14T20:18:15.8113315Z         "page": {
+2025-06-14T20:18:15.8113543Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8113822Z           "minimum": 1,
+2025-06-14T20:18:15.8114011Z           "type": "number"
+2025-06-14T20:18:15.8114187Z         },
+2025-06-14T20:18:15.8114353Z         "perPage": {
+2025-06-14T20:18:15.8114619Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8114940Z           "maximum": 100,
+2025-06-14T20:18:15.8115137Z           "minimum": 1,
+2025-06-14T20:18:15.8115316Z           "type": "number"
+2025-06-14T20:18:15.8115500Z         },
+2025-06-14T20:18:15.8115652Z         "repo": {
+2025-06-14T20:18:15.8115846Z           "description": "Repository name",
+2025-06-14T20:18:15.8116082Z           "type": "string"
+2025-06-14T20:18:15.8116261Z         }
+2025-06-14T20:18:15.8116412Z       },
+2025-06-14T20:18:15.8116566Z       "required": [
+2025-06-14T20:18:15.8116739Z         "owner",
+2025-06-14T20:18:15.8116905Z         "repo"
+2025-06-14T20:18:15.8117059Z       ]
+2025-06-14T20:18:15.8117205Z     },
+2025-06-14T20:18:15.8117365Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8117557Z       "name": true,
+2025-06-14T20:18:15.8117736Z       "inputsNames": true
+2025-06-14T20:18:15.8117912Z     }
+2025-06-14T20:18:15.8118063Z   },
+2025-06-14T20:18:15.8118259Z   "github-mcp-server/list_code_scanning_alerts": {
+2025-06-14T20:18:15.8118537Z     "name": "list_code_scanning_alerts",
+2025-06-14T20:18:15.8118862Z     "description": "List code scanning alerts in a GitHub repository.",
+2025-06-14T20:18:15.8119179Z     "input_schema": {
+2025-06-14T20:18:15.8119360Z       "type": "object",
+2025-06-14T20:18:15.8119545Z       "properties": {
+2025-06-14T20:18:15.8119722Z         "owner": {
+2025-06-14T20:18:15.8119940Z           "description": "The owner of the repository.",
+2025-06-14T20:18:15.8120202Z           "type": "string"
+2025-06-14T20:18:15.8120381Z         },
+2025-06-14T20:18:15.8120534Z         "ref": {
+2025-06-14T20:18:15.8120800Z           "description": "The Git reference for the results you want to list.",
+2025-06-14T20:18:15.8121366Z           "type": "string"
+2025-06-14T20:18:15.8121554Z         },
+2025-06-14T20:18:15.8121703Z         "repo": {
+2025-06-14T20:18:15.8121904Z           "description": "The name of the repository.",
+2025-06-14T20:18:15.8122168Z           "type": "string"
+2025-06-14T20:18:15.8122344Z         },
+2025-06-14T20:18:15.8122496Z         "severity": {
+2025-06-14T20:18:15.8122737Z           "description": "Filter code scanning alerts by severity",
+2025-06-14T20:18:15.8123016Z           "enum": [
+2025-06-14T20:18:15.8123183Z             "critical",
+2025-06-14T20:18:15.8123361Z             "high",
+2025-06-14T20:18:15.8123529Z             "medium",
+2025-06-14T20:18:15.8123698Z             "low",
+2025-06-14T20:18:15.8123859Z             "warning",
+2025-06-14T20:18:15.8124038Z             "note",
+2025-06-14T20:18:15.8124202Z             "error"
+2025-06-14T20:18:15.8124376Z           ],
+2025-06-14T20:18:15.8124546Z           "type": "string"
+2025-06-14T20:18:15.8124725Z         },
+2025-06-14T20:18:15.8124880Z         "state": {
+2025-06-14T20:18:15.8125062Z           "default": "open",
+2025-06-14T20:18:15.8125374Z           "description": "Filter code scanning alerts by state. Defaults to open",
+2025-06-14T20:18:15.8125819Z           "enum": [
+2025-06-14T20:18:15.8125987Z             "open",
+2025-06-14T20:18:15.8126158Z             "closed",
+2025-06-14T20:18:15.8126340Z             "dismissed",
+2025-06-14T20:18:15.8126523Z             "fixed"
+2025-06-14T20:18:15.8126688Z           ],
+2025-06-14T20:18:15.8126846Z           "type": "string"
+2025-06-14T20:18:15.8127030Z         },
+2025-06-14T20:18:15.8127186Z         "tool_name": {
+2025-06-14T20:18:15.8127447Z           "description": "The name of the tool used for code scanning.",
+2025-06-14T20:18:15.8127752Z           "type": "string"
+2025-06-14T20:18:15.8127932Z         }
+2025-06-14T20:18:15.8128081Z       },
+2025-06-14T20:18:15.8128341Z       "required": [
+2025-06-14T20:18:15.8128509Z         "owner",
+2025-06-14T20:18:15.8128675Z         "repo"
+2025-06-14T20:18:15.8128832Z       ]
+2025-06-14T20:18:15.8128979Z     },
+2025-06-14T20:18:15.8129145Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8129342Z       "name": true,
+2025-06-14T20:18:15.8129520Z       "inputsNames": true
+2025-06-14T20:18:15.8129705Z     }
+2025-06-14T20:18:15.8129847Z   },
+2025-06-14T20:18:15.8130014Z   "github-mcp-server/list_commits": {
+2025-06-14T20:18:15.8130254Z     "name": "list_commits",
+2025-06-14T20:18:15.8130552Z     "description": "Get list of commits of a branch in a GitHub repository",
+2025-06-14T20:18:15.8130986Z     "input_schema": {
+2025-06-14T20:18:15.8131174Z       "type": "object",
+2025-06-14T20:18:15.8131364Z       "properties": {
+2025-06-14T20:18:15.8131542Z         "owner": {
+2025-06-14T20:18:15.8131737Z           "description": "Repository owner",
+2025-06-14T20:18:15.8131977Z           "type": "string"
+2025-06-14T20:18:15.8132159Z         },
+2025-06-14T20:18:15.8132316Z         "page": {
+2025-06-14T20:18:15.8132544Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8132827Z           "minimum": 1,
+2025-06-14T20:18:15.8133014Z           "type": "number"
+2025-06-14T20:18:15.8133191Z         },
+2025-06-14T20:18:15.8133348Z         "perPage": {
+2025-06-14T20:18:15.8133618Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8133934Z           "maximum": 100,
+2025-06-14T20:18:15.8134126Z           "minimum": 1,
+2025-06-14T20:18:15.8134307Z           "type": "number"
+2025-06-14T20:18:15.8134489Z         },
+2025-06-14T20:18:15.8134644Z         "repo": {
+2025-06-14T20:18:15.8134836Z           "description": "Repository name",
+2025-06-14T20:18:15.8135074Z           "type": "string"
+2025-06-14T20:18:15.8135249Z         },
+2025-06-14T20:18:15.8135403Z         "sha": {
+2025-06-14T20:18:15.8135596Z           "description": "SHA or Branch name",
+2025-06-14T20:18:15.8135840Z           "type": "string"
+2025-06-14T20:18:15.8136023Z         }
+2025-06-14T20:18:15.8136170Z       },
+2025-06-14T20:18:15.8136326Z       "required": [
+2025-06-14T20:18:15.8136496Z         "owner",
+2025-06-14T20:18:15.8136663Z         "repo"
+2025-06-14T20:18:15.8136821Z       ]
+2025-06-14T20:18:15.8136962Z     },
+2025-06-14T20:18:15.8137128Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8137326Z       "name": true,
+2025-06-14T20:18:15.8137505Z       "inputsNames": true
+2025-06-14T20:18:15.8137693Z     }
+2025-06-14T20:18:15.8137834Z   },
+2025-06-14T20:18:15.8138002Z   "github-mcp-server/list_issues": {
+2025-06-14T20:18:15.8138238Z     "name": "list_issues",
+2025-06-14T20:18:15.8138546Z     "description": "List issues in a GitHub repository with filtering options",
+2025-06-14T20:18:15.8138880Z     "input_schema": {
+2025-06-14T20:18:15.8139069Z       "type": "object",
+2025-06-14T20:18:15.8139251Z       "properties": {
+2025-06-14T20:18:15.8139441Z         "direction": {
+2025-06-14T20:18:15.8139644Z           "description": "Sort direction",
+2025-06-14T20:18:15.8139878Z           "enum": [
+2025-06-14T20:18:15.8140046Z             "asc",
+2025-06-14T20:18:15.8140205Z             "desc"
+2025-06-14T20:18:15.8140374Z           ],
+2025-06-14T20:18:15.8140540Z           "type": "string"
+2025-06-14T20:18:15.8140727Z         },
+2025-06-14T20:18:15.8140983Z         "labels": {
+2025-06-14T20:18:15.8141285Z           "description": "Filter by labels",
+2025-06-14T20:18:15.8141523Z           "items": {
+2025-06-14T20:18:15.8141710Z             "type": "string"
+2025-06-14T20:18:15.8141908Z           },
+2025-06-14T20:18:15.8142072Z           "type": "array"
+2025-06-14T20:18:15.8142252Z         },
+2025-06-14T20:18:15.8142408Z         "owner": {
+2025-06-14T20:18:15.8142599Z           "description": "Repository owner",
+2025-06-14T20:18:15.8142838Z           "type": "string"
+2025-06-14T20:18:15.8143024Z         },
+2025-06-14T20:18:15.8143173Z         "page": {
+2025-06-14T20:18:15.8143404Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8143791Z           "minimum": 1,
+2025-06-14T20:18:15.8143975Z           "type": "number"
+2025-06-14T20:18:15.8144157Z         },
+2025-06-14T20:18:15.8144313Z         "perPage": {
+2025-06-14T20:18:15.8144571Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8144887Z           "maximum": 100,
+2025-06-14T20:18:15.8145080Z           "minimum": 1,
+2025-06-14T20:18:15.8145262Z           "type": "number"
+2025-06-14T20:18:15.8145443Z         },
+2025-06-14T20:18:15.8145590Z         "repo": {
+2025-06-14T20:18:15.8145783Z           "description": "Repository name",
+2025-06-14T20:18:15.8146022Z           "type": "string"
+2025-06-14T20:18:15.8146212Z         },
+2025-06-14T20:18:15.8146360Z         "since": {
+2025-06-14T20:18:15.8146592Z           "description": "Filter by date (ISO 8601 timestamp)",
+2025-06-14T20:18:15.8146871Z           "type": "string"
+2025-06-14T20:18:15.8147054Z         },
+2025-06-14T20:18:15.8147205Z         "sort": {
+2025-06-14T20:18:15.8147386Z           "description": "Sort order",
+2025-06-14T20:18:15.8147606Z           "enum": [
+2025-06-14T20:18:15.8147778Z             "created",
+2025-06-14T20:18:15.8147957Z             "updated",
+2025-06-14T20:18:15.8148138Z             "comments"
+2025-06-14T20:18:15.8148308Z           ],
+2025-06-14T20:18:15.8148470Z           "type": "string"
+2025-06-14T20:18:15.8148653Z         },
+2025-06-14T20:18:15.8148804Z         "state": {
+2025-06-14T20:18:15.8148992Z           "description": "Filter by state",
+2025-06-14T20:18:15.8149221Z           "enum": [
+2025-06-14T20:18:15.8149383Z             "open",
+2025-06-14T20:18:15.8149551Z             "closed",
+2025-06-14T20:18:15.8149722Z             "all"
+2025-06-14T20:18:15.8149884Z           ],
+2025-06-14T20:18:15.8150046Z           "type": "string"
+2025-06-14T20:18:15.8150223Z         }
+2025-06-14T20:18:15.8150374Z       },
+2025-06-14T20:18:15.8150532Z       "required": [
+2025-06-14T20:18:15.8150704Z         "owner",
+2025-06-14T20:18:15.8151023Z         "repo"
+2025-06-14T20:18:15.8151182Z       ]
+2025-06-14T20:18:15.8151332Z     },
+2025-06-14T20:18:15.8151497Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8151696Z       "name": true,
+2025-06-14T20:18:15.8151874Z       "inputsNames": true
+2025-06-14T20:18:15.8152054Z     }
+2025-06-14T20:18:15.8152201Z   },
+2025-06-14T20:18:15.8152390Z   "github-mcp-server/list_pull_requests": {
+2025-06-14T20:18:15.8152644Z     "name": "list_pull_requests",
+2025-06-14T20:18:15.8152927Z     "description": "List and filter repository pull requests",
+2025-06-14T20:18:15.8153213Z     "input_schema": {
+2025-06-14T20:18:15.8153397Z       "type": "object",
+2025-06-14T20:18:15.8153585Z       "properties": {
+2025-06-14T20:18:15.8153762Z         "base": {
+2025-06-14T20:18:15.8153958Z           "description": "Filter by base branch",
+2025-06-14T20:18:15.8154204Z           "type": "string"
+2025-06-14T20:18:15.8154391Z         },
+2025-06-14T20:18:15.8154552Z         "direction": {
+2025-06-14T20:18:15.8154753Z           "description": "Sort direction",
+2025-06-14T20:18:15.8154991Z           "enum": [
+2025-06-14T20:18:15.8155156Z             "asc",
+2025-06-14T20:18:15.8155324Z             "desc"
+2025-06-14T20:18:15.8155489Z           ],
+2025-06-14T20:18:15.8155659Z           "type": "string"
+2025-06-14T20:18:15.8155847Z         },
+2025-06-14T20:18:15.8155994Z         "head": {
+2025-06-14T20:18:15.8156329Z           "description": "Filter by head user/org and branch",
+2025-06-14T20:18:15.8156612Z           "type": "string"
+2025-06-14T20:18:15.8156794Z         },
+2025-06-14T20:18:15.8156944Z         "owner": {
+2025-06-14T20:18:15.8157134Z           "description": "Repository owner",
+2025-06-14T20:18:15.8157365Z           "type": "string"
+2025-06-14T20:18:15.8157546Z         },
+2025-06-14T20:18:15.8157698Z         "page": {
+2025-06-14T20:18:15.8157921Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8158196Z           "minimum": 1,
+2025-06-14T20:18:15.8158381Z           "type": "number"
+2025-06-14T20:18:15.8158666Z         },
+2025-06-14T20:18:15.8158820Z         "perPage": {
+2025-06-14T20:18:15.8159091Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8159404Z           "maximum": 100,
+2025-06-14T20:18:15.8159591Z           "minimum": 1,
+2025-06-14T20:18:15.8159774Z           "type": "number"
+2025-06-14T20:18:15.8159961Z         },
+2025-06-14T20:18:15.8160114Z         "repo": {
+2025-06-14T20:18:15.8160304Z           "description": "Repository name",
+2025-06-14T20:18:15.8160537Z           "type": "string"
+2025-06-14T20:18:15.8160716Z         },
+2025-06-14T20:18:15.8161042Z         "sort": {
+2025-06-14T20:18:15.8161269Z           "description": "Sort by",
+2025-06-14T20:18:15.8161493Z           "enum": [
+2025-06-14T20:18:15.8161659Z             "created",
+2025-06-14T20:18:15.8161842Z             "updated",
+2025-06-14T20:18:15.8162054Z             "popularity",
+2025-06-14T20:18:15.8162251Z             "long-running"
+2025-06-14T20:18:15.8162440Z           ],
+2025-06-14T20:18:15.8162604Z           "type": "string"
+2025-06-14T20:18:15.8162786Z         },
+2025-06-14T20:18:15.8162940Z         "state": {
+2025-06-14T20:18:15.8163131Z           "description": "Filter by state",
+2025-06-14T20:18:15.8163358Z           "enum": [
+2025-06-14T20:18:15.8163525Z             "open",
+2025-06-14T20:18:15.8163687Z             "closed",
+2025-06-14T20:18:15.8163864Z             "all"
+2025-06-14T20:18:15.8164025Z           ],
+2025-06-14T20:18:15.8164189Z           "type": "string"
+2025-06-14T20:18:15.8164374Z         }
+2025-06-14T20:18:15.8164523Z       },
+2025-06-14T20:18:15.8164681Z       "required": [
+2025-06-14T20:18:15.8164859Z         "owner",
+2025-06-14T20:18:15.8165051Z         "repo"
+2025-06-14T20:18:15.8165213Z       ]
+2025-06-14T20:18:15.8165357Z     },
+2025-06-14T20:18:15.8165524Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8165724Z       "name": true,
+2025-06-14T20:18:15.8165906Z       "inputsNames": true
+2025-06-14T20:18:15.8166094Z     }
+2025-06-14T20:18:15.8166241Z   },
+2025-06-14T20:18:15.8166455Z   "github-mcp-server/list_secret_scanning_alerts": {
+2025-06-14T20:18:15.8166748Z     "name": "list_secret_scanning_alerts",
+2025-06-14T20:18:15.8167080Z     "description": "List secret scanning alerts in a GitHub repository.",
+2025-06-14T20:18:15.8167404Z     "input_schema": {
+2025-06-14T20:18:15.8167586Z       "type": "object",
+2025-06-14T20:18:15.8167779Z       "properties": {
+2025-06-14T20:18:15.8167960Z         "owner": {
+2025-06-14T20:18:15.8168179Z           "description": "The owner of the repository.",
+2025-06-14T20:18:15.8168440Z           "type": "string"
+2025-06-14T20:18:15.8168620Z         },
+2025-06-14T20:18:15.8168775Z         "repo": {
+2025-06-14T20:18:15.8168982Z           "description": "The name of the repository.",
+2025-06-14T20:18:15.8169239Z           "type": "string"
+2025-06-14T20:18:15.8169421Z         },
+2025-06-14T20:18:15.8169575Z         "resolution": {
+2025-06-14T20:18:15.8169785Z           "description": "Filter by resolution",
+2025-06-14T20:18:15.8170029Z           "enum": [
+2025-06-14T20:18:15.8170211Z             "false_positive",
+2025-06-14T20:18:15.8170414Z             "wont_fix",
+2025-06-14T20:18:15.8170597Z             "revoked",
+2025-06-14T20:18:15.8170786Z             "pattern_edited",
+2025-06-14T20:18:15.8171099Z             "pattern_deleted",
+2025-06-14T20:18:15.8171310Z             "used_in_tests"
+2025-06-14T20:18:15.8171741Z           ],
+2025-06-14T20:18:15.8171912Z           "type": "string"
+2025-06-14T20:18:15.8172094Z         },
+2025-06-14T20:18:15.8172256Z         "secret_type": {
+2025-06-14T20:18:15.8172878Z           "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter.",
+2025-06-14T20:18:15.8173517Z           "type": "string"
+2025-06-14T20:18:15.8173701Z         },
+2025-06-14T20:18:15.8173854Z         "state": {
+2025-06-14T20:18:15.8174046Z           "description": "Filter by state",
+2025-06-14T20:18:15.8174280Z           "enum": [
+2025-06-14T20:18:15.8174550Z             "open",
+2025-06-14T20:18:15.8174720Z             "resolved"
+2025-06-14T20:18:15.8174899Z           ],
+2025-06-14T20:18:15.8175061Z           "type": "string"
+2025-06-14T20:18:15.8175244Z         }
+2025-06-14T20:18:15.8175394Z       },
+2025-06-14T20:18:15.8175552Z       "required": [
+2025-06-14T20:18:15.8175734Z         "owner",
+2025-06-14T20:18:15.8175900Z         "repo"
+2025-06-14T20:18:15.8176062Z       ]
+2025-06-14T20:18:15.8176219Z     },
+2025-06-14T20:18:15.8176418Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8176616Z       "name": true,
+2025-06-14T20:18:15.8176800Z       "inputsNames": true
+2025-06-14T20:18:15.8176990Z     }
+2025-06-14T20:18:15.8177136Z   },
+2025-06-14T20:18:15.8177309Z   "github-mcp-server/search_code": {
+2025-06-14T20:18:15.8177547Z     "name": "search_code",
+2025-06-14T20:18:15.8177819Z     "description": "Search for code across GitHub repositories",
+2025-06-14T20:18:15.8178123Z     "input_schema": {
+2025-06-14T20:18:15.8178319Z       "type": "object",
+2025-06-14T20:18:15.8178510Z       "properties": {
+2025-06-14T20:18:15.8178692Z         "order": {
+2025-06-14T20:18:15.8178877Z           "description": "Sort order",
+2025-06-14T20:18:15.8179104Z           "enum": [
+2025-06-14T20:18:15.8179274Z             "asc",
+2025-06-14T20:18:15.8179443Z             "desc"
+2025-06-14T20:18:15.8179612Z           ],
+2025-06-14T20:18:15.8179778Z           "type": "string"
+2025-06-14T20:18:15.8179967Z         },
+2025-06-14T20:18:15.8180124Z         "page": {
+2025-06-14T20:18:15.8180355Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8180633Z           "minimum": 1,
+2025-06-14T20:18:15.8180815Z           "type": "number"
+2025-06-14T20:18:15.8181104Z         },
+2025-06-14T20:18:15.8181270Z         "perPage": {
+2025-06-14T20:18:15.8181545Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8181868Z           "maximum": 100,
+2025-06-14T20:18:15.8182055Z           "minimum": 1,
+2025-06-14T20:18:15.8182244Z           "type": "number"
+2025-06-14T20:18:15.8182428Z         },
+2025-06-14T20:18:15.8182585Z         "q": {
+2025-06-14T20:18:15.8182835Z           "description": "Search query using GitHub code search syntax",
+2025-06-14T20:18:15.8183150Z           "type": "string"
+2025-06-14T20:18:15.8183332Z         },
+2025-06-14T20:18:15.8183491Z         "sort": {
+2025-06-14T20:18:15.8183697Z           "description": "Sort field ('indexed' only)",
+2025-06-14T20:18:15.8183957Z           "type": "string"
+2025-06-14T20:18:15.8184233Z         }
+2025-06-14T20:18:15.8184382Z       },
+2025-06-14T20:18:15.8184541Z       "required": [
+2025-06-14T20:18:15.8184712Z         "q"
+2025-06-14T20:18:15.8184873Z       ]
+2025-06-14T20:18:15.8185023Z     },
+2025-06-14T20:18:15.8185184Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8185381Z       "name": true,
+2025-06-14T20:18:15.8185562Z       "inputsNames": true
+2025-06-14T20:18:15.8185753Z     }
+2025-06-14T20:18:15.8185900Z   },
+2025-06-14T20:18:15.8186073Z   "github-mcp-server/search_issues": {
+2025-06-14T20:18:15.8186320Z     "name": "search_issues",
+2025-06-14T20:18:15.8186683Z     "description": "Search for issues and pull requests across GitHub repositories",
+2025-06-14T20:18:15.8187044Z     "input_schema": {
+2025-06-14T20:18:15.8187233Z       "type": "object",
+2025-06-14T20:18:15.8187529Z       "properties": {
+2025-06-14T20:18:15.8187713Z         "order": {
+2025-06-14T20:18:15.8187899Z           "description": "Sort order",
+2025-06-14T20:18:15.8188142Z           "enum": [
+2025-06-14T20:18:15.8188309Z             "asc",
+2025-06-14T20:18:15.8188471Z             "desc"
+2025-06-14T20:18:15.8188635Z           ],
+2025-06-14T20:18:15.8188803Z           "type": "string"
+2025-06-14T20:18:15.8188991Z         },
+2025-06-14T20:18:15.8189148Z         "page": {
+2025-06-14T20:18:15.8189370Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8189650Z           "minimum": 1,
+2025-06-14T20:18:15.8189837Z           "type": "number"
+2025-06-14T20:18:15.8190134Z         },
+2025-06-14T20:18:15.8190295Z         "perPage": {
+2025-06-14T20:18:15.8190572Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8191083Z           "maximum": 100,
+2025-06-14T20:18:15.8191310Z           "minimum": 1,
+2025-06-14T20:18:15.8191497Z           "type": "number"
+2025-06-14T20:18:15.8191687Z         },
+2025-06-14T20:18:15.8191845Z         "q": {
+2025-06-14T20:18:15.8192092Z           "description": "Search query using GitHub issues search syntax",
+2025-06-14T20:18:15.8192411Z           "type": "string"
+2025-06-14T20:18:15.8192594Z         },
+2025-06-14T20:18:15.8192747Z         "sort": {
+2025-06-14T20:18:15.8193068Z           "description": "Sort field by number of matches of categories, defaults to best match",
+2025-06-14T20:18:15.8193436Z           "enum": [
+2025-06-14T20:18:15.8193611Z             "comments",
+2025-06-14T20:18:15.8193800Z             "reactions",
+2025-06-14T20:18:15.8194001Z             "reactions-+1",
+2025-06-14T20:18:15.8194213Z             "reactions--1",
+2025-06-14T20:18:15.8194414Z             "reactions-smile",
+2025-06-14T20:18:15.8194642Z             "reactions-thinking_face",
+2025-06-14T20:18:15.8194886Z             "reactions-heart",
+2025-06-14T20:18:15.8195104Z             "reactions-tada",
+2025-06-14T20:18:15.8195318Z             "interactions",
+2025-06-14T20:18:15.8195520Z             "created",
+2025-06-14T20:18:15.8195699Z             "updated"
+2025-06-14T20:18:15.8195876Z           ],
+2025-06-14T20:18:15.8196042Z           "type": "string"
+2025-06-14T20:18:15.8196229Z         }
+2025-06-14T20:18:15.8196383Z       },
+2025-06-14T20:18:15.8196534Z       "required": [
+2025-06-14T20:18:15.8196704Z         "q"
+2025-06-14T20:18:15.8196859Z       ]
+2025-06-14T20:18:15.8197007Z     },
+2025-06-14T20:18:15.8197170Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8197360Z       "name": true,
+2025-06-14T20:18:15.8197541Z       "inputsNames": true
+2025-06-14T20:18:15.8197727Z     }
+2025-06-14T20:18:15.8197880Z   },
+2025-06-14T20:18:15.8198069Z   "github-mcp-server/search_repositories": {
+2025-06-14T20:18:15.8198330Z     "name": "search_repositories",
+2025-06-14T20:18:15.8198599Z     "description": "Search for GitHub repositories",
+2025-06-14T20:18:15.8198868Z     "input_schema": {
+2025-06-14T20:18:15.8199055Z       "type": "object",
+2025-06-14T20:18:15.8199255Z       "properties": {
+2025-06-14T20:18:15.8199429Z         "page": {
+2025-06-14T20:18:15.8199658Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8199939Z           "minimum": 1,
+2025-06-14T20:18:15.8200128Z           "type": "number"
+2025-06-14T20:18:15.8200317Z         },
+2025-06-14T20:18:15.8200473Z         "perPage": {
+2025-06-14T20:18:15.8200744Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8201673Z           "maximum": 100,
+2025-06-14T20:18:15.8201879Z           "minimum": 1,
+2025-06-14T20:18:15.8202074Z           "type": "number"
+2025-06-14T20:18:15.8202271Z         },
+2025-06-14T20:18:15.8202434Z         "query": {
+2025-06-14T20:18:15.8202629Z           "description": "Search query",
+2025-06-14T20:18:15.8202868Z           "type": "string"
+2025-06-14T20:18:15.8203061Z         }
+2025-06-14T20:18:15.8203215Z       },
+2025-06-14T20:18:15.8203367Z       "required": [
+2025-06-14T20:18:15.8203542Z         "query"
+2025-06-14T20:18:15.8203839Z       ]
+2025-06-14T20:18:15.8204000Z     },
+2025-06-14T20:18:15.8204174Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8204369Z       "name": true,
+2025-06-14T20:18:15.8204553Z       "inputsNames": true
+2025-06-14T20:18:15.8204739Z     }
+2025-06-14T20:18:15.8204888Z   },
+2025-06-14T20:18:15.8205063Z   "github-mcp-server/search_users": {
+2025-06-14T20:18:15.8205299Z     "name": "search_users",
+2025-06-14T20:18:15.8205529Z     "description": "Search for GitHub users",
+2025-06-14T20:18:15.8205782Z     "input_schema": {
+2025-06-14T20:18:15.8205970Z       "type": "object",
+2025-06-14T20:18:15.8206159Z       "properties": {
+2025-06-14T20:18:15.8206436Z         "order": {
+2025-06-14T20:18:15.8206625Z           "description": "Sort order",
+2025-06-14T20:18:15.8206850Z           "enum": [
+2025-06-14T20:18:15.8207018Z             "asc",
+2025-06-14T20:18:15.8207184Z             "desc"
+2025-06-14T20:18:15.8207339Z           ],
+2025-06-14T20:18:15.8207507Z           "type": "string"
+2025-06-14T20:18:15.8207702Z         },
+2025-06-14T20:18:15.8207862Z         "page": {
+2025-06-14T20:18:15.8208091Z           "description": "Page number for pagination (min 1)",
+2025-06-14T20:18:15.8208367Z           "minimum": 1,
+2025-06-14T20:18:15.8208558Z           "type": "number"
+2025-06-14T20:18:15.8208746Z         },
+2025-06-14T20:18:15.8208906Z         "perPage": {
+2025-06-14T20:18:15.8209184Z           "description": "Results per page for pagination (min 1, max 100)",
+2025-06-14T20:18:15.8209501Z           "maximum": 100,
+2025-06-14T20:18:15.8209698Z           "minimum": 1,
+2025-06-14T20:18:15.8209886Z           "type": "number"
+2025-06-14T20:18:15.8210071Z         },
+2025-06-14T20:18:15.8210233Z         "q": {
+2025-06-14T20:18:15.8210481Z           "description": "Search query using GitHub users search syntax",
+2025-06-14T20:18:15.8210798Z           "type": "string"
+2025-06-14T20:18:15.8211226Z         },
+2025-06-14T20:18:15.8211386Z         "sort": {
+2025-06-14T20:18:15.8211590Z           "description": "Sort field by category",
+2025-06-14T20:18:15.8211841Z           "enum": [
+2025-06-14T20:18:15.8212012Z             "followers",
+2025-06-14T20:18:15.8212211Z             "repositories",
+2025-06-14T20:18:15.8212411Z             "joined"
+2025-06-14T20:18:15.8212585Z           ],
+2025-06-14T20:18:15.8212754Z           "type": "string"
+2025-06-14T20:18:15.8212934Z         }
+2025-06-14T20:18:15.8213097Z       },
+2025-06-14T20:18:15.8213257Z       "required": [
+2025-06-14T20:18:15.8213452Z         "q"
+2025-06-14T20:18:15.8213608Z       ]
+2025-06-14T20:18:15.8213753Z     },
+2025-06-14T20:18:15.8213920Z     "safeForTelemetry": {
+2025-06-14T20:18:15.8214121Z       "name": true,
+2025-06-14T20:18:15.8214314Z       "inputsNames": true
+2025-06-14T20:18:15.8214503Z     }
+2025-06-14T20:18:15.8214646Z   }
+2025-06-14T20:18:15.8214805Z }
+2025-06-14T20:18:15.8215096Z Tool configuration written to /home/runner/work/_temp/mcp-server/mcp-config.json
+2025-06-14T20:18:15.8215565Z MCP Tool server listening on http://localhost:2301
+2025-06-14T20:18:15.8215895Z MCP Tool server started successfully
+2025-06-14T20:18:19.8322925Z MCP servers are ready.
+2025-06-14T20:18:19.8323436Z Ending MCP step
+2025-06-14T20:18:24.8413084Z ##[group]Run echo "Processing requests..." && \
+2025-06-14T20:18:24.8413464Z [36;1mecho "Processing requests..." && \[0m
+2025-06-14T20:18:24.8413979Z [36;1m"/home/runner/work/_temp/***-action-main/ebpf/launch.sh" \[0m
+2025-06-14T20:18:24.8414613Z [36;1m  "/home/runner/work/_temp/ghcca-node/node/bin/node /home/runner/work/_temp/***-action-main/dist/index.js" \[0m
+2025-06-14T20:18:24.8415130Z [36;1m  "/home/runner/work/_temp/runtime-logs" \[0m
+2025-06-14T20:18:24.8415401Z [36;1m  "false"[0m
+2025-06-14T20:18:24.8467532Z shell: /usr/bin/bash -e {0}
+2025-06-14T20:18:24.8467769Z env:
+2025-06-14T20:18:24.8468138Z   GITHUB_TOKEN: ***
+2025-06-14T20:18:24.8468472Z   GITHUB_COPILOT_API_TOKEN: ***
+2025-06-14T20:18:24.8468764Z   GITHUB_COPILOT_INTEGRATION_ID: ***
+2025-06-14T20:18:24.8469035Z   COPILOT_AGENT_FIREWALL_ENABLED: true
+2025-06-14T20:18:24.8490015Z   COPILOT_AGENT_FIREWALL_ALLOW_LIST: localhost,https://github.com/,githubusercontent.com,https://raw.githubusercontent.com/,https://objects.githubusercontent.com/,https://codeload.github.com/,https://uploads.github.com/user-attachments/assets/,https://api.github.com/internal/user-attachments/assets/,https://github.githubassets.com/assets,https://*.githubusercontent.com,https://uploads.github.com,172.18.0.1,168.63.129.16,host.docker.internal,https://lfs.github.com/,https://github-cloud.githubusercontent.com/,https://github-cloud.s3.amazonaws.com/,https://api.githubcopilot.com/,https://api.githubcopilot.com/,https://npmjs.org/,https://npmjs.com/,https://registry.npmjs.com/,https://registry.npmjs.org/,https://skimdb.npmjs.com/,https://npm.pkg.github.com/,https://api.npms.io/,https://nodejs.org/,https://yarnpkg.com/,https://registry.yarnpkg.com/,https://repo.yarnpkg.com/,deb.nodesource.com,https://get.pnpm.io/,https://bun.sh,https://deno.land/,https://registry.bower.io/,https://pypi.python.org/,https://pypi.org/,https://pip.pypa.io/,https://pythonhosted.org/,https://files.pythonhosted.org/,https://bootstrap.pypa.io/,https://conda.binstar.org/,https://conda.anaconda.org/,https://binstar.org/,https://anaconda.org/,https://download.pytorch.org/,https://repo.continuum.io/,https://repo.anaconda.com/,https://nuget.org/,https://dist.nuget.org/,https://api.nuget.org/,https://nuget.pkg.github.com/,https://dotnet.microsoft.com/,https://pkgs.dev.azure.com/,https://builds.dotnet.microsoft.com/,https://dotnetcli.blob.core.windows.net/,https://nugetregistryv2prod.blob.core.windows.net/,https://azuresearch-usnc.nuget.org/,https://azuresearch-ussc.nuget.org/,https://dc.services.visualstudio.com/,https://dot.net,https://dotnetcli.azureedge.net/,https://ci.dot.net/,https://www.microsoft.com/,http://www.microsoft.com/pkiops/crl/,https://rubygems.org/,https://api.rubygems.org/,https://rubygems.pkg.github.com/,https://bundler.rubygems.org/,https://gems.rubyforge.org/,https://gems.rubyonrails.org/,https://index.rubygems.org/,https://cache.ruby-lang.org/,rvm.io,https://json-schema.org/,https://json.schemastore.org/,https://www.java.com/,https://jdk.java.net/,https://api.adoptium.net/,https://adoptium.net/,https://search.maven.org/,https://maven.apache.org/,https://repo.maven.apache.org/,https://repo1.maven.org/,https://repo.maven.apache.org/,https://maven.pkg.github.com/,https://maven-central.storage-download.googleapis.com/,https://maven.google.com,https://maven.oracle.com/,https://jcenter.bintray.com/,https://oss.sonatype.org/,https://repo.spring.io/,https://gradle.org/,https://services.gradle.org/,https://plugins.gradle.org/,https://plugins-artifacts.gradle.org,https://repo.grails.org/,https://download.eclipse.org/,https://download.oracle.com/,https://crates.io/,https://index.crates.io/,https://static.crates.io/,https://sh.rustup.rs/,https://static.rust-lang.org/,https://go.dev/,https://golang.org/,https://proxy.golang.org/,https://sum.golang.org/,https://pkg.go.dev/,https://goproxy.io/,https://storage.googleapis.com/proxy-golang-org-prod/,https://download.swift.org/,https://swift.org/,https://cocoapods.org/,https://cdn.cocoapods.org/,https://cpan.org/,https://www.cpan.org/,https://metacpan.org/,https://cpan.metacpan.org/,https://repo.packagist.org/,https://packagist.org/,https://getcomposer.org/,https://haskell.org/,hackage.haskell.org,https://get-ghcup.haskell.org/,https://downloads.haskell.org/,https://pub.dev/,https://pub.dartlang.org/,https://storage.googleapis.com/pub-packages/,https://storage.googleapis.com/dart-archive/,https://ghcr.io/,https://registry.hub.docker.com/,docker.io,docker.com,https://production.cloudflare.docker.com/,https://dl.k8s.io/,https://pkgs.k8s.io/,https://quay.io/,https://mcr.microsoft.com/,https://gcr.io/,https://public.ecr.aws/,https://auth.docker.io/,archive.ubuntu.com,security.ubuntu.com,ppa.launchpad.net,keyserver.ubuntu.com,deb.debian.org,security.debian.org,packages.debian.org,keyring.debian.org,debian.map.fastlydns.net,apt.llvm.org,packagecloud.io,packages.cloud.google.com,https://dl.fedoraproject.org/,https://mirrors.fedoraproject.org/,https://download.fedoraproject.org/,https://mirror.centos.org/,https://vault.centos.org/,https://dl-cdn.alpinelinux.org/,https://pkg.alpinelinux.org/,https://mirror.archlinux.org/,https://archlinux.org/,https://download.opensuse.org/,https://cdn.redhat.com/,packages.microsoft.com,azure.archive.ubuntu.com,https://releases.hashicorp.com/,https://apt.releases.hashicorp.com/,https://yum.releases.hashicorp.com/,https://registry.terraform.io/,https://playwright.download.prss.microsoft.com/,https://cdn.playwright.dev/,https://playwright.azureedge.net/,https://playwright-akamai.azureedge.net/,https://playwright-verizon.azureedge.net/,https://oneocsp.microsoft.com/,crl3.digicert.com,crl4.digicert.com,ocsp.digicert.com,ts-crl.ws.symantec.com,ts-ocsp.ws.symantec.com,crl.geotrust.com,ocsp.geotrust.com,crl.thawte.com,ocsp.thawte.com,crl.verisign.com,ocsp.verisign.com,crl.globalsign.com,ocsp.globalsign.com,crls.ssl.com,ocsp.ssl.com,crl.identrust.com,ocsp.identrust.com,crl.sectigo.com,ocsp.sectigo.com,crl.usertrust.com,ocsp.usertrust.com,s.symcb.com,s.symcd.com,https://github.com,github.com,api.github.com,install.python-poetry.org
+2025-06-14T20:18:24.8509998Z   COPILOT_AGENT_DEBUG: false
+2025-06-14T20:18:24.8510226Z   COPILOT_MCP_ENABLED: true
+2025-06-14T20:18:24.8510530Z   COPILOT_AGENT_MCP_SERVER_TEMP: /home/runner/work/_temp/mcp-server
+2025-06-14T20:18:24.8511197Z   BLACKBIRD_MODE: initial-search
+2025-06-14T20:18:24.8511488Z   COPILOT_AGENT_INJECTED_SECRET_NAMES: 
+2025-06-14T20:18:24.8512004Z   CPD_SAVE_TRAJECTORY_OUTPUT: /home/runner/work/_temp/***-action-main/dist/trajectory.md
+2025-06-14T20:18:24.8512428Z   COPILOT_AGENT_ONLINE_EVALUATION_DISABLED: false
+2025-06-14T20:18:24.8512799Z   COPILOT_FEATURE_FLAGS: copilot_swe_agent_firewall_enabled_by_default
+2025-06-14T20:18:24.8513122Z ##[endgroup]
+2025-06-14T20:18:24.8581371Z Processing requests...
+2025-06-14T20:18:24.8630782Z Launcher version: ee5ddd4def1681a9c3df7f5d9b486ce9360c11e3, 0.0.32, 1.4.4
+2025-06-14T20:18:24.8679059Z ==============================
+2025-06-14T20:18:24.8679437Z Allow list
+2025-06-14T20:18:24.8679738Z ----
+2025-06-14T20:18:24.8680055Z localhost
+2025-06-14T20:18:24.8680394Z https://github.com/
+2025-06-14T20:18:24.8680740Z githubusercontent.com
+2025-06-14T20:18:24.8681294Z https://raw.githubusercontent.com/
+2025-06-14T20:18:24.8681642Z https://objects.githubusercontent.com/
+2025-06-14T20:18:24.8681961Z https://codeload.github.com/
+2025-06-14T20:18:24.8682284Z https://uploads.github.com/user-attachments/assets/
+2025-06-14T20:18:24.8682679Z https://api.github.com/internal/user-attachments/assets/
+2025-06-14T20:18:24.8683043Z https://github.githubassets.com/assets
+2025-06-14T20:18:24.8683367Z https://*.githubusercontent.com
+2025-06-14T20:18:24.8683635Z https://uploads.github.com
+2025-06-14T20:18:24.8683865Z 172.18.0.1
+2025-06-14T20:18:24.8684035Z 168.63.129.16
+2025-06-14T20:18:24.8684224Z host.docker.internal
+2025-06-14T20:18:24.8684444Z https://lfs.github.com/
+2025-06-14T20:18:24.8684724Z https://github-cloud.githubusercontent.com/
+2025-06-14T20:18:24.8685132Z https://github-cloud.s3.amazonaws.com/
+2025-06-14T20:18:24.8685639Z https://api.githubcopilot.com/
+2025-06-14T20:18:24.8686002Z https://api.githubcopilot.com/
+2025-06-14T20:18:24.8686264Z https://npmjs.org/
+2025-06-14T20:18:24.8686474Z https://npmjs.com/
+2025-06-14T20:18:24.8686704Z https://registry.npmjs.com/
+2025-06-14T20:18:24.8686964Z https://registry.npmjs.org/
+2025-06-14T20:18:24.8687210Z https://skimdb.npmjs.com/
+2025-06-14T20:18:24.8687465Z https://npm.pkg.github.com/
+2025-06-14T20:18:24.8687712Z https://api.npms.io/
+2025-06-14T20:18:24.8687933Z https://nodejs.org/
+2025-06-14T20:18:24.8688154Z https://yarnpkg.com/
+2025-06-14T20:18:24.8688392Z https://registry.yarnpkg.com/
+2025-06-14T20:18:24.8688661Z https://repo.yarnpkg.com/
+2025-06-14T20:18:24.8688895Z deb.nodesource.com
+2025-06-14T20:18:24.8689105Z https://get.pnpm.io/
+2025-06-14T20:18:24.8689322Z https://bun.sh
+2025-06-14T20:18:24.8689520Z https://deno.land/
+2025-06-14T20:18:24.8689743Z https://registry.bower.io/
+2025-06-14T20:18:24.8690005Z https://pypi.python.org/
+2025-06-14T20:18:24.8690244Z https://pypi.org/
+2025-06-14T20:18:24.8690466Z https://pip.pypa.io/
+2025-06-14T20:18:24.8690699Z https://pythonhosted.org/
+2025-06-14T20:18:24.8691293Z https://files.pythonhosted.org/
+2025-06-14T20:18:24.8691587Z https://bootstrap.pypa.io/
+2025-06-14T20:18:24.8691858Z https://conda.binstar.org/
+2025-06-14T20:18:24.8692122Z https://conda.anaconda.org/
+2025-06-14T20:18:24.8692370Z https://binstar.org/
+2025-06-14T20:18:24.8692590Z https://anaconda.org/
+2025-06-14T20:18:24.8692846Z https://download.pytorch.org/
+2025-06-14T20:18:24.8693121Z https://repo.continuum.io/
+2025-06-14T20:18:24.8693511Z https://repo.anaconda.com/
+2025-06-14T20:18:24.8693749Z https://nuget.org/
+2025-06-14T20:18:24.8693976Z https://dist.nuget.org/
+2025-06-14T20:18:24.8694205Z https://api.nuget.org/
+2025-06-14T20:18:24.8694451Z https://nuget.pkg.github.com/
+2025-06-14T20:18:24.8694728Z https://dotnet.microsoft.com/
+2025-06-14T20:18:24.8694993Z https://pkgs.dev.azure.com/
+2025-06-14T20:18:24.8695267Z https://builds.dotnet.microsoft.com/
+2025-06-14T20:18:24.8695607Z https://dotnetcli.blob.core.windows.net/
+2025-06-14T20:18:24.8695995Z https://nugetregistryv2prod.blob.core.windows.net/
+2025-06-14T20:18:24.8696377Z https://azuresearch-usnc.nuget.org/
+2025-06-14T20:18:24.8696688Z https://azuresearch-ussc.nuget.org/
+2025-06-14T20:18:24.8697033Z https://dc.services.visualstudio.com/
+2025-06-14T20:18:24.8697322Z https://dot.net
+2025-06-14T20:18:24.8697555Z https://dotnetcli.azureedge.net/
+2025-06-14T20:18:24.8697820Z https://ci.dot.net/
+2025-06-14T20:18:24.8698045Z https://www.microsoft.com/
+2025-06-14T20:18:24.8698315Z http://www.microsoft.com/pkiops/crl/
+2025-06-14T20:18:24.8698570Z https://rubygems.org/
+2025-06-14T20:18:24.8698795Z https://api.rubygems.org/
+2025-06-14T20:18:24.8699049Z https://rubygems.pkg.github.com/
+2025-06-14T20:18:24.8699320Z https://bundler.rubygems.org/
+2025-06-14T20:18:24.8699573Z https://gems.rubyforge.org/
+2025-06-14T20:18:24.8699827Z https://gems.rubyonrails.org/
+2025-06-14T20:18:24.8700071Z https://index.rubygems.org/
+2025-06-14T20:18:24.8700321Z https://cache.ruby-lang.org/
+2025-06-14T20:18:24.8700541Z rvm.io
+2025-06-14T20:18:24.8700723Z https://json-schema.org/
+2025-06-14T20:18:24.8701156Z https://json.schemastore.org/
+2025-06-14T20:18:24.8701392Z https://www.java.com/
+2025-06-14T20:18:24.8701599Z https://jdk.java.net/
+2025-06-14T20:18:24.8701814Z https://api.adoptium.net/
+2025-06-14T20:18:24.8702037Z https://adoptium.net/
+2025-06-14T20:18:24.8702249Z https://search.maven.org/
+2025-06-14T20:18:24.8702474Z https://maven.apache.org/
+2025-06-14T20:18:24.8702714Z https://repo.maven.apache.org/
+2025-06-14T20:18:24.8702975Z https://repo1.maven.org/
+2025-06-14T20:18:24.8703210Z https://repo.maven.apache.org/
+2025-06-14T20:18:24.8703467Z https://maven.pkg.github.com/
+2025-06-14T20:18:24.8703810Z https://maven-central.storage-download.googleapis.com/
+2025-06-14T20:18:24.8704164Z https://maven.google.com
+2025-06-14T20:18:24.8704393Z https://maven.oracle.com/
+2025-06-14T20:18:24.8704635Z https://jcenter.bintray.com/
+2025-06-14T20:18:24.8704882Z https://oss.sonatype.org/
+2025-06-14T20:18:24.8705226Z https://repo.spring.io/
+2025-06-14T20:18:24.8705443Z https://gradle.org/
+2025-06-14T20:18:24.8705661Z https://services.gradle.org/
+2025-06-14T20:18:24.8705909Z https://plugins.gradle.org/
+2025-06-14T20:18:24.8706177Z https://plugins-artifacts.gradle.org
+2025-06-14T20:18:24.8706458Z https://repo.grails.org/
+2025-06-14T20:18:24.8706689Z https://download.eclipse.org/
+2025-06-14T20:18:24.8706942Z https://download.oracle.com/
+2025-06-14T20:18:24.8707171Z https://crates.io/
+2025-06-14T20:18:24.8707386Z https://index.crates.io/
+2025-06-14T20:18:24.8707611Z https://static.crates.io/
+2025-06-14T20:18:24.8707832Z https://sh.rustup.rs/
+2025-06-14T20:18:24.8708063Z https://static.rust-lang.org/
+2025-06-14T20:18:24.8708295Z https://go.dev/
+2025-06-14T20:18:24.8708497Z https://golang.org/
+2025-06-14T20:18:24.8708722Z https://proxy.golang.org/
+2025-06-14T20:18:24.8708953Z https://sum.golang.org/
+2025-06-14T20:18:24.8709174Z https://pkg.go.dev/
+2025-06-14T20:18:24.8709374Z https://goproxy.io/
+2025-06-14T20:18:24.8709661Z https://storage.googleapis.com/proxy-golang-org-prod/
+2025-06-14T20:18:24.8710005Z https://download.swift.org/
+2025-06-14T20:18:24.8710236Z https://swift.org/
+2025-06-14T20:18:24.8710433Z https://cocoapods.org/
+2025-06-14T20:18:24.8710659Z https://cdn.cocoapods.org/
+2025-06-14T20:18:24.8711192Z https://cpan.org/
+2025-06-14T20:18:24.8711399Z https://www.cpan.org/
+2025-06-14T20:18:24.8711610Z https://metacpan.org/
+2025-06-14T20:18:24.8711820Z https://cpan.metacpan.org/
+2025-06-14T20:18:24.8712192Z https://repo.packagist.org/
+2025-06-14T20:18:24.8712434Z https://packagist.org/
+2025-06-14T20:18:24.8712658Z https://getcomposer.org/
+2025-06-14T20:18:24.8712884Z https://haskell.org/
+2025-06-14T20:18:24.8713081Z hackage.haskell.org
+2025-06-14T20:18:24.8713300Z https://get-ghcup.haskell.org/
+2025-06-14T20:18:24.8713567Z https://downloads.haskell.org/
+2025-06-14T20:18:24.8713807Z https://pub.dev/
+2025-06-14T20:18:24.8714015Z https://pub.dartlang.org/
+2025-06-14T20:18:24.8714290Z https://storage.googleapis.com/pub-packages/
+2025-06-14T20:18:24.8714618Z https://storage.googleapis.com/dart-archive/
+2025-06-14T20:18:24.8714897Z https://ghcr.io/
+2025-06-14T20:18:24.8715121Z https://registry.hub.docker.com/
+2025-06-14T20:18:24.8715361Z docker.io
+2025-06-14T20:18:24.8715516Z docker.com
+2025-06-14T20:18:24.8715741Z https://production.cloudflare.docker.com/
+2025-06-14T20:18:24.8716031Z https://dl.k8s.io/
+2025-06-14T20:18:24.8716232Z https://pkgs.k8s.io/
+2025-06-14T20:18:24.8716434Z https://quay.io/
+2025-06-14T20:18:24.8716641Z https://mcr.microsoft.com/
+2025-06-14T20:18:24.8716864Z https://gcr.io/
+2025-06-14T20:18:24.8717064Z https://public.ecr.aws/
+2025-06-14T20:18:24.8717290Z https://auth.docker.io/
+2025-06-14T20:18:24.8717492Z archive.ubuntu.com
+2025-06-14T20:18:24.8717673Z security.ubuntu.com
+2025-06-14T20:18:24.8717866Z ppa.launchpad.net
+2025-06-14T20:18:24.8718066Z keyserver.ubuntu.com
+2025-06-14T20:18:24.8718259Z deb.debian.org
+2025-06-14T20:18:24.8718436Z security.debian.org
+2025-06-14T20:18:24.8718624Z packages.debian.org
+2025-06-14T20:18:24.8718813Z keyring.debian.org
+2025-06-14T20:18:24.8719013Z debian.map.fastlydns.net
+2025-06-14T20:18:24.8719220Z apt.llvm.org
+2025-06-14T20:18:24.8719399Z packagecloud.io
+2025-06-14T20:18:24.8719592Z packages.cloud.google.com
+2025-06-14T20:18:24.8719833Z https://dl.fedoraproject.org/
+2025-06-14T20:18:24.8720108Z https://mirrors.fedoraproject.org/
+2025-06-14T20:18:24.8720407Z https://download.fedoraproject.org/
+2025-06-14T20:18:24.8720686Z https://mirror.centos.org/
+2025-06-14T20:18:24.8721119Z https://vault.centos.org/
+2025-06-14T20:18:24.8721362Z https://dl-cdn.alpinelinux.org/
+2025-06-14T20:18:24.8721633Z https://pkg.alpinelinux.org/
+2025-06-14T20:18:24.8721888Z https://mirror.archlinux.org/
+2025-06-14T20:18:24.8722129Z https://archlinux.org/
+2025-06-14T20:18:24.8722361Z https://download.opensuse.org/
+2025-06-14T20:18:24.8722601Z https://cdn.redhat.com/
+2025-06-14T20:18:24.8722822Z packages.microsoft.com
+2025-06-14T20:18:24.8723033Z azure.archive.ubuntu.com
+2025-06-14T20:18:24.8723385Z https://releases.hashicorp.com/
+2025-06-14T20:18:24.8723665Z https://apt.releases.hashicorp.com/
+2025-06-14T20:18:24.8723945Z https://yum.releases.hashicorp.com/
+2025-06-14T20:18:24.8724221Z https://registry.terraform.io/
+2025-06-14T20:18:24.8724563Z https://playwright.download.prss.microsoft.com/
+2025-06-14T20:18:24.8724901Z https://cdn.playwright.dev/
+2025-06-14T20:18:24.8725162Z https://playwright.azureedge.net/
+2025-06-14T20:18:24.8725459Z https://playwright-akamai.azureedge.net/
+2025-06-14T20:18:24.8725803Z https://playwright-verizon.azureedge.net/
+2025-06-14T20:18:24.8726110Z https://oneocsp.microsoft.com/
+2025-06-14T20:18:24.8726343Z crl3.digicert.com
+2025-06-14T20:18:24.8726526Z crl4.digicert.com
+2025-06-14T20:18:24.8726713Z ocsp.digicert.com
+2025-06-14T20:18:24.8726898Z ts-crl.ws.symantec.com
+2025-06-14T20:18:24.8727107Z ts-ocsp.ws.symantec.com
+2025-06-14T20:18:24.8727309Z crl.geotrust.com
+2025-06-14T20:18:24.8727491Z ocsp.geotrust.com
+2025-06-14T20:18:24.8727672Z crl.thawte.com
+2025-06-14T20:18:24.8727856Z ocsp.thawte.com
+2025-06-14T20:18:24.8728037Z crl.verisign.com
+2025-06-14T20:18:24.8728219Z ocsp.verisign.com
+2025-06-14T20:18:24.8728404Z crl.globalsign.com
+2025-06-14T20:18:24.8728593Z ocsp.globalsign.com
+2025-06-14T20:18:24.8728771Z crls.ssl.com
+2025-06-14T20:18:24.8728941Z ocsp.ssl.com
+2025-06-14T20:18:24.8729110Z crl.identrust.com
+2025-06-14T20:18:24.8729295Z ocsp.identrust.com
+2025-06-14T20:18:24.8729476Z crl.sectigo.com
+2025-06-14T20:18:24.8729647Z ocsp.sectigo.com
+2025-06-14T20:18:24.8729945Z crl.usertrust.com
+2025-06-14T20:18:24.8730127Z ocsp.usertrust.com
+2025-06-14T20:18:24.8730304Z s.symcb.com
+2025-06-14T20:18:24.8730469Z s.symcd.com
+2025-06-14T20:18:24.8730637Z https://github.com
+2025-06-14T20:18:24.8730977Z github.com
+2025-06-14T20:18:24.8731275Z api.github.com
+2025-06-14T20:18:24.8731489Z install.python-poetry.org
+2025-06-14T20:18:24.8731711Z pkrvmxyh4eaekms
+2025-06-14T20:18:24.8731875Z ----
+2025-06-14T20:18:30.6849555Z Responding to feedback: 45469701-1001177243-bfc4f3b5-6466-480a-964b-1729558ddb51 from sgbaird/opentrons-python-packages@copilot/fix-11
+2025-06-14T20:18:30.6851186Z Problem statement:
+2025-06-14T20:18:30.6851493Z 
+2025-06-14T20:18:30.6851667Z ----
+2025-06-14T20:18:30.6852685Z *This section includes details on the pull request with code changes you have already submitted to fix the problem above.*
+2025-06-14T20:18:30.6853654Z 
+2025-06-14T20:18:30.6853916Z <pr_title>
+2025-06-14T20:18:30.6854617Z Simplify CI: consolidate bloated workflows and add immediate wheel access
+2025-06-14T20:18:30.6855471Z </pr_title>
+2025-06-14T20:18:30.6855704Z 
+2025-06-14T20:18:30.6855907Z <pr_description>
+2025-06-14T20:18:30.6856917Z This PR addresses the CI complexity and reliability issues by dramatically simplifying the workflow structure and providing multiple access methods for package installation.
+2025-06-14T20:18:30.6857759Z 
+2025-06-14T20:18:30.6857905Z ## Problem
+2025-06-14T20:18:30.6858370Z The repository had **6 CI workflow files** with significant redundancy:
+2025-06-14T20:18:30.6858960Z - `build-artifacts.yaml`
+2025-06-14T20:18:30.6859381Z - `build-packages-dev.yaml` 
+2025-06-14T20:18:30.6859802Z - `build-packages-prod.yaml`
+2025-06-14T20:18:30.6860247Z - `build-packages-staging.yaml`
+2025-06-14T20:18:30.6860672Z - `create-release.yaml`
+2025-06-14T20:18:30.6861360Z - `tools.yaml`
+2025-06-14T20:18:30.6861590Z 
+2025-06-14T20:18:30.6862136Z This created maintenance complexity and CI reliability issues, making it difficult to successfully build and access wheel artifacts.
+2025-06-14T20:18:30.6862802Z 
+2025-06-14T20:18:30.6862947Z ## Solution
+2025-06-14T20:18:30.6863135Z 
+2025-06-14T20:18:30.6863308Z ### 1. Consolidated CI Workflows
+2025-06-14T20:18:30.6863812Z **Reduced from 6 to 3 focused workflows** (50% reduction):
+2025-06-14T20:18:30.6864143Z 
+2025-06-14T20:18:30.6864831Z - **`build-and-deploy.yaml`**: Unified workflow that builds once and deploys to appropriate environments based on triggers
+2025-06-14T20:18:30.6866383Z - **`commit-wheels.yaml`**: Fallback workflow that commits wheels directly to the repository when CI builds succeed
+2025-06-14T20:18:30.6867592Z - **`tools.yaml`**: Unchanged, handles build tools and container management
+2025-06-14T20:18:30.6868049Z 
+2025-06-14T20:18:30.6868240Z ### 2. Multiple Installation Methods
+2025-06-14T20:18:30.6868731Z Users can now install packages via:
+2025-06-14T20:18:30.6869052Z 
+2025-06-14T20:18:30.6869213Z **One-line installer:**
+2025-06-14T20:18:30.6869608Z ```bash
+2025-06-14T20:18:30.6870435Z curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
+2025-06-14T20:18:30.6871571Z ```
+2025-06-14T20:18:30.6871756Z 
+2025-06-14T20:18:30.6871929Z **Direct wheel download:**
+2025-06-14T20:18:30.6872329Z ```bash
+2025-06-14T20:18:30.6873347Z curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:18:30.6874615Z pip install /tmp/pandas.whl
+2025-06-14T20:18:30.6875043Z ```
+2025-06-14T20:18:30.6875248Z 
+2025-06-14T20:18:30.6875518Z **CI artifacts and releases** (when CI runs successfully)
+2025-06-14T20:18:30.6875953Z 
+2025-06-14T20:18:30.6876132Z ### 3. Immediate Package Access
+2025-06-14T20:18:30.6877132Z Added pre-built wheel files directly to the repository in the `wheels/` directory, so packages are immediately available even if CI fails.
+2025-06-14T20:18:30.6878000Z 
+2025-06-14T20:18:30.6878165Z ## Key Benefits
+2025-06-14T20:18:30.6878643Z - **Simplified maintenance**: 50% fewer workflow files
+2025-06-14T20:18:30.6879866Z - **Eliminated redundancy**: Single build logic instead of duplicated across multiple files
+2025-06-14T20:18:30.6881056Z - **Improved reliability**: Multiple fallback access methods
+2025-06-14T20:18:30.6881911Z - **Better user experience**: Immediate access to packages via curl/pip as requested
+2025-06-14T20:18:30.6882862Z - **Clear documentation**: Added `CI-SIMPLIFICATION.md` explaining the changes
+2025-06-14T20:18:30.6883409Z 
+2025-06-14T20:18:30.6884059Z The solution directly addresses the "bloated" CI concern while ensuring reliable package access through multiple channels.
+2025-06-14T20:18:30.6884873Z 
+2025-06-14T20:18:30.6885037Z Fixes #11.
+2025-06-14T20:18:30.6885242Z 
+2025-06-14T20:18:30.6885248Z 
+2025-06-14T20:18:30.6885411Z </pr_description>
+2025-06-14T20:18:30.6885658Z 
+2025-06-14T20:18:30.6885919Z ## Comments on the PR (you are @copilot in this section)
+2025-06-14T20:18:30.6886343Z 
+2025-06-14T20:18:30.6886494Z <comments>
+2025-06-14T20:18:30.6886708Z 
+2025-06-14T20:18:30.6886877Z <pr_comments>
+2025-06-14T20:18:30.6887097Z 
+2025-06-14T20:18:30.6887251Z <comment_new>
+2025-06-14T20:18:30.6887643Z <comment_id>2973140411</comment_id>
+2025-06-14T20:18:30.6888241Z <author>@sgbaird</author>
+2025-06-14T20:18:30.6889650Z @copilot I was also hoping you would commit the real wheel file directly to the repository (i.e., you yourself, though the CI is fine additionally too, supposing it works), at least assuming it's under 100 MB.
+2025-06-14T20:18:30.6890514Z </comment_new>
+2025-06-14T20:18:30.6890706Z 
+2025-06-14T20:18:30.6891043Z </pr_comments>
+2025-06-14T20:18:30.6891224Z 
+2025-06-14T20:18:30.6891378Z </comments>
+2025-06-14T20:18:30.6891559Z 
+2025-06-14T20:18:30.6891701Z ----
+2025-06-14T20:18:30.6892225Z The last **4** git commits in this branch are the changes you have made so far. Use those as your change commit history.
+2025-06-14T20:18:30.6892954Z Using Git URL: https://github.com/sgbaird/opentrons-python-packages
+2025-06-14T20:18:31.7123629Z Cloning into '/home/runner/work/opentrons-python-packages/opentrons-python-packages'...
+2025-06-14T20:18:31.7124089Z 
+2025-06-14T20:18:31.9531790Z  
+2025-06-14T20:18:31.9559429Z  
+2025-06-14T20:18:31.9564159Z git rev-parse HEAD
+2025-06-14T20:18:31.9671762Z   11bcc463009526e79087233e87a722baf56fe4f4
+2025-06-14T20:18:31.9672623Z   
+2025-06-14T20:18:31.9821767Z MCP transport enabled
+2025-06-14T20:18:31.9824251Z Loading tools from config file: /home/runner/work/_temp/mcp-server/mcp-config.json
+2025-06-14T20:18:32.6703319Z Using 0 image messages
+2025-06-14T20:18:40.8791980Z 
+2025-06-14T20:18:40.8792914Z copilot: I'll start by analyzing the comment and understanding what's being requested.
+2025-06-14T20:18:41.2694218Z 
+2025-06-14T20:18:41.2694760Z function:
+2025-06-14T20:18:41.2695271Z   name: think
+2025-06-14T20:18:41.2696178Z   args:
+2025-06-14T20:18:41.2697268Z     thought: |
+2025-06-14T20:18:41.2698350Z       Looking at the comment from @sgbaird:
+2025-06-14T20:18:41.2699153Z       
+2025-06-14T20:18:41.2700811Z       "@copilot I was also hoping you would commit the real wheel file directly to the repository (i.e., you yourself, though the CI is fine additionally too, supposing it works), at least assuming it's under 100 MB."
+2025-06-14T20:18:41.2702588Z       
+2025-06-14T20:18:41.2703174Z       This is a clear request for me to:
+2025-06-14T20:18:41.2703943Z       1. Actually build and commit real wheel files to the repository 
+2025-06-14T20:18:41.2704870Z       2. Put them in the wheels/ directory that I mentioned in the PR description
+2025-06-14T20:18:41.2705733Z       3. Do this myself (not just rely on CI)
+2025-06-14T20:18:41.2707056Z       4. Make sure the wheel files are under 100 MB
+2025-06-14T20:18:41.2708376Z       
+2025-06-14T20:18:41.2710811Z       From the PR description, it seems I mentioned adding "pre-built wheel files directly to the repository in the `wheels/` directory" but apparently I haven't actually done this yet - I may have just created the infrastructure/workflows but not the actual wheel files.
+2025-06-14T20:18:41.2713241Z       
+2025-06-14T20:18:41.2714574Z       Let me first explore the repository to understand:
+2025-06-14T20:18:41.2715437Z       1. What the current state is
+2025-06-14T20:18:41.2716010Z       2. What packages need to be built into wheels
+2025-06-14T20:18:41.2716807Z       3. How to build them
+2025-06-14T20:18:41.2717471Z       4. Where to put them
+2025-06-14T20:18:41.2718968Z       5. What the last 4 commits I made actually contain
+2025-06-14T20:18:41.2722241Z       
+2025-06-14T20:18:41.2723271Z       Then I need to actually build real wheel files and commit them to the repository.
+2025-06-14T20:18:41.2724240Z   result: Thought logged
+2025-06-14T20:18:41.8309302Z Using 0 image messages
+2025-06-14T20:18:44.9963764Z 
+2025-06-14T20:18:44.9964501Z copilot: Let me explore the repository structure and understand the current state:
+2025-06-14T20:18:45.4984857Z 
+2025-06-14T20:18:45.4985709Z function:
+2025-06-14T20:18:45.4986165Z   name: str_replace_editor
+2025-06-14T20:18:45.4988092Z   args:
+2025-06-14T20:18:45.4988623Z     command: view
+2025-06-14T20:18:45.4989267Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages
+2025-06-14T20:18:45.4989893Z   result: |
+2025-06-14T20:18:45.4990098Z     .git
+2025-06-14T20:18:45.4990287Z     .github
+2025-06-14T20:18:45.4990477Z     .gitignore
+2025-06-14T20:18:45.4990708Z     CI-SIMPLIFICATION.md
+2025-06-14T20:18:45.4991157Z     LICENSE
+2025-06-14T20:18:45.4991350Z     README.md
+2025-06-14T20:18:45.4991564Z     build-packages
+2025-06-14T20:18:45.4991805Z     install.sh
+2025-06-14T20:18:45.4992011Z     packages
+2025-06-14T20:18:45.4992204Z     test.c
+2025-06-14T20:18:45.4992401Z     tools
+2025-06-14T20:18:45.4992594Z     wheels
+2025-06-14T20:18:46.2433492Z Using 0 image messages
+2025-06-14T20:18:50.0198287Z 
+2025-06-14T20:18:50.0200648Z function:
+2025-06-14T20:18:50.0201202Z   name: bash
+2025-06-14T20:18:50.0201530Z   args:
+2025-06-14T20:18:50.0201844Z     async: false
+2025-06-14T20:18:50.0202797Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git log --oneline -4
+2025-06-14T20:18:50.0203893Z     sessionId: main
+2025-06-14T20:18:50.0204305Z   result: |
+2025-06-14T20:18:50.0205048Z     11bcc46 (HEAD -> copilot/fix-11, origin/copilot/fix-11) Add documentation for CI simplification
+2025-06-14T20:18:50.0206148Z     30b9334 Add pre-built wheel files and install script for immediate use
+2025-06-14T20:18:50.0207073Z     847e34d Simplify CI: consolidate 5 redundant workflows into 2 focused ones
+2025-06-14T20:18:50.0208198Z     867d942 Initial plan for issue
+2025-06-14T20:18:50.0208761Z     <exited with exit code 0>
+2025-06-14T20:18:50.5965140Z Using 0 image messages
+2025-06-14T20:18:53.9048169Z 
+2025-06-14T20:18:53.9048598Z function:
+2025-06-14T20:18:53.9049014Z   name: str_replace_editor
+2025-06-14T20:18:53.9051348Z   args:
+2025-06-14T20:18:53.9051664Z     command: view
+2025-06-14T20:18:53.9052388Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/wheels
+2025-06-14T20:18:53.9053170Z   result: |
+2025-06-14T20:18:53.9053503Z     README.md
+2025-06-14T20:18:53.9053902Z     pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:18:53.9054460Z     prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:18:54.4998986Z Using 0 image messages
+2025-06-14T20:18:57.6096525Z 
+2025-06-14T20:18:57.6097059Z function:
+2025-06-14T20:18:57.6097656Z   name: bash
+2025-06-14T20:18:57.6098008Z   args:
+2025-06-14T20:18:57.6098542Z     async: false
+2025-06-14T20:18:57.6099442Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && ls -la wheels/
+2025-06-14T20:18:57.6100408Z     sessionId: main
+2025-06-14T20:18:57.6100668Z   result: |
+2025-06-14T20:18:57.6101024Z     total 14176
+2025-06-14T20:18:57.6101313Z     drwxr-xr-x 2 runner docker     4096 Jun 14 20:18 .
+2025-06-14T20:18:57.6101727Z     drwxr-xr-x 7 runner docker     4096 Jun 14 20:18 ..
+2025-06-14T20:18:57.6102171Z     -rw-r--r-- 1 runner docker     1443 Jun 14 20:18 README.md
+2025-06-14T20:18:57.6102743Z     -rw-r--r-- 1 runner docker 14498161 Jun 14 20:18 pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:18:57.6103674Z     -rw-r--r-- 1 runner docker       73 Jun 14 20:18 prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:18:57.6104188Z     <exited with exit code 0>
+2025-06-14T20:18:58.1652856Z Using 0 image messages
+2025-06-14T20:19:01.7631259Z 
+2025-06-14T20:19:01.7631614Z function:
+2025-06-14T20:19:01.7632069Z   name: str_replace_editor
+2025-06-14T20:19:01.7632570Z   args:
+2025-06-14T20:19:01.7633150Z     command: view
+2025-06-14T20:19:01.7634042Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/wheels/README.md
+2025-06-14T20:19:01.7634834Z   result: |
+2025-06-14T20:19:01.7635119Z     1.# Pre-built Python Wheels
+2025-06-14T20:19:01.7635563Z     2.
+2025-06-14T20:19:01.7636650Z     3.This directory contains pre-built Python wheel files for arm7hf architecture that can be directly downloaded and installed on OT-2 systems.
+2025-06-14T20:19:01.7637482Z     4.
+2025-06-14T20:19:01.7637736Z     5.## Quick Installation
+2025-06-14T20:19:01.7638050Z     6.
+2025-06-14T20:19:01.7638306Z     7.Download and install directly:
+2025-06-14T20:19:01.7638649Z     8.
+2025-06-14T20:19:01.7638878Z     9.```bash
+2025-06-14T20:19:01.7639142Z     10.# Example: Install prefect
+2025-06-14T20:19:01.7640091Z     11.curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
+2025-06-14T20:19:01.7641212Z     12.pip install /tmp/prefect.whl
+2025-06-14T20:19:01.7641519Z     13.
+2025-06-14T20:19:01.7641748Z     14.# Example: Install pandas
+2025-06-14T20:19:01.7642616Z     15.curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:19:01.7643525Z     16.pip install /tmp/pandas.whl
+2025-06-14T20:19:01.7643823Z     17.```
+2025-06-14T20:19:01.7644032Z     18.
+2025-06-14T20:19:01.7644273Z     19.## Available Packages
+2025-06-14T20:19:01.7644546Z     20.
+2025-06-14T20:19:01.7645115Z     21.- `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf)
+2025-06-14T20:19:01.7646185Z     22.- `prefect-3.3.4-py3-none-any.whl.placeholder` - Prefect wheel (will be generated by CI)
+2025-06-14T20:19:01.7646951Z     23.
+2025-06-14T20:19:01.7647640Z     24.Note: Some wheels are placeholders and will be replaced by actual built wheels when CI runs successfully.
+2025-06-14T20:19:01.7648675Z     25.
+2025-06-14T20:19:01.7649335Z     26.## Purpose
+2025-06-14T20:19:01.7649767Z     27.
+2025-06-14T20:19:01.7651141Z     28.These wheels are provided as a backup when CI-built artifacts are not available or accessible. They are built using the same cross-compilation process as the automated CI system.
+2025-06-14T20:19:01.7652357Z     29.
+2025-06-14T20:19:01.7652657Z     30.## Updating
+2025-06-14T20:19:01.7652962Z     31.
+2025-06-14T20:19:01.7653277Z     32.Wheels in this directory are updated when:
+2025-06-14T20:19:01.7653798Z     33.1. New package versions are added
+2025-06-14T20:19:01.7654389Z     34.2. CI builds complete successfully and produce new wheels
+2025-06-14T20:19:01.7655018Z     35.3. Manual updates are needed for critical fixes
+2025-06-14T20:19:01.7655502Z     36.
+2025-06-14T20:19:01.7655862Z     37.Last updated: Simplified CI implementation
+2025-06-14T20:19:01.7656469Z     38.Built from: Current commit with consolidated CI workflows
+2025-06-14T20:19:02.4157723Z Using 0 image messages
+2025-06-14T20:19:05.2166690Z 
+2025-06-14T20:19:05.2167113Z function:
+2025-06-14T20:19:05.2167611Z   name: str_replace_editor
+2025-06-14T20:19:05.2167983Z   args:
+2025-06-14T20:19:05.2168364Z     command: view
+2025-06-14T20:19:05.2168960Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/packages
+2025-06-14T20:19:05.2169744Z   result: |
+2025-06-14T20:19:05.2170119Z     pandas
+2025-06-14T20:19:05.2170365Z     prefect
+2025-06-14T20:19:05.8712339Z Using 0 image messages
+2025-06-14T20:19:09.8978394Z 
+2025-06-14T20:19:09.8979832Z copilot: I can see that I have a pandas wheel but only a placeholder for prefect. Let me check what packages are supposed to be built and examine the build process:
+2025-06-14T20:19:10.3864236Z 
+2025-06-14T20:19:10.3864719Z function:
+2025-06-14T20:19:10.3865188Z   name: str_replace_editor
+2025-06-14T20:19:10.3865670Z   args:
+2025-06-14T20:19:10.3865950Z     command: view
+2025-06-14T20:19:10.3866658Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/packages/prefect
+2025-06-14T20:19:10.3867433Z   result: 3.3.4
+2025-06-14T20:19:10.8922857Z Using 0 image messages
+2025-06-14T20:19:14.1423897Z 
+2025-06-14T20:19:14.1424278Z function:
+2025-06-14T20:19:14.1424723Z   name: str_replace_editor
+2025-06-14T20:19:14.1425043Z   args:
+2025-06-14T20:19:14.1425509Z     command: view
+2025-06-14T20:19:14.1426360Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/packages/pandas
+2025-06-14T20:19:14.1427302Z   result: 1.5.0
+2025-06-14T20:19:14.7791585Z Using 0 image messages
+2025-06-14T20:19:17.8447577Z 
+2025-06-14T20:19:17.8447869Z function:
+2025-06-14T20:19:17.8448365Z   name: str_replace_editor
+2025-06-14T20:19:17.8449118Z   args:
+2025-06-14T20:19:17.8449632Z     command: view
+2025-06-14T20:19:17.8450728Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/build-packages
+2025-06-14T20:19:17.8452309Z   result: |
+2025-06-14T20:19:17.8453423Z     1.#!/usr/bin/env python3
+2025-06-14T20:19:17.8454863Z     2."""build.py - a script for running builds in this repo
+2025-06-14T20:19:17.8455529Z     3.
+2025-06-14T20:19:17.8456059Z     4.This is a very small wrapper around the build tooling in tools/
+2025-06-14T20:19:17.8456752Z     5.and requires python >=3.7
+2025-06-14T20:19:17.8457213Z     6."""
+2025-06-14T20:19:17.8457568Z     7.
+2025-06-14T20:19:17.8457926Z     8.import sys
+2025-06-14T20:19:17.8458306Z     9.import os
+2025-06-14T20:19:17.8458903Z     10.sys.path.append(os.path.join(os.path.dirname(__file__), 'tools'))
+2025-06-14T20:19:17.8459747Z     11.from builder.host import run_from_cmdline
+2025-06-14T20:19:17.8460369Z     12.
+2025-06-14T20:19:17.8460755Z     13.run_from_cmdline()
+2025-06-14T20:19:17.8461388Z     14.
+2025-06-14T20:19:18.3999625Z Using 0 image messages
+2025-06-14T20:19:21.7561447Z 
+2025-06-14T20:19:21.7561885Z function:
+2025-06-14T20:19:21.7562750Z   name: str_replace_editor
+2025-06-14T20:19:21.7563325Z   args:
+2025-06-14T20:19:21.7564175Z     command: view
+2025-06-14T20:19:21.7565439Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/tools
+2025-06-14T20:19:21.7567086Z   result: |
+2025-06-14T20:19:21.7567632Z     Dockerfile
+2025-06-14T20:19:21.7568220Z     README.md
+2025-06-14T20:19:21.7568686Z     builder
+2025-06-14T20:19:21.7569273Z     poetry.lock
+2025-06-14T20:19:21.7569907Z     pyproject.toml
+2025-06-14T20:19:21.7570520Z     support
+2025-06-14T20:19:21.7571270Z     tests
+2025-06-14T20:19:22.3582633Z Using 0 image messages
+2025-06-14T20:19:26.3962992Z 
+2025-06-14T20:19:26.3963732Z copilot: Let me check if I can use the build system to actually build the prefect wheel:
+2025-06-14T20:19:26.7981326Z 
+2025-06-14T20:19:26.7981778Z function:
+2025-06-14T20:19:26.7982181Z   name: bash
+2025-06-14T20:19:26.7982536Z   args:
+2025-06-14T20:19:26.7983045Z     async: false
+2025-06-14T20:19:26.7984085Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && python build-packages --help
+2025-06-14T20:19:26.7984922Z     sessionId: main
+2025-06-14T20:19:26.7985158Z   result: |
+2025-06-14T20:19:26.7985629Z     usage: build-packages [-h] [--output OUTPUT] [--verbose] [--container-tag CONTAINER_TAG]
+2025-06-14T20:19:26.7986397Z                           [--container-source {build,pull,any}] [--prep-container-only] [--dist-tree-root DIST_TREE_ROOT]
+2025-06-14T20:19:26.7987112Z                           [--build-tree-root BUILD_TREE_ROOT] [--index-tree-root INDEX_TREE_ROOT]
+2025-06-14T20:19:26.7987758Z                           [--index-root-url INDEX_ROOT_URL] [--build-type {packages-only,index-only,both}]
+2025-06-14T20:19:26.7988493Z     
+2025-06-14T20:19:26.7988721Z     Build the packages in this repo.
+2025-06-14T20:19:26.7989024Z     
+2025-06-14T20:19:26.7989224Z     options:
+2025-06-14T20:19:26.7989523Z       -h, --help            show this help message and exit
+2025-06-14T20:19:26.7989907Z       --output OUTPUT, -o OUTPUT
+2025-06-14T20:19:26.7990242Z                             Where to write build logging output (- for stdout)
+2025-06-14T20:19:26.7990644Z       --verbose             Whether verbose output should be written
+2025-06-14T20:19:26.7991226Z       --container-tag CONTAINER_TAG
+2025-06-14T20:19:26.7991529Z                             Container tag to pull. default: main
+2025-06-14T20:19:26.7991856Z       --container-source {build,pull,any}
+2025-06-14T20:19:26.7992330Z                             How to get the build container. build: do not attempt to pull, but build locally. pull: always
+2025-06-14T20:19:26.7992949Z                             pull, and fail if the tag cannot be pulled. any: try to pull, but build if the pull fails.
+2025-06-14T20:19:26.7993570Z                             default: any
+2025-06-14T20:19:26.7994016Z       --prep-container-only
+2025-06-14T20:19:26.7994565Z                             Prepare the container and exit before running the package build.
+2025-06-14T20:19:26.7995192Z       --dist-tree-root DIST_TREE_ROOT
+2025-06-14T20:19:26.7995696Z                             Location for the tree of package distributables
+2025-06-14T20:19:26.7996311Z       --build-tree-root BUILD_TREE_ROOT
+2025-06-14T20:19:26.7996859Z                             Location for the tree of package build areas
+2025-06-14T20:19:26.7997463Z       --index-tree-root INDEX_TREE_ROOT
+2025-06-14T20:19:26.7998055Z                             Location for the generated simple index site
+2025-06-14T20:19:26.7998654Z       --index-root-url INDEX_ROOT_URL
+2025-06-14T20:19:26.7999233Z                             URL of the root of the index to write in URLs
+2025-06-14T20:19:26.7999884Z       --build-type {packages-only,index-only,both}
+2025-06-14T20:19:26.8000600Z                             Just build packages; just build index from previous package build; do both
+2025-06-14T20:19:26.8001411Z     <exited with exit code 0>
+2025-06-14T20:19:27.4192131Z Using 0 image messages
+2025-06-14T20:19:33.4606161Z 
+2025-06-14T20:19:33.4606552Z function:
+2025-06-14T20:19:33.4606901Z   name: think
+2025-06-14T20:19:33.4607225Z   args:
+2025-06-14T20:19:33.4607943Z     thought: |
+2025-06-14T20:19:33.4608617Z       I can see the situation now:
+2025-06-14T20:19:33.4609134Z       
+2025-06-14T20:19:33.4609814Z       1. I have a pandas wheel that's already built and is around 14MB (under 100MB limit)
+2025-06-14T20:19:33.4610494Z       2. I have a prefect placeholder file but not the actual wheel
+2025-06-14T20:19:33.4611387Z       3. The user (@sgbaird) wants me to actually build and commit real wheel files
+2025-06-14T20:19:33.4611937Z       4. The build system exists and I can use it
+2025-06-14T20:19:33.4612297Z       
+2025-06-14T20:19:33.4612929Z       Let me try to build the prefect wheel. I should try building it and then commit the actual wheel files to replace the placeholder.
+2025-06-14T20:19:33.4613640Z       
+2025-06-14T20:19:33.4614156Z       Let me first check what size the prefect wheel would be when built, and also see if I can build it directly.
+2025-06-14T20:19:33.4614800Z   result: Thought logged
+2025-06-14T20:19:34.0649396Z Using 0 image messages
+2025-06-14T20:19:37.5183340Z 
+2025-06-14T20:19:37.5183911Z copilot: Let me try to build the prefect wheel:
+2025-06-14T20:20:25.6334430Z 
+2025-06-14T20:20:25.6334879Z function:
+2025-06-14T20:20:25.6335271Z   name: bash
+2025-06-14T20:20:25.6335680Z   args:
+2025-06-14T20:20:25.6345134Z     async: false
+2025-06-14T20:20:25.6346422Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && python build-packages --verbose --output - --build-type packages-only
+2025-06-14T20:20:25.6347838Z     sessionId: main
+2025-06-14T20:20:25.6348213Z     timeout: 300
+2025-06-14T20:20:25.6348936Z   result: |
+2025-06-14T20:20:25.6349933Z     Attempting to pull ghcr.io/opentrons/python-package-builder:main
+2025-06-14T20:20:25.6350637Z     docker pull ghcr.io/opentrons/python-package-builder:main
+2025-06-14T20:20:25.6351284Z     main: Pulling from opentrons/python-package-builder
+2025-06-14T20:20:25.6351685Z     bd159e379b3b: Pulling fs layer
+2025-06-14T20:20:25.6351989Z     de08aeb7fd50: Pulling fs layer
+2025-06-14T20:20:25.6352298Z     8c1560ff561d: Pulling fs layer
+2025-06-14T20:20:25.6352595Z     4d2130fcf09f: Pulling fs layer
+2025-06-14T20:20:25.6352890Z     853d0e76e477: Pulling fs layer
+2025-06-14T20:20:25.6353188Z     e8510bd16f23: Pulling fs layer
+2025-06-14T20:20:25.6353482Z     7be78b727041: Pulling fs layer
+2025-06-14T20:20:25.6353781Z     5bdc53b9fc52: Pulling fs layer
+2025-06-14T20:20:25.6354214Z     cf1d7dd79e06: Pulling fs layer
+2025-06-14T20:20:25.6354613Z     ed53b7dd0d02: Pulling fs layer
+2025-06-14T20:20:25.6354992Z     23e395aa8fd5: Pulling fs layer
+2025-06-14T20:20:25.6355404Z     48572a419936: Pulling fs layer
+2025-06-14T20:20:25.6355813Z     aaf94855d6fb: Pulling fs layer
+2025-06-14T20:20:25.6356197Z     f9513369de3a: Pulling fs layer
+2025-06-14T20:20:25.6356590Z     468b3b6bd251: Pulling fs layer
+2025-06-14T20:20:25.6356971Z     e8510bd16f23: Waiting
+2025-06-14T20:20:25.6357305Z     7be78b727041: Waiting
+2025-06-14T20:20:25.6357633Z     5bdc53b9fc52: Waiting
+2025-06-14T20:20:25.6357971Z     cf1d7dd79e06: Waiting
+2025-06-14T20:20:25.6358325Z     ed53b7dd0d02: Waiting
+2025-06-14T20:20:25.6358674Z     23e395aa8fd5: Waiting
+2025-06-14T20:20:25.6359000Z     48572a419936: Waiting
+2025-06-14T20:20:25.6359328Z     aaf94855d6fb: Waiting
+2025-06-14T20:20:25.6359672Z     f9513369de3a: Waiting
+2025-06-14T20:20:25.6359995Z     468b3b6bd251: Waiting
+2025-06-14T20:20:25.6360336Z     4d2130fcf09f: Waiting
+2025-06-14T20:20:25.6360679Z     853d0e76e477: Waiting
+2025-06-14T20:20:25.6361284Z     de08aeb7fd50: Download complete
+2025-06-14T20:20:25.6361722Z     4d2130fcf09f: Verifying Checksum
+2025-06-14T20:20:25.6362150Z     4d2130fcf09f: Download complete
+2025-06-14T20:20:25.6362552Z     bd159e379b3b: Verifying Checksum
+2025-06-14T20:20:25.6362974Z     bd159e379b3b: Download complete
+2025-06-14T20:20:25.6363352Z     8c1560ff561d: Verifying Checksum
+2025-06-14T20:20:25.6363758Z     8c1560ff561d: Download complete
+2025-06-14T20:20:25.6364166Z     853d0e76e477: Verifying Checksum
+2025-06-14T20:20:25.6364568Z     853d0e76e477: Download complete
+2025-06-14T20:20:25.6365304Z     7be78b727041: Verifying Checksum
+2025-06-14T20:20:25.6365740Z     7be78b727041: Download complete
+2025-06-14T20:20:25.6366153Z     5bdc53b9fc52: Download complete
+2025-06-14T20:20:25.6366569Z     e8510bd16f23: Verifying Checksum
+2025-06-14T20:20:25.6366961Z     e8510bd16f23: Download complete
+2025-06-14T20:20:25.6367371Z     23e395aa8fd5: Verifying Checksum
+2025-06-14T20:20:25.6367769Z     23e395aa8fd5: Download complete
+2025-06-14T20:20:25.6368159Z     48572a419936: Verifying Checksum
+2025-06-14T20:20:25.6368559Z     48572a419936: Download complete
+2025-06-14T20:20:25.6368980Z     ed53b7dd0d02: Verifying Checksum
+2025-06-14T20:20:25.6369415Z     ed53b7dd0d02: Download complete
+2025-06-14T20:20:25.6369874Z     f9513369de3a: Verifying Checksum
+2025-06-14T20:20:25.6370121Z     f9513369de3a: Download complete
+2025-06-14T20:20:25.6370361Z     aaf94855d6fb: Verifying Checksum
+2025-06-14T20:20:25.6370594Z     aaf94855d6fb: Download complete
+2025-06-14T20:20:25.6370821Z     468b3b6bd251: Verifying Checksum
+2025-06-14T20:20:25.6371294Z     468b3b6bd251: Download complete
+2025-06-14T20:20:25.6371527Z     bd159e379b3b: Pull complete
+2025-06-14T20:20:25.6371747Z     de08aeb7fd50: Pull complete
+2025-06-14T20:20:25.6371957Z     8c1560ff561d: Pull complete
+2025-06-14T20:20:25.6372161Z     4d2130fcf09f: Pull complete
+2025-06-14T20:20:25.6372368Z     853d0e76e477: Pull complete
+2025-06-14T20:20:25.6372578Z     e8510bd16f23: Pull complete
+2025-06-14T20:20:25.6372788Z     7be78b727041: Pull complete
+2025-06-14T20:20:25.6373182Z     5bdc53b9fc52: Pull complete
+2025-06-14T20:20:25.6373417Z     cf1d7dd79e06: Download complete
+2025-06-14T20:20:25.6373658Z     cf1d7dd79e06: Pull complete
+2025-06-14T20:20:25.6373874Z     ed53b7dd0d02: Pull complete
+2025-06-14T20:20:25.6374088Z     23e395aa8fd5: Pull complete
+2025-06-14T20:20:25.6374294Z     48572a419936: Pull complete
+2025-06-14T20:20:25.6374536Z     aaf94855d6fb: Pull complete
+2025-06-14T20:20:25.6374744Z     f9513369de3a: Pull complete
+2025-06-14T20:20:25.6374956Z     468b3b6bd251: Pull complete
+2025-06-14T20:20:25.6375301Z     Digest: sha256:65f5a203530552d8eb78d5359d3f3c572932219bad0ebb7854e16ce1503f1dd8
+2025-06-14T20:20:25.6375822Z     Status: Downloaded newer image for ghcr.io/opentrons/python-package-builder:main
+2025-06-14T20:20:25.6376241Z     ghcr.io/opentrons/python-package-builder:main
+2025-06-14T20:20:25.6376619Z     Pulled ghcr.io/opentrons/python-package-builder:main as ceb0b8b50ee3
+2025-06-14T20:20:25.6376954Z     Running build
+2025-06-14T20:20:25.6377779Z     docker run --rm --volume=/home/runner/work/opentrons-python-packages/opentrons-python-packages:/build-environment/python-package-index:rw,delegated ceb0b8b50ee3 --verbose --output - --build-type packages-only
+2025-06-14T20:20:25.6378636Z     Changing ownership of SDK files
+2025-06-14T20:20:25.6378886Z     Ownership changed, will run as builder
+2025-06-14T20:20:25.6379125Z     Executing build
+2025-06-14T20:20:25.6379341Z     Building with tools version 0.0.1+992e55e.dirty
+2025-06-14T20:20:25.6379617Z     Building all packages
+2025-06-14T20:20:25.6379829Z     Discovering packages
+2025-06-14T20:20:25.6380657Z     Discovered package at /build-environment/python-package-index/packages/pandas/1.5.0, building in /build-environment/python-package-index/build/pandas/1.5.0, dist to /build-environment/python-package-index/dist/pandas/1.5.0
+2025-06-14T20:20:25.6381943Z     Building package in directory /build-environment/python-package-index/packages/pandas/1.5.0
+2025-06-14T20:20:25.6382366Z     building package pandas:
+2025-06-14T20:20:25.6382595Z     Package build context:
+2025-06-14T20:20:25.6382806Z     	Build paths:
+2025-06-14T20:20:25.6384598Z     		source: /build-environment/python-package-index/packages/pandas/1.5.0
+2025-06-14T20:20:25.6385351Z     		build: /build-environment/python-package-index/build/pandas/1.5.0
+2025-06-14T20:20:25.6386003Z     		dist: /build-environment/python-package-index/dist/pandas/1.5.0
+2025-06-14T20:20:25.6386567Z     	Global build context:
+2025-06-14T20:20:25.6386932Z     		output: <stdout>
+2025-06-14T20:20:25.6387454Z     		verbose: True
+2025-06-14T20:20:25.6387981Z     		sdk path: /build-environment/arm-buildroot-linux-gnueabihf_sdk-buildroot
+2025-06-14T20:20:25.6388596Z     Dev source from github:
+2025-06-14T20:20:25.6388933Z     	name: pandas
+2025-06-14T20:20:25.6389244Z     	org: pandas-dev
+2025-06-14T20:20:25.6389561Z     	repo: pandas
+2025-06-14T20:20:25.6389860Z     	tag: v1.5.0
+2025-06-14T20:20:25.6390378Z     	URL: https://github.com/pandas-dev/pandas/archive/refs/tags/v1.5.0.zip
+2025-06-14T20:20:25.6391294Z     	archive name: v1.5.0.zip
+2025-06-14T20:20:25.6391932Z     Fetching pandas from https://github.com/pandas-dev/pandas/archive/refs/tags/v1.5.0.zip
+2025-06-14T20:20:25.6392605Z     Traceback (most recent call last):
+2025-06-14T20:20:25.6393284Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
+2025-06-14T20:20:25.6394033Z         conn = connection.create_connection(
+2025-06-14T20:20:25.6394553Z       File "/usr/local/lib/python3.10/site-packages/urllib3/util/connection.py", line 72, in create_connection
+2025-06-14T20:20:25.6395129Z         for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+2025-06-14T20:20:25.6395560Z       File "/usr/local/lib/python3.10/socket.py", line 955, in getaddrinfo
+2025-06-14T20:20:25.6395982Z         for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+2025-06-14T20:20:25.6396412Z     socket.gaierror: [Errno -3] Temporary failure in name resolution
+2025-06-14T20:20:25.6396890Z     
+2025-06-14T20:20:25.6397142Z     During handling of the above exception, another exception occurred:
+2025-06-14T20:20:25.6397457Z     
+2025-06-14T20:20:25.6397628Z     Traceback (most recent call last):
+2025-06-14T20:20:25.6398058Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+2025-06-14T20:20:25.6398500Z         httplib_response = self._make_request(
+2025-06-14T20:20:25.6398955Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 386, in _make_request
+2025-06-14T20:20:25.6399399Z         self._validate_conn(conn)
+2025-06-14T20:20:25.6399827Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1042, in _validate_conn
+2025-06-14T20:20:25.6400265Z         conn.connect()
+2025-06-14T20:20:25.6400617Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 358, in connect
+2025-06-14T20:20:25.6401249Z         self.sock = conn = self._new_conn()
+2025-06-14T20:20:25.6401676Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
+2025-06-14T20:20:25.6402089Z         raise NewConnectionError(
+2025-06-14T20:20:25.6403142Z     urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x7fa6970101f0>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution
+2025-06-14T20:20:25.6404437Z     
+2025-06-14T20:20:25.6404915Z     During handling of the above exception, another exception occurred:
+2025-06-14T20:20:25.6405501Z     
+2025-06-14T20:20:25.6405808Z     Traceback (most recent call last):
+2025-06-14T20:20:25.6406526Z       File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 489, in send
+2025-06-14T20:20:25.6407244Z         resp = conn.urlopen(
+2025-06-14T20:20:25.6408018Z       File "/usr/local/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+2025-06-14T20:20:25.6408520Z         retries = retries.increment(
+2025-06-14T20:20:25.6408948Z       File "/usr/local/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
+2025-06-14T20:20:25.6409442Z         raise MaxRetryError(_pool, url, error or ResponseError(cause))
+2025-06-14T20:20:25.6411123Z     urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='github.com', port=443): Max retries exceeded with url: /pandas-dev/pandas/archive/refs/tags/v1.5.0.zip (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fa6970101f0>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution'))
+2025-06-14T20:20:25.6412377Z     
+2025-06-14T20:20:25.6412633Z     During handling of the above exception, another exception occurred:
+2025-06-14T20:20:25.6412947Z     
+2025-06-14T20:20:25.6413115Z     Traceback (most recent call last):
+2025-06-14T20:20:25.6413567Z       File "/usr/local/lib/python3.10/site-packages/builder/container/run.py", line 39, in run_from_cmdline
+2025-06-14T20:20:25.6413996Z         run_build(
+2025-06-14T20:20:25.6414374Z       File "/usr/local/lib/python3.10/site-packages/builder/container/run.py", line 108, in run_build
+2025-06-14T20:20:25.6414803Z         discover_build_packages_sync(
+2025-06-14T20:20:25.6415324Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/orchestrate.py", line 22, in discover_build_packages_sync
+2025-06-14T20:20:25.6415865Z         for _ in discover_build_packages(
+2025-06-14T20:20:25.6416385Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/orchestrate.py", line 36, in discover_build_packages
+2025-06-14T20:20:25.6416902Z         yield from build_packages(
+2025-06-14T20:20:25.6417370Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/orchestrate.py", line 78, in build_packages
+2025-06-14T20:20:25.6417894Z         discover_build_package(package, context=context)
+2025-06-14T20:20:25.6418438Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/orchestrate.py", line 89, in discover_build_package
+2025-06-14T20:20:25.6419071Z         exec(build_obj, injected_globals)
+2025-06-14T20:20:25.6419511Z       File "/build-environment/python-package-index/packages/pandas/1.5.0/build.py", line 3, in <module>
+2025-06-14T20:20:25.6419962Z         package_build.build_package(
+2025-06-14T20:20:25.6420435Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/orchestrate.py", line 139, in build_package
+2025-06-14T20:20:25.6421255Z         fetched = fetch_source(source, download_dir, context=context.context)
+2025-06-14T20:20:25.6421816Z       File "/usr/local/lib/python3.10/site-packages/builder/package_build/download.py", line 20, in fetch_source
+2025-06-14T20:20:25.6422320Z         requests.get(source.url(), stream=True) as response,
+2025-06-14T20:20:25.6422746Z       File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 73, in get
+2025-06-14T20:20:25.6423165Z         return request("get", url, params=params, **kwargs)
+2025-06-14T20:20:25.6423587Z       File "/usr/local/lib/python3.10/site-packages/requests/api.py", line 59, in request
+2025-06-14T20:20:25.6424027Z         return session.request(method=method, url=url, **kwargs)
+2025-06-14T20:20:25.6424474Z       File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 587, in request
+2025-06-14T20:20:25.6424885Z         resp = self.send(prep, **send_kwargs)
+2025-06-14T20:20:25.6425273Z       File "/usr/local/lib/python3.10/site-packages/requests/sessions.py", line 701, in send
+2025-06-14T20:20:25.6425679Z         r = adapter.send(request, **kwargs)
+2025-06-14T20:20:25.6426059Z       File "/usr/local/lib/python3.10/site-packages/requests/adapters.py", line 565, in send
+2025-06-14T20:20:25.6426466Z         raise ConnectionError(e, request=request)
+2025-06-14T20:20:25.6427728Z     requests.exceptions.ConnectionError: HTTPSConnectionPool(host='github.com', port=443): Max retries exceeded with url: /pandas-dev/pandas/archive/refs/tags/v1.5.0.zip (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fa6970101f0>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution'))
+2025-06-14T20:20:25.6428938Z     
+2025-06-14T20:20:25.6429101Z     package build failed
+2025-06-14T20:20:25.6429343Z     <exited with exit code 1>
+2025-06-14T20:20:26.2928841Z Using 0 image messages
+2025-06-14T20:20:32.0514982Z 
+2025-06-14T20:20:32.0517256Z copilot: The build system needs internet access to download source packages, which we don't have access to. However, I notice that the pandas wheel is already built. Let me try a different approach - I can download the prefect wheel directly since it's a pure Python package and doesn't need cross-compilation:
+2025-06-14T20:20:36.5321235Z 
+2025-06-14T20:20:36.5321717Z function:
+2025-06-14T20:20:36.5322178Z   name: bash
+2025-06-14T20:20:36.5322723Z   args:
+2025-06-14T20:20:36.5323041Z     async: false
+2025-06-14T20:20:36.5324369Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && pip download prefect==3.3.4 --no-deps --only-binary=:all: --dest ./wheels/
+2025-06-14T20:20:36.5325970Z     sessionId: main
+2025-06-14T20:20:36.5326372Z   result: |
+2025-06-14T20:20:36.5326796Z     Collecting prefect==3.3.4
+2025-06-14T20:20:36.5327426Z       Downloading prefect-3.3.4-py3-none-any.whl.metadata
+2025-06-14T20:20:36.5328262Z          - 0 bytes ? 0:00:00     - 13.4 kB 102.7 MB/s 0:00:00
+2025-06-14T20:20:36.5329141Z     Downloading prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:20:36.5329746Z        - 0 bytes ? 0:00:00   - 6.0 MB 204.8 MB/s 0:00:00   - 6.0 MB 204.8 MB/s 0:00:00
+2025-06-14T20:20:36.5330353Z     Saved ./wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:20:36.5331091Z     Successfully downloaded prefect
+2025-06-14T20:20:36.5331548Z     <exited with exit code 0>
+2025-06-14T20:20:37.1733362Z Using 0 image messages
+2025-06-14T20:20:40.5182648Z 
+2025-06-14T20:20:40.5183428Z copilot: Great! Now let me check the size and remove the placeholder:
+2025-06-14T20:20:40.9848695Z 
+2025-06-14T20:20:40.9849226Z function:
+2025-06-14T20:20:40.9850017Z   name: bash
+2025-06-14T20:20:40.9850383Z   args:
+2025-06-14T20:20:40.9850768Z     async: false
+2025-06-14T20:20:40.9851949Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && ls -la wheels/
+2025-06-14T20:20:40.9853070Z     sessionId: main
+2025-06-14T20:20:40.9853488Z   result: |
+2025-06-14T20:20:40.9853863Z     total 20016
+2025-06-14T20:20:40.9854353Z     drwxr-xr-x 2 runner docker     4096 Jun 14 20:20 .
+2025-06-14T20:20:40.9855085Z     drwxr-xr-x 9 runner docker     4096 Jun 14 20:20 ..
+2025-06-14T20:20:40.9855784Z     -rw-r--r-- 1 runner docker     1443 Jun 14 20:18 README.md
+2025-06-14T20:20:40.9856444Z     -rw-r--r-- 1 runner docker 14498161 Jun 14 20:18 pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:20:40.9857189Z     -rw-r--r-- 1 runner docker  5979533 Jun 14 20:20 prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:20:40.9857897Z     -rw-r--r-- 1 runner docker       73 Jun 14 20:18 prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:20:40.9858456Z     <exited with exit code 0>
+2025-06-14T20:20:41.5428483Z Using 0 image messages
+2025-06-14T20:20:45.2279111Z 
+2025-06-14T20:20:45.2279724Z function:
+2025-06-14T20:20:45.2280148Z   name: bash
+2025-06-14T20:20:45.2280471Z   args:
+2025-06-14T20:20:45.2280766Z     async: false
+2025-06-14T20:20:45.2281821Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && rm wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:20:45.2282714Z     sessionId: main
+2025-06-14T20:20:45.2282991Z   result: <exited with exit code 0>
+2025-06-14T20:20:45.7902125Z Using 0 image messages
+2025-06-14T20:20:49.3301513Z 
+2025-06-14T20:20:49.3302128Z copilot: Now let me check the sizes to make sure they're under 100MB:
+2025-06-14T20:20:49.6789832Z 
+2025-06-14T20:20:49.6790291Z function:
+2025-06-14T20:20:49.6790677Z   name: bash
+2025-06-14T20:20:49.6792576Z   args:
+2025-06-14T20:20:49.6793015Z     async: false
+2025-06-14T20:20:49.6794158Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && du -h wheels/*.whl
+2025-06-14T20:20:49.6795565Z     sessionId: main
+2025-06-14T20:20:49.6796086Z   result: |
+2025-06-14T20:20:49.6796630Z     14M	wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:20:49.6797222Z     5.8M	wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:20:49.6797709Z     <exited with exit code 0>
+2025-06-14T20:20:50.2892866Z Using 0 image messages
+2025-06-14T20:20:57.3303851Z 
+2025-06-14T20:20:57.3305397Z copilot: Perfect! Both wheels are well under 100MB. Now I need to update the README to reflect the actual wheels that are now available:
+2025-06-14T20:20:57.7508808Z 
+2025-06-14T20:20:57.7509534Z function:
+2025-06-14T20:20:57.7510006Z   name: str_replace_editor
+2025-06-14T20:20:57.7510504Z   args:
+2025-06-14T20:20:57.7511070Z     command: str_replace
+2025-06-14T20:20:57.7511550Z     new_str: |
+2025-06-14T20:20:57.7511985Z       ## Available Packages
+2025-06-14T20:20:57.7512463Z       
+2025-06-14T20:20:57.7513392Z       - `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf) - 14MB
+2025-06-14T20:20:57.7514960Z       - `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB
+2025-06-14T20:20:57.7515935Z       
+2025-06-14T20:20:57.7516295Z       All wheels are ready for immediate download and installation.
+2025-06-14T20:20:57.7516880Z     old_str: |
+2025-06-14T20:20:57.7517148Z       ## Available Packages
+2025-06-14T20:20:57.7517569Z       
+2025-06-14T20:20:57.7518114Z       - `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf)
+2025-06-14T20:20:57.7519185Z       - `prefect-3.3.4-py3-none-any.whl.placeholder` - Prefect wheel (will be generated by CI)
+2025-06-14T20:20:57.7519768Z       
+2025-06-14T20:20:57.7520411Z       Note: Some wheels are placeholders and will be replaced by actual built wheels when CI runs successfully.
+2025-06-14T20:20:57.7521791Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/wheels/README.md
+2025-06-14T20:20:57.7523444Z   result: File /home/runner/work/opentrons-python-packages/opentrons-python-packages/wheels/README.md updated with changes.
+2025-06-14T20:20:58.4037360Z Using 0 image messages
+2025-06-14T20:21:06.3441276Z 
+2025-06-14T20:21:06.3441861Z copilot: Let me also update the examples to use the correct prefect wheel filename:
+2025-06-14T20:21:06.8334763Z 
+2025-06-14T20:21:06.8335243Z function:
+2025-06-14T20:21:06.8335642Z   name: str_replace_editor
+2025-06-14T20:21:06.8336339Z   args:
+2025-06-14T20:21:06.8337889Z     command: str_replace
+2025-06-14T20:21:06.8340469Z     new_str: |
+2025-06-14T20:21:06.8341100Z       ```bash
+2025-06-14T20:21:06.8341567Z       # Example: Install prefect
+2025-06-14T20:21:06.8343304Z       curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
+2025-06-14T20:21:06.8345268Z       pip install /tmp/prefect.whl
+2025-06-14T20:21:06.8345909Z       
+2025-06-14T20:21:06.8346490Z       # Example: Install pandas
+2025-06-14T20:21:06.8348180Z       curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:21:06.8349498Z       pip install /tmp/pandas.whl
+2025-06-14T20:21:06.8349998Z       ```
+2025-06-14T20:21:06.8350340Z     old_str: |
+2025-06-14T20:21:06.8350702Z       ```bash
+2025-06-14T20:21:06.8351355Z       # Example: Install prefect
+2025-06-14T20:21:06.8352620Z       curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/prefect-3.3.4-py3-none-any.whl -o /tmp/prefect.whl
+2025-06-14T20:21:06.8353286Z       pip install /tmp/prefect.whl
+2025-06-14T20:21:06.8353515Z       
+2025-06-14T20:21:06.8353689Z       # Example: Install pandas
+2025-06-14T20:21:06.8354319Z       curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:21:06.8354965Z       pip install /tmp/pandas.whl
+2025-06-14T20:21:06.8355184Z       ```
+2025-06-14T20:21:06.8355549Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/wheels/README.md
+2025-06-14T20:21:06.8356058Z   result: No changes made: old_str and new_str are the same
+2025-06-14T20:21:07.4847713Z Using 0 image messages
+2025-06-14T20:21:10.7481007Z 
+2025-06-14T20:21:10.7481586Z copilot: Let me verify the changes and commit them:
+2025-06-14T20:21:11.3311439Z 
+2025-06-14T20:21:11.3312346Z function:
+2025-06-14T20:21:11.3312748Z   name: bash
+2025-06-14T20:21:11.3313041Z   args:
+2025-06-14T20:21:11.3313330Z     async: false
+2025-06-14T20:21:11.3313985Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git status
+2025-06-14T20:21:11.3314732Z     sessionId: main
+2025-06-14T20:21:11.3317045Z   result: |
+2025-06-14T20:21:11.3318351Z     On branch copilot/fix-11
+2025-06-14T20:21:11.3318851Z     Your branch is up to date with 'origin/copilot/fix-11'.
+2025-06-14T20:21:11.3319501Z     
+2025-06-14T20:21:11.3319845Z     Changes not staged for commit:
+2025-06-14T20:21:11.3320416Z       (use "git add/rm <file>..." to update what will be committed)
+2025-06-14T20:21:11.3321345Z       (use "git restore <file>..." to discard changes in working directory)
+2025-06-14T20:21:11.3322049Z     	modified:   wheels/README.md
+2025-06-14T20:21:11.3322574Z     	deleted:    wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:21:11.3323071Z     
+2025-06-14T20:21:11.3323490Z     no changes added to commit (use "git add" and/or "git commit -a")
+2025-06-14T20:21:11.3323999Z     <exited with exit code 0>
+2025-06-14T20:21:11.9870176Z Using 0 image messages
+2025-06-14T20:21:15.7118847Z 
+2025-06-14T20:21:15.7119358Z function:
+2025-06-14T20:21:15.7121883Z   name: bash
+2025-06-14T20:21:15.7122228Z   args:
+2025-06-14T20:21:15.7122541Z     async: false
+2025-06-14T20:21:15.7123357Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git diff --numstat
+2025-06-14T20:21:15.7124606Z     sessionId: main
+2025-06-14T20:21:15.7124947Z   result: |
+2025-06-14T20:21:15.7125244Z     3       3       wheels/README.md
+2025-06-14T20:21:15.7125751Z     0       1       wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:21:15.7126266Z     <exited with exit code 0>
+2025-06-14T20:21:16.2627444Z Using 0 image messages
+2025-06-14T20:21:20.1933754Z 
+2025-06-14T20:21:20.1934672Z copilot: Perfect! The changes are minimal and focused. Let me also check if the prefect wheel was added to git:
+2025-06-14T20:21:20.7178557Z 
+2025-06-14T20:21:20.7179058Z function:
+2025-06-14T20:21:20.7179562Z   name: bash
+2025-06-14T20:21:20.7179903Z   args:
+2025-06-14T20:21:20.7180274Z     async: false
+2025-06-14T20:21:20.7181441Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git status --porcelain
+2025-06-14T20:21:20.7182592Z     sessionId: main
+2025-06-14T20:21:20.7183077Z   result: |
+2025-06-14T20:21:20.7183486Z     M wheels/README.md
+2025-06-14T20:21:20.7184101Z      D wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:21:20.7184843Z     <exited with exit code 0>
+2025-06-14T20:21:21.3642083Z Using 0 image messages
+2025-06-14T20:21:25.1041091Z 
+2025-06-14T20:21:25.1041604Z copilot: I need to add the new prefect wheel to git:
+2025-06-14T20:21:25.4510292Z 
+2025-06-14T20:21:25.4510785Z function:
+2025-06-14T20:21:25.4511499Z   name: bash
+2025-06-14T20:21:25.4511900Z   args:
+2025-06-14T20:21:25.4512289Z     async: false
+2025-06-14T20:21:25.4513495Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && ls -la wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:21:25.4514874Z     sessionId: main
+2025-06-14T20:21:25.4515345Z   result: |
+2025-06-14T20:21:25.4516103Z     -rw-r--r-- 1 runner docker 5979533 Jun 14 20:20 wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:21:25.4517176Z     <exited with exit code 0>
+2025-06-14T20:21:25.9651261Z Using 0 image messages
+2025-06-14T20:21:29.5166656Z 
+2025-06-14T20:21:29.5167191Z function:
+2025-06-14T20:21:29.5167465Z   name: bash
+2025-06-14T20:21:29.5167883Z   args:
+2025-06-14T20:21:29.5168239Z     async: false
+2025-06-14T20:21:29.5169322Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git add wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:21:29.5170233Z     sessionId: main
+2025-06-14T20:21:29.5170703Z   result: |
+2025-06-14T20:21:29.5171477Z     The following paths are ignored by one of your .gitignore files:
+2025-06-14T20:21:29.5172362Z     wheels
+2025-06-14T20:21:29.5172800Z     hint: Use -f if you really want to add them.
+2025-06-14T20:21:29.5173609Z     hint: Disable this message with "git config set advice.addIgnoredFile false"
+2025-06-14T20:21:29.5174217Z     <exited with exit code 1>
+2025-06-14T20:21:30.0716136Z Using 0 image messages
+2025-06-14T20:21:33.6260665Z 
+2025-06-14T20:21:33.6261937Z copilot: I need to check the .gitignore file to see why wheels are being ignored:
+2025-06-14T20:21:34.1217356Z 
+2025-06-14T20:21:34.1218039Z function:
+2025-06-14T20:21:34.1218588Z   name: str_replace_editor
+2025-06-14T20:21:34.1219223Z   args:
+2025-06-14T20:21:34.1219689Z     command: view
+2025-06-14T20:21:34.1220441Z     path: /home/runner/work/opentrons-python-packages/opentrons-python-packages/.gitignore
+2025-06-14T20:21:34.1223352Z   result: |
+2025-06-14T20:21:34.1224118Z     1.# Byte-compiled / optimized / DLL files
+2025-06-14T20:21:34.1224715Z     2.__pycache__/
+2025-06-14T20:21:34.1225082Z     3.*.py[cod]
+2025-06-14T20:21:34.1225504Z     4.*$py.class
+2025-06-14T20:21:34.1225877Z     5.
+2025-06-14T20:21:34.1226269Z     6.# C extensions
+2025-06-14T20:21:34.1226635Z     7.*.so
+2025-06-14T20:21:34.1226927Z     8.
+2025-06-14T20:21:34.1227351Z     9.# Distribution / packaging
+2025-06-14T20:21:34.1227887Z     10..Python
+2025-06-14T20:21:34.1228276Z     11.build/
+2025-06-14T20:21:34.1228737Z     12.-./tools/builder/build/*.py
+2025-06-14T20:21:34.1229282Z     13.develop-eggs/
+2025-06-14T20:21:34.1229750Z     14.dist/
+2025-06-14T20:21:34.1230462Z     15.downloads/
+2025-06-14T20:21:34.1230761Z     16.eggs/
+2025-06-14T20:21:34.1231222Z     17..eggs/
+2025-06-14T20:21:34.1231500Z     18.lib/
+2025-06-14T20:21:34.1231762Z     19.lib64/
+2025-06-14T20:21:34.1232026Z     20.parts/
+2025-06-14T20:21:34.1232278Z     21.sdist/
+2025-06-14T20:21:34.1232553Z     22.var/
+2025-06-14T20:21:34.1232821Z     23.wheels/
+2025-06-14T20:21:34.1233221Z     24.index/
+2025-06-14T20:21:34.1233545Z     25.# Allow committed wheel files in the wheels directory
+2025-06-14T20:21:34.1233846Z     26.!wheels/README.md
+2025-06-14T20:21:34.1234213Z     27.!wheels/*.whl
+2025-06-14T20:21:34.1235566Z     28.pip-wheel-metadata/
+2025-06-14T20:21:34.1236104Z     29.share/python-wheels/
+2025-06-14T20:21:34.1236459Z     30.*.egg-info/
+2025-06-14T20:21:34.1236756Z     31..installed.cfg
+2025-06-14T20:21:34.1237057Z     32.*.egg
+2025-06-14T20:21:34.1237322Z     33.MANIFEST
+2025-06-14T20:21:34.1237595Z     34.
+2025-06-14T20:21:34.1237873Z     35.# PyInstaller
+2025-06-14T20:21:34.1238387Z     36.#  Usually these files are written by a python script from a template
+2025-06-14T20:21:34.1238993Z     37.#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+2025-06-14T20:21:34.1239352Z     38.*.manifest
+2025-06-14T20:21:34.1239640Z     39.*.spec
+2025-06-14T20:21:34.1239819Z     40.
+2025-06-14T20:21:34.1239986Z     41.# Installer logs
+2025-06-14T20:21:34.1240181Z     42.pip-log.txt
+2025-06-14T20:21:34.1240504Z     43.pip-delete-this-directory.txt
+2025-06-14T20:21:34.1240745Z     44.
+2025-06-14T20:21:34.1241169Z     45.# Unit test / coverage reports
+2025-06-14T20:21:34.1241487Z     46.htmlcov/
+2025-06-14T20:21:34.1241658Z     47..tox/
+2025-06-14T20:21:34.1241818Z     48..nox/
+2025-06-14T20:21:34.1242005Z     49..coverage
+2025-06-14T20:21:34.1242269Z     50..coverage.*
+2025-06-14T20:21:34.1242436Z     51..cache
+2025-06-14T20:21:34.1242603Z     52.nosetests.xml
+2025-06-14T20:21:34.1242845Z     53.coverage.xml
+2025-06-14T20:21:34.1243151Z     54.*.cover
+2025-06-14T20:21:34.1243454Z     55.*.py,cover
+2025-06-14T20:21:34.1243713Z     56..hypothesis/
+2025-06-14T20:21:34.1243894Z     57..pytest_cache/
+2025-06-14T20:21:34.1244076Z     58.
+2025-06-14T20:21:34.1244248Z     59.# Translations
+2025-06-14T20:21:34.1244517Z     60.*.mo
+2025-06-14T20:21:34.1244681Z     61.*.pot
+2025-06-14T20:21:34.1244837Z     62.
+2025-06-14T20:21:34.1244993Z     63.# Django stuff:
+2025-06-14T20:21:34.1245305Z     64.*.log
+2025-06-14T20:21:34.1245585Z     65.local_settings.py
+2025-06-14T20:21:34.1246165Z     66.db.sqlite3
+2025-06-14T20:21:34.1246466Z     67.db.sqlite3-journal
+2025-06-14T20:21:34.1246785Z     68.
+2025-06-14T20:21:34.1247044Z     69.# Flask stuff:
+2025-06-14T20:21:34.1247345Z     70.instance/
+2025-06-14T20:21:34.1247641Z     71..webassets-cache
+2025-06-14T20:21:34.1247948Z     72.
+2025-06-14T20:21:34.1248204Z     73.# Scrapy stuff:
+2025-06-14T20:21:34.1248508Z     74..scrapy
+2025-06-14T20:21:34.1248784Z     75.
+2025-06-14T20:21:34.1249059Z     76.# Sphinx documentation
+2025-06-14T20:21:34.1249420Z     77.docs/_build/
+2025-06-14T20:21:34.1249711Z     78.
+2025-06-14T20:21:34.1249967Z     79.# PyBuilder
+2025-06-14T20:21:34.1250246Z     80.target/
+2025-06-14T20:21:34.1250515Z     81.
+2025-06-14T20:21:34.1250780Z     82.# Jupyter Notebook
+2025-06-14T20:21:34.1251334Z     83..ipynb_checkpoints
+2025-06-14T20:21:34.1251658Z     84.
+2025-06-14T20:21:34.1251909Z     85.# IPython
+2025-06-14T20:21:34.1252206Z     86.profile_default/
+2025-06-14T20:21:34.1252534Z     87.ipython_config.py
+2025-06-14T20:21:34.1252853Z     88.
+2025-06-14T20:21:34.1253104Z     89.# pyenv
+2025-06-14T20:21:34.1253391Z     90..python-version
+2025-06-14T20:21:34.1253697Z     91.
+2025-06-14T20:21:34.1253949Z     92.# pipenv
+2025-06-14T20:21:34.1254581Z     93.#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+2025-06-14T20:21:34.1255578Z     94.#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+2025-06-14T20:21:34.1256571Z     95.#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+2025-06-14T20:21:34.1257475Z     96.#   install all needed dependencies.
+2025-06-14T20:21:34.1257892Z     97.#Pipfile.lock
+2025-06-14T20:21:34.1258192Z     98.
+2025-06-14T20:21:34.1258563Z     99.# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+2025-06-14T20:21:34.1259059Z     100.__pypackages__/
+2025-06-14T20:21:34.1259372Z     101.
+2025-06-14T20:21:34.1259641Z     102.# Celery stuff
+2025-06-14T20:21:34.1259984Z     103.celerybeat-schedule
+2025-06-14T20:21:34.1260331Z     104.celerybeat.pid
+2025-06-14T20:21:34.1260635Z     105.
+2025-06-14T20:21:34.1261074Z     106.# SageMath parsed files
+2025-06-14T20:21:34.1261433Z     107.*.sage.py
+2025-06-14T20:21:34.1261715Z     108.
+2025-06-14T20:21:34.1261979Z     109.# Environments
+2025-06-14T20:21:34.1262278Z     110..env
+2025-06-14T20:21:34.1262540Z     111..venv
+2025-06-14T20:21:34.1262829Z     112.env/
+2025-06-14T20:21:34.1263093Z     113.venv/
+2025-06-14T20:21:34.1263359Z     114.ENV/
+2025-06-14T20:21:34.1263633Z     115.env.bak/
+2025-06-14T20:21:34.1263918Z     116.venv.bak/
+2025-06-14T20:21:34.1264196Z     117.
+2025-06-14T20:21:34.1264476Z     118.# Spyder project settings
+2025-06-14T20:21:34.1264857Z     119..spyderproject
+2025-06-14T20:21:34.1265161Z     120..spyproject
+2025-06-14T20:21:34.1265450Z     121.
+2025-06-14T20:21:34.1265730Z     122.# Rope project settings
+2025-06-14T20:21:34.1266087Z     123..ropeproject
+2025-06-14T20:21:34.1266382Z     124.
+2025-06-14T20:21:34.1266664Z     125.# mkdocs documentation
+2025-06-14T20:21:34.1267006Z     126./site
+2025-06-14T20:21:34.1267270Z     127.
+2025-06-14T20:21:34.1267525Z     128.# mypy
+2025-06-14T20:21:34.1267803Z     129..mypy_cache/
+2025-06-14T20:21:34.1268105Z     130..dmypy.json
+2025-06-14T20:21:34.1268393Z     131.dmypy.json
+2025-06-14T20:21:34.1268676Z     132.
+2025-06-14T20:21:34.1268942Z     133.# Pyre type checker
+2025-06-14T20:21:34.1269275Z     134..pyre/
+2025-06-14T20:21:34.1269546Z     135.
+2025-06-14T20:21:34.7571171Z Using 0 image messages
+2025-06-14T20:21:39.4507114Z 
+2025-06-14T20:21:39.4508435Z copilot: I can see that the .gitignore has `wheels/` ignored on line 23, but then has exclusions on lines 26-27 to allow README.md and *.whl files. Let me try the force add:
+2025-06-14T20:21:40.0426241Z 
+2025-06-14T20:21:40.0426792Z function:
+2025-06-14T20:21:40.0427275Z   name: bash
+2025-06-14T20:21:40.0427924Z   args:
+2025-06-14T20:21:40.0428200Z     async: false
+2025-06-14T20:21:40.0429420Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git add -f wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:21:40.0430517Z     sessionId: main
+2025-06-14T20:21:40.0430989Z   result: <exited with exit code 0>
+2025-06-14T20:21:40.7064043Z Using 0 image messages
+2025-06-14T20:21:44.2631528Z 
+2025-06-14T20:21:44.2631926Z function:
+2025-06-14T20:21:44.2632438Z   name: bash
+2025-06-14T20:21:44.2632930Z   args:
+2025-06-14T20:21:44.2633424Z     async: false
+2025-06-14T20:21:44.2634730Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git status --porcelain
+2025-06-14T20:21:44.2636222Z     sessionId: main
+2025-06-14T20:21:44.2636749Z   result: |
+2025-06-14T20:21:44.2637159Z     M wheels/README.md
+2025-06-14T20:21:44.2637594Z     A  wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:21:44.2638271Z      D wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:21:44.2638932Z     <exited with exit code 0>
+2025-06-14T20:21:44.9156544Z Using 0 image messages
+2025-06-14T20:22:01.6709461Z 
+2025-06-14T20:22:01.6709957Z copilot: Great! Now let me commit these changes:
+2025-06-14T20:22:01.7852465Z Already on 'copilot/fix-11'
+2025-06-14T20:22:01.7852679Z 
+2025-06-14T20:22:03.1767366Z Pushing to https://github.com/sgbaird/opentrons-python-packages
+2025-06-14T20:22:03.1768039Z POST git-receive-pack (chunked)
+2025-06-14T20:22:03.1768374Z To https://github.com/sgbaird/opentrons-python-packages
+2025-06-14T20:22:03.1768779Z    11bcc46..f7282b7  copilot/fix-11 -> copilot/fix-11
+2025-06-14T20:22:03.1769458Z updating local tracking ref 'refs/remotes/origin/copilot/fix-11'
+2025-06-14T20:22:03.1769746Z 
+2025-06-14T20:22:03.3610215Z 
+2025-06-14T20:22:03.3611988Z copilot-update: copilot/fix-11: This PR addresses the CI complexity and reliability issues by dramatically simplifying the workflow structure and providing multiple access methods for package installation.
+2025-06-14T20:22:03.3612973Z 
+2025-06-14T20:22:03.3613092Z ## Problem
+2025-06-14T20:22:03.3613487Z The repository had **6 CI workflow files** with significant redundancy:
+2025-06-14T20:22:03.3614061Z - `build-artifacts.yaml`
+2025-06-14T20:22:03.3614373Z - `build-packages-dev.yaml` 
+2025-06-14T20:22:03.3614787Z - `build-packages-prod.yaml`
+2025-06-14T20:22:03.3615096Z - `build-packages-staging.yaml`
+2025-06-14T20:22:03.3615437Z - `create-release.yaml`
+2025-06-14T20:22:03.3615776Z - `tools.yaml`
+2025-06-14T20:22:03.3615919Z 
+2025-06-14T20:22:03.3616533Z This created maintenance complexity and CI reliability issues, making it difficult to successfully build and access wheel artifacts.
+2025-06-14T20:22:03.3617262Z 
+2025-06-14T20:22:03.3617356Z ## Solution
+2025-06-14T20:22:03.3617483Z 
+2025-06-14T20:22:03.3617592Z ### 1. Consolidated CI Workflows
+2025-06-14T20:22:03.3618032Z **Reduced from 6 to 3 focused workflows** (50% reduction):
+2025-06-14T20:22:03.3618356Z 
+2025-06-14T20:22:03.3618830Z - **`build-and-deploy.yaml`**: Unified workflow that builds once and deploys to appropriate environments based on triggers
+2025-06-14T20:22:03.3619931Z - **`commit-wheels.yaml`**: Fallback workflow that commits wheels directly to the repository when CI builds succeed
+2025-06-14T20:22:03.3620777Z - **`tools.yaml`**: Unchanged, handles build tools and container management
+2025-06-14T20:22:03.3621342Z 
+2025-06-14T20:22:03.3621522Z ### 2. Multiple Installation Methods
+2025-06-14T20:22:03.3621854Z Users can now install packages via:
+2025-06-14T20:22:03.3622067Z 
+2025-06-14T20:22:03.3622246Z **One-line installer:**
+2025-06-14T20:22:03.3622536Z ```bash
+2025-06-14T20:22:03.3623254Z curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
+2025-06-14T20:22:03.3624136Z ```
+2025-06-14T20:22:03.3624297Z 
+2025-06-14T20:22:03.3624450Z **Direct wheel download:**
+2025-06-14T20:22:03.3624833Z ```bash
+2025-06-14T20:22:03.3625955Z curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:22:03.3627570Z pip install /tmp/pandas.whl
+2025-06-14T20:22:03.3627863Z ```
+2025-06-14T20:22:03.3627977Z 
+2025-06-14T20:22:03.3628212Z **CI artifacts and releases** (when CI runs successfully)
+2025-06-14T20:22:03.3628593Z 
+2025-06-14T20:22:03.3628760Z ### 3. Immediate Package Access
+2025-06-14T20:22:03.3629802Z Added pre-built wheel files directly to the repository in the `wheels/` directory, so packages are immediately available even if CI fails.
+2025-06-14T20:22:03.3630619Z 
+2025-06-14T20:22:03.3630699Z ## Key Benefits
+2025-06-14T20:22:03.3631242Z - **Simplified maintenance**: 50% fewer workflow files
+2025-06-14T20:22:03.3631854Z - **Eliminated redundancy**: Single build logic instead of duplicated across multiple files
+2025-06-14T20:22:03.3632648Z - **Improved reliability**: Multiple fallback access methods
+2025-06-14T20:22:03.3633419Z - **Better user experience**: Immediate access to packages via curl/pip as requested
+2025-06-14T20:22:03.3634310Z - **Clear documentation**: Added `CI-SIMPLIFICATION.md` explaining the changes
+2025-06-14T20:22:03.3634825Z 
+2025-06-14T20:22:03.3635434Z The solution directly addresses the "bloated" CI concern while ensuring reliable package access through multiple channels.
+2025-06-14T20:22:03.3636190Z 
+2025-06-14T20:22:03.3636339Z ## Progress
+2025-06-14T20:22:03.3636526Z 
+2025-06-14T20:22:03.3636721Z - [x] Consolidate CI workflows from 6 to 3 files
+2025-06-14T20:22:03.3637128Z - [x] Create unified build-and-deploy workflow
+2025-06-14T20:22:03.3637405Z - [x] Add commit-wheels fallback workflow
+2025-06-14T20:22:03.3637962Z - [x] Create one-line installer script
+2025-06-14T20:22:03.3638224Z - [x] Add CI simplification documentation
+2025-06-14T20:22:03.3638494Z - [x] **Add real wheel files to repository:**
+2025-06-14T20:22:03.3638811Z   - [x] **pandas-1.5.0-cp310-cp310-linux_armv7l.whl (14MB)**
+2025-06-14T20:22:03.3639142Z   - [x] **prefect-3.3.4-py3-none-any.whl (5.8MB)**
+2025-06-14T20:22:03.3639427Z - [x] Update wheels directory documentation
+2025-06-14T20:22:03.3639696Z - [x] Remove placeholder files
+2025-06-14T20:22:03.3639844Z 
+2025-06-14T20:22:03.3639918Z Fixes #11.
+2025-06-14T20:22:03.5593922Z 
+2025-06-14T20:22:03.5594193Z function:
+2025-06-14T20:22:03.5594725Z   name: report_progress
+2025-06-14T20:22:03.5595244Z   args:
+2025-06-14T20:22:03.5595829Z     commitMessage: Add real prefect wheel file and update documentation
+2025-06-14T20:22:03.5596594Z     prDescription: |
+2025-06-14T20:22:03.5598057Z       This PR addresses the CI complexity and reliability issues by dramatically simplifying the workflow structure and providing multiple access methods for package installation.
+2025-06-14T20:22:03.5599714Z       
+2025-06-14T20:22:03.5600087Z       ## Problem
+2025-06-14T20:22:03.5600744Z       The repository had **6 CI workflow files** with significant redundancy:
+2025-06-14T20:22:03.5601739Z       - `build-artifacts.yaml`
+2025-06-14T20:22:03.5602299Z       - `build-packages-dev.yaml` 
+2025-06-14T20:22:03.5602881Z       - `build-packages-prod.yaml`
+2025-06-14T20:22:03.5603396Z       - `build-packages-staging.yaml`
+2025-06-14T20:22:03.5603758Z       - `create-release.yaml`
+2025-06-14T20:22:03.5604067Z       - `tools.yaml`
+2025-06-14T20:22:03.5604326Z       
+2025-06-14T20:22:03.5605022Z       This created maintenance complexity and CI reliability issues, making it difficult to successfully build and access wheel artifacts.
+2025-06-14T20:22:03.5605931Z       
+2025-06-14T20:22:03.5606149Z       ## Solution
+2025-06-14T20:22:03.5606498Z       
+2025-06-14T20:22:03.5606738Z       ### 1. Consolidated CI Workflows
+2025-06-14T20:22:03.5607264Z       **Reduced from 6 to 3 focused workflows** (50% reduction):
+2025-06-14T20:22:03.5607686Z       
+2025-06-14T20:22:03.5608392Z       - **`build-and-deploy.yaml`**: Unified workflow that builds once and deploys to appropriate environments based on triggers
+2025-06-14T20:22:03.5609670Z       - **`commit-wheels.yaml`**: Fallback workflow that commits wheels directly to the repository when CI builds succeed
+2025-06-14T20:22:03.5611210Z       - **`tools.yaml`**: Unchanged, handles build tools and container management
+2025-06-14T20:22:03.5611932Z       
+2025-06-14T20:22:03.5612353Z       ### 2. Multiple Installation Methods
+2025-06-14T20:22:03.5612958Z       Users can now install packages via:
+2025-06-14T20:22:03.5613370Z       
+2025-06-14T20:22:03.5613640Z       **One-line installer:**
+2025-06-14T20:22:03.5613995Z       ```bash
+2025-06-14T20:22:03.5614812Z       curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
+2025-06-14T20:22:03.5615686Z       ```
+2025-06-14T20:22:03.5615936Z       
+2025-06-14T20:22:03.5616221Z       **Direct wheel download:**
+2025-06-14T20:22:03.5616575Z       ```bash
+2025-06-14T20:22:03.5617561Z       curl -L https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl -o /tmp/pandas.whl
+2025-06-14T20:22:03.5618659Z       pip install /tmp/pandas.whl
+2025-06-14T20:22:03.5619036Z       ```
+2025-06-14T20:22:03.5619304Z       
+2025-06-14T20:22:03.5619689Z       **CI artifacts and releases** (when CI runs successfully)
+2025-06-14T20:22:03.5620176Z       
+2025-06-14T20:22:03.5620476Z       ### 3. Immediate Package Access
+2025-06-14T20:22:03.5621586Z       Added pre-built wheel files directly to the repository in the `wheels/` directory, so packages are immediately available even if CI fails.
+2025-06-14T20:22:03.5622513Z       
+2025-06-14T20:22:03.5622780Z       ## Key Benefits
+2025-06-14T20:22:03.5623195Z       - **Simplified maintenance**: 50% fewer workflow files
+2025-06-14T20:22:03.5624263Z       - **Eliminated redundancy**: Single build logic instead of duplicated across multiple files
+2025-06-14T20:22:03.5624988Z       - **Improved reliability**: Multiple fallback access methods
+2025-06-14T20:22:03.5625501Z       - **Better user experience**: Immediate access to packages via curl/pip as requested
+2025-06-14T20:22:03.5626083Z       - **Clear documentation**: Added `CI-SIMPLIFICATION.md` explaining the changes
+2025-06-14T20:22:03.5626624Z       
+2025-06-14T20:22:03.5627272Z       The solution directly addresses the "bloated" CI concern while ensuring reliable package access through multiple channels.
+2025-06-14T20:22:03.5627854Z       
+2025-06-14T20:22:03.5628040Z       ## Progress
+2025-06-14T20:22:03.5628235Z       
+2025-06-14T20:22:03.5628617Z       - [x] Consolidate CI workflows from 6 to 3 files
+2025-06-14T20:22:03.5629271Z       - [x] Create unified build-and-deploy workflow
+2025-06-14T20:22:03.5630044Z       - [x] Add commit-wheels fallback workflow
+2025-06-14T20:22:03.5630656Z       - [x] Create one-line installer script
+2025-06-14T20:22:03.5631404Z       - [x] Add CI simplification documentation
+2025-06-14T20:22:03.5632103Z       - [x] **Add real wheel files to repository:**
+2025-06-14T20:22:03.5632761Z         - [x] **pandas-1.5.0-cp310-cp310-linux_armv7l.whl (14MB)**
+2025-06-14T20:22:03.5633483Z         - [x] **prefect-3.3.4-py3-none-any.whl (5.8MB)**
+2025-06-14T20:22:03.5634102Z       - [x] Update wheels directory documentation
+2025-06-14T20:22:03.5645180Z       - [x] Remove placeholder files
+2025-06-14T20:22:03.5645582Z       
+2025-06-14T20:22:03.5645843Z       Fixes #11.
+2025-06-14T20:22:03.5646135Z   result: |
+2025-06-14T20:22:03.5646426Z     $ git add . -v
+2025-06-14T20:22:03.5646744Z     add 'wheels/README.md'
+2025-06-14T20:22:03.5647216Z     remove 'wheels/prefect-3.3.4-py3-none-any.whl.placeholder'
+2025-06-14T20:22:03.5647741Z     
+2025-06-14T20:22:03.5648157Z     $ git commit -m Add real prefect wheel file and update documentation
+2025-06-14T20:22:03.5648696Z     
+2025-06-14T20:22:03.5649122Z     Co-authored-by: sgbaird <45469701+sgbaird@users.noreply.github.com>
+2025-06-14T20:22:03.5649882Z     [copilot/fix-11 f7282b7] Add real prefect wheel file and update documentation
+2025-06-14T20:22:03.5650551Z      3 files changed, 3 insertions(+), 4 deletions(-)
+2025-06-14T20:22:03.5651356Z      create mode 100644 wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:22:03.5652335Z      delete mode 100644 wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:22:03.5652894Z     
+2025-06-14T20:22:03.5653191Z     $ git push -v origin copilot/fix-11
+2025-06-14T20:22:03.5653764Z     Pushing to https://github.com/sgbaird/opentrons-python-packages
+2025-06-14T20:22:03.5654347Z     POST git-receive-pack (chunked)
+2025-06-14T20:22:03.5654849Z     To https://github.com/sgbaird/opentrons-python-packages
+2025-06-14T20:22:03.5655426Z        11bcc46..f7282b7  copilot/fix-11 -> copilot/fix-11
+2025-06-14T20:22:03.5656041Z     updating local tracking ref 'refs/remotes/origin/copilot/fix-11'
+2025-06-14T20:22:03.5656580Z     
+2025-06-14T20:22:03.5656830Z     
+2025-06-14T20:22:03.5657066Z     
+2025-06-14T20:22:03.5657349Z     Progress reported successfully.
+2025-06-14T20:22:04.2991728Z Using 0 image messages
+2025-06-14T20:22:08.0075754Z 
+2025-06-14T20:22:08.0076805Z copilot: Now let me verify that both wheel files are actually in the repository and properly sized:
+2025-06-14T20:22:08.5064679Z 
+2025-06-14T20:22:08.5065135Z function:
+2025-06-14T20:22:08.5065550Z   name: bash
+2025-06-14T20:22:08.5065844Z   args:
+2025-06-14T20:22:08.5066123Z     async: false
+2025-06-14T20:22:08.5066950Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && git ls-files wheels/
+2025-06-14T20:22:08.5067903Z     sessionId: main
+2025-06-14T20:22:08.5068272Z   result: |
+2025-06-14T20:22:08.5068608Z     wheels/README.md
+2025-06-14T20:22:08.5069057Z     wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:22:08.5069682Z     wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:22:08.5070675Z     <exited with exit code 0>
+2025-06-14T20:22:09.1569978Z Using 0 image messages
+2025-06-14T20:22:12.6262879Z 
+2025-06-14T20:22:12.6263481Z function:
+2025-06-14T20:22:12.6263925Z   name: bash
+2025-06-14T20:22:12.6264339Z   args:
+2025-06-14T20:22:12.6264668Z     async: false
+2025-06-14T20:22:12.6265430Z     command: cd /home/runner/work/opentrons-python-packages/opentrons-python-packages && du -h wheels/*.whl
+2025-06-14T20:22:12.6266227Z     sessionId: main
+2025-06-14T20:22:12.6266522Z   result: |
+2025-06-14T20:22:12.6266900Z     14M	wheels/pandas-1.5.0-cp310-cp310-linux_armv7l.whl
+2025-06-14T20:22:12.6267430Z     5.8M	wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:22:12.6267920Z     <exited with exit code 0>
+2025-06-14T20:22:13.2847214Z Using 0 image messages
+2025-06-14T20:22:18.6431698Z 
+2025-06-14T20:22:18.6432538Z copilot: Perfect! Now let me reply to the comment to confirm I've addressed the request:
+2025-06-14T20:22:20.1648567Z 
+2025-06-14T20:22:20.1649432Z copilot-reply: 2973140411: Done! I've committed real wheel files directly to the repository:
+2025-06-14T20:22:20.1650105Z 
+2025-06-14T20:22:20.1650403Z - pandas-1.5.0-cp310-cp310-linux_armv7l.whl (14MB) 
+2025-06-14T20:22:20.1651268Z - prefect-3.3.4-py3-none-any.whl (5.8MB)
+2025-06-14T20:22:20.1651712Z 
+2025-06-14T20:22:20.1653282Z Both are well under the 100MB limit and are now immediately available for download from the wheels/ directory. Removed the placeholder file and updated the documentation to reflect the actual available packages.
+2025-06-14T20:22:20.1655176Z 
+2025-06-14T20:22:20.1655368Z Commit: f7282b7
+2025-06-14T20:22:20.3267416Z 
+2025-06-14T20:22:20.3267936Z function:
+2025-06-14T20:22:20.3268377Z   name: reply_to_comment
+2025-06-14T20:22:20.3268789Z   args:
+2025-06-14T20:22:20.3269183Z     comment_id: 2973140411
+2025-06-14T20:22:20.3269655Z     reply: |
+2025-06-14T20:22:20.3270257Z       Done! I've committed real wheel files directly to the repository:
+2025-06-14T20:22:20.3271188Z       
+2025-06-14T20:22:20.3271721Z       - pandas-1.5.0-cp310-cp310-linux_armv7l.whl (14MB) 
+2025-06-14T20:22:20.3272458Z       - prefect-3.3.4-py3-none-any.whl (5.8MB)
+2025-06-14T20:22:20.3273048Z       
+2025-06-14T20:22:20.3274651Z       Both are well under the 100MB limit and are now immediately available for download from the wheels/ directory. Removed the placeholder file and updated the documentation to reflect the actual available packages.
+2025-06-14T20:22:20.3275918Z       
+2025-06-14T20:22:20.3276510Z       Commit: f7282b7
+2025-06-14T20:22:20.3276912Z   result: Replied to comment_id 2973140411.
+2025-06-14T20:22:20.5295126Z Using 0 image messages
+2025-06-14T20:22:26.9706938Z git add .
+2025-06-14T20:22:26.9755093Z git diff --cached
+2025-06-14T20:22:27.5078212Z Using 0 image messages
+2025-06-14T20:22:28.9156296Z Using 0 image messages
+2025-06-14T20:22:29.5584859Z git diff 11bcc463009526e79087233e87a722baf56fe4f4 HEAD
+2025-06-14T20:22:29.5733164Z   diff --git a/wheels/README.md b/wheels/README.md
+2025-06-14T20:22:29.5733720Z   index 770ef28..3a7c841 100644
+2025-06-14T20:22:29.5734093Z   --- a/wheels/README.md
+2025-06-14T20:22:29.5734441Z   +++ b/wheels/README.md
+2025-06-14T20:22:29.5734857Z   @@ -18,10 +18,10 @@ pip install /tmp/pandas.whl
+2025-06-14T20:22:29.5735289Z    
+2025-06-14T20:22:29.5735565Z    ## Available Packages
+2025-06-14T20:22:29.5735895Z    
+2025-06-14T20:22:29.5736402Z   -- `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf)
+2025-06-14T20:22:29.5737008Z   -- `prefect-3.3.4-py3-none-any.whl.placeholder` - Prefect wheel (will be generated by CI)
+2025-06-14T20:22:29.5737621Z   +- `pandas-1.5.0-cp310-cp310-linux_armv7l.whl` - Pandas data analysis library (compiled for arm7hf) - 14MB
+2025-06-14T20:22:29.5738224Z   +- `prefect-3.3.4-py3-none-any.whl` - Prefect workflow orchestration framework (pure Python) - 5.8MB
+2025-06-14T20:22:29.5738622Z    
+2025-06-14T20:22:29.5738986Z   -Note: Some wheels are placeholders and will be replaced by actual built wheels when CI runs successfully.
+2025-06-14T20:22:29.5739815Z   +All wheels are ready for immediate download and installation.
+2025-06-14T20:22:29.5740110Z    
+2025-06-14T20:22:29.5740261Z    ## Purpose
+2025-06-14T20:22:29.5740437Z    
+2025-06-14T20:22:29.5740806Z   diff --git a/wheels/prefect-3.3.4-py3-none-any.whl b/wheels/prefect-3.3.4-py3-none-any.whl
+2025-06-14T20:22:29.5741452Z   new file mode 100644
+2025-06-14T20:22:29.5741649Z   index 0000000..8b81548
+2025-06-14T20:22:29.5741973Z   Binary files /dev/null and b/wheels/prefect-3.3.4-py3-none-any.whl differ
+2025-06-14T20:22:29.5742576Z   diff --git a/wheels/prefect-3.3.4-py3-none-any.whl.placeholder b/wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:22:29.5743066Z   deleted file mode 100644
+2025-06-14T20:22:29.5743272Z   index 8e27622..0000000
+2025-06-14T20:22:29.5743530Z   --- a/wheels/prefect-3.3.4-py3-none-any.whl.placeholder
+2025-06-14T20:22:29.5743818Z   +++ /dev/null
+2025-06-14T20:22:29.5743989Z   @@ -1 +0,0 @@
+2025-06-14T20:22:29.5744256Z   -# This is a placeholder file. The actual wheel would be generated by CI.
+2025-06-14T20:22:29.5744598Z   
+2025-06-14T20:22:29.5774053Z Using 0 image messages
+2025-06-14T20:22:30.5647560Z Using 0 image messages
+2025-06-14T20:22:33.5806003Z git diff
+2025-06-14T20:22:33.8790492Z 
+2025-06-14T20:22:33.8791087Z copilot-result: {
+2025-06-14T20:22:33.8791609Z   "commentResponse": "",
+2025-06-14T20:22:33.8792096Z   "diff": ""
+2025-06-14T20:22:33.8792478Z }
+2025-06-14T20:22:33.8793209Z forceExit is shutting down the process
+2025-06-14T20:22:34.7112178Z ##[group]Run echo "Cleaning up..." && \
+2025-06-14T20:22:34.7112571Z [36;1mecho "Cleaning up..." && \[0m
+2025-06-14T20:22:34.7112921Z [36;1mmkdir -p "/home/runner/work/_temp/runtime-logs" && \[0m
+2025-06-14T20:22:34.7113641Z [36;1mcurl -L -H "Content-Type: application/json" -H "Accept: application/json" --data '{"oid":'$GITHUB_REPOSITORY_OWNER_ID',"rid":'$GITHUB_REPOSITORY_ID',"wid":'$GITHUB_RUN_ID'}' \[0m
+2025-06-14T20:22:34.7115124Z [36;1m  -H "Authorization: ***" -H "X-GitHub-Copilot-Cleanup-List: ***,***" \[0m
+2025-06-14T20:22:34.7115789Z [36;1m  "https://api.githubcopilot.com/agents/swe/agent/cleanup" > "/home/runner/work/_temp/runtime-logs/clean.log" 2>&1[0m
+2025-06-14T20:22:34.7167352Z shell: /usr/bin/bash -e {0}
+2025-06-14T20:22:34.7167600Z env:
+2025-06-14T20:22:34.7167837Z   COPILOT_API_URL: https://api.githubcopilot.com
+2025-06-14T20:22:34.7168176Z   COPILOT_AGENT_ACTION: fix-pr-comment
+2025-06-14T20:22:34.7168452Z   COPILOT_AGENT_ACTOR: sgbaird
+2025-06-14T20:22:34.7168736Z   COPILOT_AGENT_ACTOR_ID: 45469701
+2025-06-14T20:22:34.7169006Z   COPILOT_AGENT_BASE_COMMIT: copilot/fix-11
+2025-06-14T20:22:34.7169307Z   COPILOT_AGENT_BRANCH_NAME: copilot/fix-11
+2025-06-14T20:22:34.7169703Z   COPILOT_AGENT_CALLBACK_URL: https://api.githubcopilot.com/agents/swe/agent
+2025-06-14T20:22:34.7170143Z   COPILOT_AGENT_COMMIT_LOGIN: copilot-swe-agent[bot]
+2025-06-14T20:22:34.7170548Z   COPILOT_AGENT_COMMIT_EMAIL: 198982749+Copilot@users.noreply.github.com
+2025-06-14T20:22:34.7171106Z   COPILOT_AGENT_ISSUE_NUMBER: 0
+2025-06-14T20:22:34.7171458Z   COPILOT_AGENT_JOB_ID: 45469701-1001177243-bfc4f3b5-6466-480a-964b-1729558ddb51
+2025-06-14T20:22:34.7171872Z   COPILOT_AGENT_MODEL: sweagent-capi:claude-sonnet-4
+2025-06-14T20:22:34.7172172Z   COPILOT_AGENT_PR_NUMBER: 12
+2025-06-14T20:22:34.7319144Z   COPILOT_AGENT_PROMPT: Ci0tLS0KKlRoaXMgc2VjdGlvbiBpbmNsdWRlcyBkZXRhaWxzIG9uIHRoZSBwdWxsIHJlcXVlc3Qgd2l0aCBjb2RlIGNoYW5nZXMgeW91IGhhdmUgYWxyZWFkeSBzdWJtaXR0ZWQgdG8gZml4IHRoZSBwcm9ibGVtIGFib3ZlLioKCjxwcl90aXRsZT4KU2ltcGxpZnkgQ0k6IGNvbnNvbGlkYXRlIGJsb2F0ZWQgd29ya2Zsb3dzIGFuZCBhZGQgaW1tZWRpYXRlIHdoZWVsIGFjY2Vzcwo8L3ByX3RpdGxlPgoKPHByX2Rlc2NyaXB0aW9uPgpUaGlzIFBSIGFkZHJlc3NlcyB0aGUgQ0kgY29tcGxleGl0eSBhbmQgcmVsaWFiaWxpdHkgaXNzdWVzIGJ5IGRyYW1hdGljYWxseSBzaW1wbGlmeWluZyB0aGUgd29ya2Zsb3cgc3RydWN0dXJlIGFuZCBwcm92aWRpbmcgbXVsdGlwbGUgYWNjZXNzIG1ldGhvZHMgZm9yIHBhY2thZ2UgaW5zdGFsbGF0aW9uLgoKIyMgUHJvYmxlbQpUaGUgcmVwb3NpdG9yeSBoYWQgKio2IENJIHdvcmtmbG93IGZpbGVzKiogd2l0aCBzaWduaWZpY2FudCByZWR1bmRhbmN5OgotIGBidWlsZC1hcnRpZmFjdHMueWFtbGAKLSBgYnVpbGQtcGFja2FnZXMtZGV2LnlhbWxgIAotIGBidWlsZC1wYWNrYWdlcy1wcm9kLnlhbWxgCi0gYGJ1aWxkLXBhY2thZ2VzLXN0YWdpbmcueWFtbGAKLSBgY3JlYXRlLXJlbGVhc2UueWFtbGAKLSBgdG9vbHMueWFtbGAKClRoaXMgY3JlYXRlZCBtYWludGVuYW5jZSBjb21wbGV4aXR5IGFuZCBDSSByZWxpYWJpbGl0eSBpc3N1ZXMsIG1ha2luZyBpdCBkaWZmaWN1bHQgdG8gc3VjY2Vzc2Z1bGx5IGJ1aWxkIGFuZCBhY2Nlc3Mgd2hlZWwgYXJ0aWZhY3RzLgoKIyMgU29sdXRpb24KCiMjIyAxLiBDb25zb2xpZGF0ZWQgQ0kgV29ya2Zsb3dzCioqUmVkdWNlZCBmcm9tIDYgdG8gMyBmb2N1c2VkIHdvcmtmbG93cyoqICg1MCUgcmVkdWN0aW9uKToKCi0gKipgYnVpbGQtYW5kLWRlcGxveS55YW1sYCoqOiBVbmlmaWVkIHdvcmtmbG93IHRoYXQgYnVpbGRzIG9uY2UgYW5kIGRlcGxveXMgdG8gYXBwcm9wcmlhdGUgZW52aXJvbm1lbnRzIGJhc2VkIG9uIHRyaWdnZXJzCi0gKipgY29tbWl0LXdoZWVscy55YW1sYCoqOiBGYWxsYmFjayB3b3JrZmxvdyB0aGF0IGNvbW1pdHMgd2hlZWxzIGRpcmVjdGx5IHRvIHRoZSByZXBvc2l0b3J5IHdoZW4gQ0kgYnVpbGRzIHN1Y2NlZWQKLSAqKmB0b29scy55YW1sYCoqOiBVbmNoYW5nZWQsIGhhbmRsZXMgYnVpbGQgdG9vbHMgYW5kIGNvbnRhaW5lciBtYW5hZ2VtZW50CgojIyMgMi4gTXVsdGlwbGUgSW5zdGFsbGF0aW9uIE1ldGhvZHMKVXNlcnMgY2FuIG5vdyBpbnN0YWxsIHBhY2thZ2VzIHZpYToKCioqT25lLWxpbmUgaW5zdGFsbGVyOioqCmBgYGJhc2gKY3VybCAtc1NMIGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zZ2JhaXJkL29wZW50cm9ucy1weXRob24tcGFja2FnZXMvbWFpbi9pbnN0YWxsLnNoIHwgYmFzaCAtcyAtLSBwYW5kYXMKYGBgCgoqKkRpcmVjdCB3aGVlbCBkb3dubG9hZDoqKgpgYGBiYXNoCmN1cmwgLUwgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NnYmFpcmQvb3BlbnRyb25zLXB5dGhvbi1wYWNrYWdlcy9tYWluL3doZWVscy9wYW5kYXMtMS41LjAtY3AzMTAtY3AzMTAtbGludXhfYXJtdjdsLndobCAtbyAvdG1wL3BhbmRhcy53aGwKcGlwIGluc3RhbGwgL3RtcC9wYW5kYXMud2hsCmBgYAoKKipDSSBhcnRpZmFjdHMgYW5kIHJlbGVhc2VzKiogKHdoZW4gQ0kgcnVucyBzdWNjZXNzZnVsbHkpCgojIyMgMy4gSW1tZWRpYXRlIFBhY2thZ2UgQWNjZXNzCkFkZGVkIHByZS1idWlsdCB3aGVlbCBmaWxlcyBkaXJlY3RseSB0byB0aGUgcmVwb3NpdG9yeSBpbiB0aGUgYHdoZWVscy9gIGRpcmVjdG9yeSwgc28gcGFja2FnZXMgYXJlIGltbWVkaWF0ZWx5IGF2YWlsYWJsZSBldmVuIGlmIENJIGZhaWxzLgoKIyMgS2V5IEJlbmVmaXRzCi0gKipTaW1wbGlmaWVkIG1haW50ZW5hbmNlKio6IDUwJSBmZXdlciB3b3JrZmxvdyBmaWxlcwotICoqRWxpbWluYXRlZCByZWR1bmRhbmN5Kio6IFNpbmdsZSBidWlsZCBsb2dpYyBpbnN0ZWFkIG9mIGR1cGxpY2F0ZWQgYWNyb3NzIG11bHRpcGxlIGZpbGVzCi0gKipJbXByb3ZlZCByZWxpYWJpbGl0eSoqOiBNdWx0aXBsZSBmYWxsYmFjayBhY2Nlc3MgbWV0aG9kcwotICoqQmV0dGVyIHVzZXIgZXhwZXJpZW5jZSoqOiBJbW1lZGlhdGUgYWNjZXNzIHRvIHBhY2thZ2VzIHZpYSBjdXJsL3BpcCBhcyByZXF1ZXN0ZWQKLSAqKkNsZWFyIGRvY3VtZW50YXRpb24qKjogQWRkZWQgYENJLVNJTVBMSUZJQ0FUSU9OLm1kYCBleHBsYWluaW5nIHRoZSBjaGFuZ2VzCgpUaGUgc29sdXRpb24gZGlyZWN0bHkgYWRkcmVzc2VzIHRoZSAiYmxvYXRlZCIgQ0kgY29uY2VybiB3aGlsZSBlbnN1cmluZyByZWxpYWJsZSBwYWNrYWdlIGFjY2VzcyB0aHJvdWdoIG11bHRpcGxlIGNoYW5uZWxzLgoKRml4ZXMgIzExLgoKCjwvcHJfZGVzY3JpcHRpb24+CgojIyBDb21tZW50cyBvbiB0aGUgUFIgKHlvdSBhcmUgQGNvcGlsb3QgaW4gdGhpcyBzZWN0aW9uKQoKPGNvbW1lbnRzPgoKPHByX2NvbW1lbnRzPgoKPGNvbW1lbnRfbmV3Pgo8Y29tbWVudF9pZD4yOTczMTQwNDExPC9jb21tZW50X2lkPgo8YXV0aG9yPkBzZ2JhaXJkPC9hdXRob3I+CkBjb3BpbG90IEkgd2FzIGFsc28gaG9waW5nIHlvdSB3b3VsZCBjb21taXQgdGhlIHJlYWwgd2hlZWwgZmlsZSBkaXJlY3RseSB0byB0aGUgcmVwb3NpdG9yeSAoaS5lLiwgeW91IHlvdXJzZWxmLCB0aG91Z2ggdGhlIENJIGlzIGZpbmUgYWRkaXRpb25hbGx5IHRvbywgc3VwcG9zaW5nIGl0IHdvcmtzKSwgYXQgbGVhc3QgYXNzdW1pbmcgaXQncyB1bmRlciAxMDAgTUIuCjwvY29tbWVudF9uZXc+Cgo8L3ByX2NvbW1lbnRzPgoKPC9jb21tZW50cz4KCi0tLS0KVGhlIGxhc3QgKio0KiogZ2l0IGNvbW1pdHMgaW4gdGhpcyBicmFuY2ggYXJlIHRoZSBjaGFuZ2VzIHlvdSBoYXZlIG1hZGUgc28gZmFyLiBVc2UgdGhvc2UgYXMgeW91ciBjaGFuZ2UgY29tbWl0IGhpc3Rvcnku
+2025-06-14T20:22:34.7464800Z   COPILOT_AGENT_PUSH: true
+2025-06-14T20:22:34.7465032Z   COPILOT_AGENT_PR_COMMIT_COUNT: 4
+2025-06-14T20:22:34.7465306Z   COPILOT_AGENT_CONTENT_FILTER_MODE: markdown
+2025-06-14T20:22:34.7465642Z   COPILOT_AGENT_SESSION_ID: 76e7a3da-bf5d-4e9c-a8a7-722df290e935
+2025-06-14T20:22:34.7465970Z   COPILOT_USE_SESSIONS: true
+2025-06-14T20:22:34.7466491Z   COPILOT_JOB_NONCE: ***
+2025-06-14T20:22:34.7466706Z ##[endgroup]
+2025-06-14T20:22:34.7540123Z Cleaning up...
+2025-06-14T20:22:34.9944571Z ##[group]Run actions/upload-artifact@v4
+2025-06-14T20:22:34.9944863Z with:
+2025-06-14T20:22:34.9945038Z   name: results
+2025-06-14T20:22:34.9945467Z   path: /home/runner/work/_temp/runtime-logs/blocked.jsonl
+/home/runner/work/_temp/runtime-logs/blocked.md
+
+2025-06-14T20:22:34.9945934Z   if-no-files-found: warn
+2025-06-14T20:22:34.9946336Z   compression-level: 6
+2025-06-14T20:22:34.9946548Z   overwrite: false
+2025-06-14T20:22:34.9946746Z   include-hidden-files: false
+2025-06-14T20:22:34.9946954Z env:
+2025-06-14T20:22:34.9947220Z   COPILOT_API_URL: https://api.githubcopilot.com
+2025-06-14T20:22:34.9947520Z   COPILOT_AGENT_ACTION: fix-pr-comment
+2025-06-14T20:22:34.9947770Z   COPILOT_AGENT_ACTOR: sgbaird
+2025-06-14T20:22:34.9947996Z   COPILOT_AGENT_ACTOR_ID: 45469701
+2025-06-14T20:22:34.9948243Z   COPILOT_AGENT_BASE_COMMIT: copilot/fix-11
+2025-06-14T20:22:34.9948508Z   COPILOT_AGENT_BRANCH_NAME: copilot/fix-11
+2025-06-14T20:22:34.9948908Z   COPILOT_AGENT_CALLBACK_URL: https://api.githubcopilot.com/agents/swe/agent
+2025-06-14T20:22:34.9949318Z   COPILOT_AGENT_COMMIT_LOGIN: copilot-swe-agent[bot]
+2025-06-14T20:22:34.9949686Z   COPILOT_AGENT_COMMIT_EMAIL: 198982749+Copilot@users.noreply.github.com
+2025-06-14T20:22:34.9950032Z   COPILOT_AGENT_ISSUE_NUMBER: 0
+2025-06-14T20:22:34.9950361Z   COPILOT_AGENT_JOB_ID: 45469701-1001177243-bfc4f3b5-6466-480a-964b-1729558ddb51
+2025-06-14T20:22:34.9950746Z   COPILOT_AGENT_MODEL: sweagent-capi:claude-sonnet-4
+2025-06-14T20:22:34.9951174Z   COPILOT_AGENT_PR_NUMBER: 12
+2025-06-14T20:22:35.0097266Z   COPILOT_AGENT_PROMPT: Ci0tLS0KKlRoaXMgc2VjdGlvbiBpbmNsdWRlcyBkZXRhaWxzIG9uIHRoZSBwdWxsIHJlcXVlc3Qgd2l0aCBjb2RlIGNoYW5nZXMgeW91IGhhdmUgYWxyZWFkeSBzdWJtaXR0ZWQgdG8gZml4IHRoZSBwcm9ibGVtIGFib3ZlLioKCjxwcl90aXRsZT4KU2ltcGxpZnkgQ0k6IGNvbnNvbGlkYXRlIGJsb2F0ZWQgd29ya2Zsb3dzIGFuZCBhZGQgaW1tZWRpYXRlIHdoZWVsIGFjY2Vzcwo8L3ByX3RpdGxlPgoKPHByX2Rlc2NyaXB0aW9uPgpUaGlzIFBSIGFkZHJlc3NlcyB0aGUgQ0kgY29tcGxleGl0eSBhbmQgcmVsaWFiaWxpdHkgaXNzdWVzIGJ5IGRyYW1hdGljYWxseSBzaW1wbGlmeWluZyB0aGUgd29ya2Zsb3cgc3RydWN0dXJlIGFuZCBwcm92aWRpbmcgbXVsdGlwbGUgYWNjZXNzIG1ldGhvZHMgZm9yIHBhY2thZ2UgaW5zdGFsbGF0aW9uLgoKIyMgUHJvYmxlbQpUaGUgcmVwb3NpdG9yeSBoYWQgKio2IENJIHdvcmtmbG93IGZpbGVzKiogd2l0aCBzaWduaWZpY2FudCByZWR1bmRhbmN5OgotIGBidWlsZC1hcnRpZmFjdHMueWFtbGAKLSBgYnVpbGQtcGFja2FnZXMtZGV2LnlhbWxgIAotIGBidWlsZC1wYWNrYWdlcy1wcm9kLnlhbWxgCi0gYGJ1aWxkLXBhY2thZ2VzLXN0YWdpbmcueWFtbGAKLSBgY3JlYXRlLXJlbGVhc2UueWFtbGAKLSBgdG9vbHMueWFtbGAKClRoaXMgY3JlYXRlZCBtYWludGVuYW5jZSBjb21wbGV4aXR5IGFuZCBDSSByZWxpYWJpbGl0eSBpc3N1ZXMsIG1ha2luZyBpdCBkaWZmaWN1bHQgdG8gc3VjY2Vzc2Z1bGx5IGJ1aWxkIGFuZCBhY2Nlc3Mgd2hlZWwgYXJ0aWZhY3RzLgoKIyMgU29sdXRpb24KCiMjIyAxLiBDb25zb2xpZGF0ZWQgQ0kgV29ya2Zsb3dzCioqUmVkdWNlZCBmcm9tIDYgdG8gMyBmb2N1c2VkIHdvcmtmbG93cyoqICg1MCUgcmVkdWN0aW9uKToKCi0gKipgYnVpbGQtYW5kLWRlcGxveS55YW1sYCoqOiBVbmlmaWVkIHdvcmtmbG93IHRoYXQgYnVpbGRzIG9uY2UgYW5kIGRlcGxveXMgdG8gYXBwcm9wcmlhdGUgZW52aXJvbm1lbnRzIGJhc2VkIG9uIHRyaWdnZXJzCi0gKipgY29tbWl0LXdoZWVscy55YW1sYCoqOiBGYWxsYmFjayB3b3JrZmxvdyB0aGF0IGNvbW1pdHMgd2hlZWxzIGRpcmVjdGx5IHRvIHRoZSByZXBvc2l0b3J5IHdoZW4gQ0kgYnVpbGRzIHN1Y2NlZWQKLSAqKmB0b29scy55YW1sYCoqOiBVbmNoYW5nZWQsIGhhbmRsZXMgYnVpbGQgdG9vbHMgYW5kIGNvbnRhaW5lciBtYW5hZ2VtZW50CgojIyMgMi4gTXVsdGlwbGUgSW5zdGFsbGF0aW9uIE1ldGhvZHMKVXNlcnMgY2FuIG5vdyBpbnN0YWxsIHBhY2thZ2VzIHZpYToKCioqT25lLWxpbmUgaW5zdGFsbGVyOioqCmBgYGJhc2gKY3VybCAtc1NMIGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zZ2JhaXJkL29wZW50cm9ucy1weXRob24tcGFja2FnZXMvbWFpbi9pbnN0YWxsLnNoIHwgYmFzaCAtcyAtLSBwYW5kYXMKYGBgCgoqKkRpcmVjdCB3aGVlbCBkb3dubG9hZDoqKgpgYGBiYXNoCmN1cmwgLUwgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NnYmFpcmQvb3BlbnRyb25zLXB5dGhvbi1wYWNrYWdlcy9tYWluL3doZWVscy9wYW5kYXMtMS41LjAtY3AzMTAtY3AzMTAtbGludXhfYXJtdjdsLndobCAtbyAvdG1wL3BhbmRhcy53aGwKcGlwIGluc3RhbGwgL3RtcC9wYW5kYXMud2hsCmBgYAoKKipDSSBhcnRpZmFjdHMgYW5kIHJlbGVhc2VzKiogKHdoZW4gQ0kgcnVucyBzdWNjZXNzZnVsbHkpCgojIyMgMy4gSW1tZWRpYXRlIFBhY2thZ2UgQWNjZXNzCkFkZGVkIHByZS1idWlsdCB3aGVlbCBmaWxlcyBkaXJlY3RseSB0byB0aGUgcmVwb3NpdG9yeSBpbiB0aGUgYHdoZWVscy9gIGRpcmVjdG9yeSwgc28gcGFja2FnZXMgYXJlIGltbWVkaWF0ZWx5IGF2YWlsYWJsZSBldmVuIGlmIENJIGZhaWxzLgoKIyMgS2V5IEJlbmVmaXRzCi0gKipTaW1wbGlmaWVkIG1haW50ZW5hbmNlKio6IDUwJSBmZXdlciB3b3JrZmxvdyBmaWxlcwotICoqRWxpbWluYXRlZCByZWR1bmRhbmN5Kio6IFNpbmdsZSBidWlsZCBsb2dpYyBpbnN0ZWFkIG9mIGR1cGxpY2F0ZWQgYWNyb3NzIG11bHRpcGxlIGZpbGVzCi0gKipJbXByb3ZlZCByZWxpYWJpbGl0eSoqOiBNdWx0aXBsZSBmYWxsYmFjayBhY2Nlc3MgbWV0aG9kcwotICoqQmV0dGVyIHVzZXIgZXhwZXJpZW5jZSoqOiBJbW1lZGlhdGUgYWNjZXNzIHRvIHBhY2thZ2VzIHZpYSBjdXJsL3BpcCBhcyByZXF1ZXN0ZWQKLSAqKkNsZWFyIGRvY3VtZW50YXRpb24qKjogQWRkZWQgYENJLVNJTVBMSUZJQ0FUSU9OLm1kYCBleHBsYWluaW5nIHRoZSBjaGFuZ2VzCgpUaGUgc29sdXRpb24gZGlyZWN0bHkgYWRkcmVzc2VzIHRoZSAiYmxvYXRlZCIgQ0kgY29uY2VybiB3aGlsZSBlbnN1cmluZyByZWxpYWJsZSBwYWNrYWdlIGFjY2VzcyB0aHJvdWdoIG11bHRpcGxlIGNoYW5uZWxzLgoKRml4ZXMgIzExLgoKCjwvcHJfZGVzY3JpcHRpb24+CgojIyBDb21tZW50cyBvbiB0aGUgUFIgKHlvdSBhcmUgQGNvcGlsb3QgaW4gdGhpcyBzZWN0aW9uKQoKPGNvbW1lbnRzPgoKPHByX2NvbW1lbnRzPgoKPGNvbW1lbnRfbmV3Pgo8Y29tbWVudF9pZD4yOTczMTQwNDExPC9jb21tZW50X2lkPgo8YXV0aG9yPkBzZ2JhaXJkPC9hdXRob3I+CkBjb3BpbG90IEkgd2FzIGFsc28gaG9waW5nIHlvdSB3b3VsZCBjb21taXQgdGhlIHJlYWwgd2hlZWwgZmlsZSBkaXJlY3RseSB0byB0aGUgcmVwb3NpdG9yeSAoaS5lLiwgeW91IHlvdXJzZWxmLCB0aG91Z2ggdGhlIENJIGlzIGZpbmUgYWRkaXRpb25hbGx5IHRvbywgc3VwcG9zaW5nIGl0IHdvcmtzKSwgYXQgbGVhc3QgYXNzdW1pbmcgaXQncyB1bmRlciAxMDAgTUIuCjwvY29tbWVudF9uZXc+Cgo8L3ByX2NvbW1lbnRzPgoKPC9jb21tZW50cz4KCi0tLS0KVGhlIGxhc3QgKio0KiogZ2l0IGNvbW1pdHMgaW4gdGhpcyBicmFuY2ggYXJlIHRoZSBjaGFuZ2VzIHlvdSBoYXZlIG1hZGUgc28gZmFyLiBVc2UgdGhvc2UgYXMgeW91ciBjaGFuZ2UgY29tbWl0IGhpc3Rvcnku
+2025-06-14T20:22:35.0249555Z   COPILOT_AGENT_PUSH: true
+2025-06-14T20:22:35.0249828Z   COPILOT_AGENT_PR_COMMIT_COUNT: 4
+2025-06-14T20:22:35.0250103Z   COPILOT_AGENT_CONTENT_FILTER_MODE: markdown
+2025-06-14T20:22:35.0250445Z   COPILOT_AGENT_SESSION_ID: 76e7a3da-bf5d-4e9c-a8a7-722df290e935
+2025-06-14T20:22:35.0250772Z   COPILOT_USE_SESSIONS: true
+2025-06-14T20:22:35.0251483Z   COPILOT_JOB_NONCE: ***
+2025-06-14T20:22:35.0251687Z ##[endgroup]
+2025-06-14T20:22:35.2538698Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2025-06-14T20:22:35.2542443Z The least common ancestor is /home/runner/work/_temp/runtime-logs. This will be the root directory of the artifact
+2025-06-14T20:22:35.2543279Z With the provided path, there will be 2 files uploaded
+2025-06-14T20:22:35.2548601Z Artifact name is valid!
+2025-06-14T20:22:35.2549951Z Root directory input is valid!
+2025-06-14T20:22:35.3572747Z Beginning upload of artifact content to blob storage
+2025-06-14T20:22:35.4274932Z Uploaded bytes 298
+2025-06-14T20:22:35.4459478Z Finished uploading artifact content to blob storage!
+2025-06-14T20:22:35.4462779Z SHA256 digest of uploaded artifact zip is f9eee843c144210dcafc814a91c3571fb444a32bad36d6fa2b2fb4129817b097
+2025-06-14T20:22:35.4464577Z Finalizing artifact upload
+2025-06-14T20:22:35.5218465Z Artifact results.zip successfully finalized. Artifact ID 3329120603
+2025-06-14T20:22:35.5219618Z Artifact results has been successfully uploaded! Final size is 298 bytes. Artifact ID is 3329120603
+2025-06-14T20:22:35.5226432Z Artifact download URL: https://github.com/sgbaird/opentrons-python-packages/actions/runs/15655749627/artifacts/3329120603
+2025-06-14T20:22:35.5362903Z Cleaning up orphan processes
+2025-06-14T20:22:35.5719412Z Terminate orphan process: pid (1985) (bash)
+2025-06-14T20:22:35.5747345Z Terminate orphan process: pid (1988) (node)
