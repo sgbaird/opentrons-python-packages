@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "opentrons-python-packages-fork",
+			"path": ".."
+		},
+		{
+			"name": "job logs",
+			"path": "../../job logs"
+		}
+	],
+	"settings": {}
+}

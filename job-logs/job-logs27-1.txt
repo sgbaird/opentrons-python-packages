@@ -1,0 +1,112 @@
+﻿2025-06-15T01:53:58.2348790Z Current runner version: '2.325.0'
+2025-06-15T01:53:58.2372466Z ##[group]Runner Image Provisioner
+2025-06-15T01:53:58.2373278Z Hosted Compute Agent
+2025-06-15T01:53:58.2373889Z Version: 20250529.345
+2025-06-15T01:53:58.2374458Z Commit: 22237e57af968c281070ffa8ed912c1b754f9a23
+2025-06-15T01:53:58.2375137Z Build Date: 2025-05-29T20:18:30Z
+2025-06-15T01:53:58.2375675Z ##[endgroup]
+2025-06-15T01:53:58.2376299Z ##[group]Operating System
+2025-06-15T01:53:58.2376822Z Ubuntu
+2025-06-15T01:53:58.2377286Z 24.04.2
+2025-06-15T01:53:58.2377799Z LTS
+2025-06-15T01:53:58.2379097Z ##[endgroup]
+2025-06-15T01:53:58.2379845Z ##[group]Runner Image
+2025-06-15T01:53:58.2380766Z Image: ubuntu-24.04
+2025-06-15T01:53:58.2381608Z Version: 20250602.3.0
+2025-06-15T01:53:58.2382608Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250602.3/images/ubuntu/Ubuntu2404-Readme.md
+2025-06-15T01:53:58.2384264Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250602.3
+2025-06-15T01:53:58.2385183Z ##[endgroup]
+2025-06-15T01:53:58.2386300Z ##[group]GITHUB_TOKEN Permissions
+2025-06-15T01:53:58.2388363Z Contents: read
+2025-06-15T01:53:58.2388931Z Metadata: read
+2025-06-15T01:53:58.2389439Z ##[endgroup]
+2025-06-15T01:53:58.2392101Z Secret source: Actions
+2025-06-15T01:53:58.2393247Z Prepare workflow directory
+2025-06-15T01:53:58.2737070Z Prepare all required actions
+2025-06-15T01:53:58.2774571Z Getting action download info
+2025-06-15T01:53:58.5472221Z ##[group]Download immutable action package 'actions/checkout@v4'
+2025-06-15T01:53:58.5473177Z Version: 4.2.2
+2025-06-15T01:53:58.5474311Z Digest: sha256:ccb2698953eaebd21c7bf6268a94f9c26518a7e38e27e0b83c1fe1ad049819b1
+2025-06-15T01:53:58.5475443Z Source commit SHA: 11bd71901bbe5b1630ceea73d27597364c9af683
+2025-06-15T01:53:58.5476168Z ##[endgroup]
+2025-06-15T01:53:58.7082528Z Complete job name: copilot-setup-steps
+2025-06-15T01:53:58.7860776Z ##[group]Run actions/checkout@v4
+2025-06-15T01:53:58.7862041Z with:
+2025-06-15T01:53:58.7862485Z   repository: sgbaird/opentrons-python-packages
+2025-06-15T01:53:58.7863241Z   token: ***
+2025-06-15T01:53:58.7863606Z   ssh-strict: true
+2025-06-15T01:53:58.7863984Z   ssh-user: git
+2025-06-15T01:53:58.7864381Z   persist-credentials: true
+2025-06-15T01:53:58.7864808Z   clean: true
+2025-06-15T01:53:58.7865201Z   sparse-checkout-cone-mode: true
+2025-06-15T01:53:58.7865656Z   fetch-depth: 1
+2025-06-15T01:53:58.7866074Z   fetch-tags: false
+2025-06-15T01:53:58.7866456Z   show-progress: true
+2025-06-15T01:53:58.7866852Z   lfs: false
+2025-06-15T01:53:58.7867205Z   submodules: false
+2025-06-15T01:53:58.7867598Z   set-safe-directory: true
+2025-06-15T01:53:58.7868252Z ##[endgroup]
+2025-06-15T01:53:58.8942798Z Syncing repository: sgbaird/opentrons-python-packages
+2025-06-15T01:53:58.8944805Z ##[group]Getting Git version info
+2025-06-15T01:53:58.8945824Z Working directory is '/home/runner/work/opentrons-python-packages/opentrons-python-packages'
+2025-06-15T01:53:58.8946963Z [command]/usr/bin/git version
+2025-06-15T01:53:58.9023381Z git version 2.49.0
+2025-06-15T01:53:58.9049725Z ##[endgroup]
+2025-06-15T01:53:58.9064663Z Temporarily overriding HOME='/home/runner/work/_temp/457b6afe-787b-46ef-8b8c-b6369b6b19a4' before making global git config changes
+2025-06-15T01:53:58.9066818Z Adding repository directory to the temporary git global config as a safe directory
+2025-06-15T01:53:58.9077942Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/opentrons-python-packages/opentrons-python-packages
+2025-06-15T01:53:58.9116101Z Deleting the contents of '/home/runner/work/opentrons-python-packages/opentrons-python-packages'
+2025-06-15T01:53:58.9119506Z ##[group]Initializing the repository
+2025-06-15T01:53:58.9123847Z [command]/usr/bin/git init /home/runner/work/opentrons-python-packages/opentrons-python-packages
+2025-06-15T01:53:58.9250106Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-06-15T01:53:58.9251380Z hint: is subject to change. To configure the initial branch name to use in all
+2025-06-15T01:53:58.9252625Z hint: of your new repositories, which will suppress this warning, call:
+2025-06-15T01:53:58.9253304Z hint:
+2025-06-15T01:53:58.9253769Z hint: 	git config --global init.defaultBranch <name>
+2025-06-15T01:53:58.9254576Z hint:
+2025-06-15T01:53:58.9255128Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-06-15T01:53:58.9256047Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-06-15T01:53:58.9256763Z hint:
+2025-06-15T01:53:58.9257146Z hint: 	git branch -m <name>
+2025-06-15T01:53:58.9261678Z Initialized empty Git repository in /home/runner/work/opentrons-python-packages/opentrons-python-packages/.git/
+2025-06-15T01:53:58.9272109Z [command]/usr/bin/git remote add origin https://github.com/sgbaird/opentrons-python-packages
+2025-06-15T01:53:58.9308601Z ##[endgroup]
+2025-06-15T01:53:58.9309744Z ##[group]Disabling automatic garbage collection
+2025-06-15T01:53:58.9313407Z [command]/usr/bin/git config --local gc.auto 0
+2025-06-15T01:53:58.9343060Z ##[endgroup]
+2025-06-15T01:53:58.9344304Z ##[group]Setting up auth
+2025-06-15T01:53:58.9350786Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-06-15T01:53:58.9381781Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-06-15T01:53:58.9716158Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-06-15T01:53:58.9746906Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-06-15T01:53:58.9970248Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-06-15T01:53:59.0005377Z ##[endgroup]
+2025-06-15T01:53:59.0006181Z ##[group]Fetching the repository
+2025-06-15T01:53:59.0023973Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2dd8e086e9c1a5ceb0832b18da89cdfe26a0e0b6:refs/remotes/origin/copilot/fix-11
+2025-06-15T01:53:59.8863815Z From https://github.com/sgbaird/opentrons-python-packages
+2025-06-15T01:53:59.8865431Z  * [new ref]         2dd8e086e9c1a5ceb0832b18da89cdfe26a0e0b6 -> origin/copilot/fix-11
+2025-06-15T01:53:59.8891537Z ##[endgroup]
+2025-06-15T01:53:59.8893524Z ##[group]Determining the checkout info
+2025-06-15T01:53:59.8895707Z ##[endgroup]
+2025-06-15T01:53:59.8899445Z [command]/usr/bin/git sparse-checkout disable
+2025-06-15T01:53:59.8942277Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-06-15T01:53:59.8970341Z ##[group]Checking out the ref
+2025-06-15T01:53:59.8974168Z [command]/usr/bin/git checkout --progress --force -B copilot/fix-11 refs/remotes/origin/copilot/fix-11
+2025-06-15T01:54:00.0726932Z Switched to a new branch 'copilot/fix-11'
+2025-06-15T01:54:00.0728558Z branch 'copilot/fix-11' set up to track 'origin/copilot/fix-11'.
+2025-06-15T01:54:00.0747772Z ##[endgroup]
+2025-06-15T01:54:00.0785797Z [command]/usr/bin/git log -1 --format=%H
+2025-06-15T01:54:00.0808326Z 2dd8e086e9c1a5ceb0832b18da89cdfe26a0e0b6
+2025-06-15T01:54:00.1026177Z Post job cleanup.
+2025-06-15T01:54:00.1959055Z [command]/usr/bin/git version
+2025-06-15T01:54:00.1995123Z git version 2.49.0
+2025-06-15T01:54:00.2037338Z Temporarily overriding HOME='/home/runner/work/_temp/482959ed-aa28-470a-b34e-c8a1d9e3c89f' before making global git config changes
+2025-06-15T01:54:00.2038235Z Adding repository directory to the temporary git global config as a safe directory
+2025-06-15T01:54:00.2042949Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/opentrons-python-packages/opentrons-python-packages
+2025-06-15T01:54:00.2078789Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-06-15T01:54:00.2111745Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-06-15T01:54:00.2339780Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-06-15T01:54:00.2360414Z http.https://github.com/.extraheader
+2025-06-15T01:54:00.2374031Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-06-15T01:54:00.2405697Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-06-15T01:54:00.2727120Z Cleaning up orphan processes
