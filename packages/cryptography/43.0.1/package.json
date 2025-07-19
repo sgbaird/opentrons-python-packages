@@ -1,0 +1,11 @@
+{
+  "description": "Cryptographic library",
+  "dist": {
+    "type": "sdist", 
+    "url": "https://pypi.org/simple/cryptography/cryptography-43.0.1.tar.gz",
+    "hash": "sha256:203e92a75716d8cfb491dc47c79e17d0d9207ccffcbcb35f598fbe463ae3444d"
+  },
+  "build": {
+    "system": "simple"
+  }
+}

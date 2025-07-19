@@ -2,15 +2,24 @@
 
 ## ✅ SUCCESSFULLY TESTED AND VERIFIED
 
-**Status**: Production ready - Full Prefect 3.3.4 functionality with Prefect Cloud integration working on OT-2 simulators.
+**Status**: Production ready - Full Prefect 3.3.4 functionality with Prefect Cloud integration AND working CLI commands on OT-2 simulators.
 
 **Test Results**: 
 - ✅ Service account API key authentication working
 - ✅ Cloud connectivity established 
 - ✅ Flow execution successful with real-time cloud monitoring
 - ✅ Flow visible in Prefect Cloud UI at: https://app.prefect.cloud/account/5b838504-64cf-4297-9b35-b881ac6169b3/workspace/d2718b4c-b49a-43ce-83c2-baf6fb3b9665/runs/flow-run/0687af39-793f-7a60-8000-e00b135a98d5
+- ✅ **CLI commands now working**: `prefect --version`, `prefect config set` (resolved hanging issue)
 
-## Installation Instructions
+## Installation Instructions (Updated with CLI Fix)
+
+### Option A: Automated Installation (Recommended)
+```bash
+# Apply complete CLI fix (includes all previous functionality)
+python3 ot2_prefect_cli_fix_installer.py ot2-simulator-device.tail6a1dd7.ts.net
+```
+
+### Option B: Manual Installation
 
 ### 1. Environment Setup
 ```bash
@@ -68,12 +77,40 @@ result = ot2_cloud_test_flow()
 - Service accounts can only be "Member" of an account
 - They get workspace-level roles when added to workspaces  
 - Service accounts are designed for API access for workers/deployments
-- CLI commands may hang but programmatic access works perfectly
+- ✅ **CLI commands now working** with our ARM compatibility fixes
 
-## Known Issues and Workarounds
+## Resolved Issues
 
-### CLI Commands Hanging
-**Issue**: `prefect cloud login` and `prefect cloud workspace set` commands hang
+### ✅ CLI Commands Now Working (Previously Hanging)
+**Solution**: ARM-compatible fallback wheels + CLI wrapper with timeout protection
+
+**Working Commands**:
+- `prefect --version` → Returns `3.3.4` 
+- `prefect config set PREFECT_API_URL="url"` → Sets and persists configuration
+- `prefect config set PREFECT_API_KEY="key"` → Sets and persists API key
+- `prefect cloud login --help` → Provides helpful guidance
+
+**Installation**: Use `ot2_prefect_cli_fix_installer.py` for automated fix application.
+
+## Programmatic Usage Persistence
+
+**Answer**: Programmatic usage persists across sessions when using the CLI configuration commands:
+
+```bash
+# Configure once, persists in ~/.bashrc:
+prefect config set PREFECT_API_URL="your-url"
+prefect config set PREFECT_API_KEY="your-key"
+
+# Then Python scripts work without re-configuration:
+python3 your_flow_script.py
+```
+
+**Alternative** (session-only):
+```python
+import os
+os.environ['PREFECT_API_URL'] = 'your-url'  # Must set every session
+os.environ['PREFECT_API_KEY'] = 'your-key'   # Must set every session
+```
 **Workaround**: Use programmatic configuration instead - works reliably
 
 ### Service Account Permissions
