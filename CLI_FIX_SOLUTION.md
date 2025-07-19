@@ -4,6 +4,8 @@
 
 The Prefect CLI commands (`prefect --version`, `prefect config set`, `prefect cloud login`) were hanging on OT-2 ARM devices due to missing native dependencies for `ruamel.yaml.clib` and `cryptography` packages.
 
+**Latest Update**: The `prefect cloud login` command is now **fully functional** with interactive authentication, workspace selection, and persistent configuration storage.
+
 ## Solution Implemented
 
 ### 1. Created Comprehensive ARM-Compatible Fallback Wheels
@@ -26,10 +28,12 @@ The Prefect CLI commands (`prefect --version`, `prefect config set`, `prefect cl
 
 **Features:**
 - Timeout protection to prevent hanging
-- Handles `--version`, `config set`, and basic commands
+- Handles `--version`, `config set`, and `cloud login` commands
+- Interactive authentication with workspace selection
 - Provides helpful error messages for unsupported commands
 - Falls back to programmatic API when CLI hangs
 - Persists configuration to `~/.bashrc` for permanence
+- Supports both direct parameter input and interactive prompts
 
 ### 3. Installation Instructions
 
@@ -61,7 +65,9 @@ ssh root@device 'cp /tmp/prefect_cli_wrapper.py /var/user-packages/root/.local/b
 - `prefect --version` → Returns `3.3.4`
 - `prefect config set PREFECT_API_URL="url"` → Sets and persists configuration
 - `prefect config set PREFECT_API_KEY="key"` → Sets and persists API key  
-- `prefect cloud login --help` → Provides helpful guidance
+- `prefect cloud login --help` → Shows help for cloud login command
+- `prefect cloud login` → Interactive login with workspace selection and API key input
+- `prefect cloud login -w "account/workspace" -k "api-key"` → Direct login with parameters
 
 ### ✅ Programmatic Usage Still Working:
 - `from prefect import flow, task` → Works as before
@@ -107,8 +113,12 @@ Tested on `ot2-simulator-20aceb.tail6a1dd7.ts.net`:
 ✅ Prefect environment loaded successfully
 ✅ prefect --version → 3.3.4
 ✅ prefect config set commands → Working with persistence
+✅ prefect cloud login --help → Shows proper help
+✅ prefect cloud login → Interactive authentication working
+✅ prefect cloud login -w "workspace" -k "api-key" → Direct login working  
 ✅ Programmatic flows → Working with cloud connectivity  
 ✅ No hanging CLI commands → All timeouts handled gracefully
+✅ Flow execution visible in Prefect Cloud UI
 ```
 
 ## Files Modified/Created
