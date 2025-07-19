@@ -14,8 +14,8 @@ Any package identified here can be installed on an OT-2 through `pip`.
 # Install pandas
 curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pandas
 
-# Install prefect workflow framework (see OT2-PREFECT-INSTALLATION-GUIDE.md for full setup)
-curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- prefect
+# Install prefect workflow framework (see ESSENTIAL_OT2_PREFECT_GUIDE.md for full setup)
+python3 essential_ot2_prefect_installer.py
 
 # Install pendulum (date/time library, Prefect dependency)
 curl -sSL https://raw.githubusercontent.com/sgbaird/opentrons-python-packages/main/install.sh | bash -s -- pendulum
