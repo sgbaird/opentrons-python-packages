@@ -195,6 +195,33 @@ print(f'✅ Back to pydantic {pydantic.__version__}')
 
 ### Cloud Login Status: ✅ WORKING (Both CLI and Programmatic)
 
+#### Setting up Prefect Cloud Authentication
+
+1. **Configure API Key and Workspace URL**:
+```bash
+# Set environment variables (replace with your credentials)
+export PREFECT_API_KEY="your_api_key_here"  
+export PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
+
+# Or configure via CLI
+prefect config set PREFECT_API_KEY="your_api_key_here"
+prefect config set PREFECT_API_URL="your_workspace_url_here"
+```
+
+2. **Create Prefect Profile**:
+```bash
+# Create cloud profile configuration
+mkdir -p /root/.prefect
+cat > /root/.prefect/profiles.toml << EOF
+active = "cloud"
+
+[profiles.cloud]
+PREFECT_API_KEY = "your_api_key_here"
+PREFECT_API_URL = "your_workspace_url_here"
+EOF
+```
+
+3. **Test Cloud Connection**:
 ```bash
 # CLI approach (now working!)
 prefect cloud login --help
@@ -206,6 +233,13 @@ client = get_cloud_client()
 print('✅ Cloud connectivity ready')
 "
 ```
+
+#### Service Account Keys
+
+For service account keys (starting with `pnb_`), you need the full workspace URL:
+- Format: `https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]`
+- Service account keys require explicit workspace configuration
+- Cannot auto-discover workspace like user keys
 
 ## 🔬 Direct Opentrons Integration
 
