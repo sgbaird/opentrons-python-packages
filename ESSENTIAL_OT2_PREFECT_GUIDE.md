@@ -26,8 +26,12 @@ source ~/.bashrc
 ### Set up Prefect Cloud connection
 ```bash
 # Configure API endpoint and key
-python3 simple_prefect_cli.py config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
-python3 simple_prefect_cli.py config set PREFECT_API_KEY="[YOUR-API-KEY]"
+source ~/.bashrc
+prefect config set PREFECT_API_URL="https://api.prefect.cloud/api/accounts/[ACCOUNT-ID]/workspaces/[WORKSPACE-ID]"
+prefect config set PREFECT_API_KEY="[YOUR-API-KEY]"
+
+# Verify configuration
+prefect --version
 ```
 
 ## Usage Examples
@@ -57,10 +61,7 @@ Use `simple_ot2_opentrons_flow.py` for combined Prefect + Opentrons workflows.
 
 ### Essential Files
 - `essential_ot2_prefect_installer.py` - Main installer script
-- `simple_prefect_cli.py` - Simplified CLI wrapper
 - `simple_ot2_opentrons_flow.py` - Working Prefect + Opentrons integration
-- `job-logs.zip` - Compressed test logs (28MB → 5.3MB)
-- `commands-list.zip` - Compressed analysis data (6MB → 855KB)
 
 ### Verification
 ```python

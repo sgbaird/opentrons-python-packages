@@ -9,25 +9,13 @@ import os
 import subprocess
 import time
 
-def run_command(cmd, description="", timeout=300):
-    """Run a command with proper error handling"""
-    print(f"🔧 {description}")
-    print(f"Running: {cmd}")
-    
+def run_command(cmd, description=""):
+    """Run a command with simple error handling"""
+    print(f"Running: {description}")
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
-        if result.returncode == 0:
-            print(f"✅ {description} - Success")
-            return True
-        else:
-            print(f"❌ {description} - Failed")
-            print(f"Error: {result.stderr}")
-            return False
-    except subprocess.TimeoutExpired:
-        print(f"⏰ {description} - Timeout")
-        return False
-    except Exception as e:
-        print(f"❌ {description} - Exception: {e}")
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=120)
+        return result.returncode == 0
+    except Exception:
         return False
 
 def install_prefect():

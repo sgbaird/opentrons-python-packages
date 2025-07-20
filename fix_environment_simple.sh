@@ -2,8 +2,13 @@
 # Simple script to fix OT-2 environment and setup cloud tools
 set -e
 
-# Use environment variable for hostname
-HOSTNAME="${OT2_HOSTNAME:-ot2-simulator-20aceb.tail6a1dd7.ts.net}"
+# Use environment variable for hostname (no default fallback)
+if [ -z "$OT2_HOSTNAME" ]; then
+    echo "❌ Error: OT2_HOSTNAME environment variable must be set"
+    echo "Usage: export OT2_HOSTNAME=your-device-hostname.tail6a1dd7.ts.net"
+    exit 1
+fi
+HOSTNAME="$OT2_HOSTNAME"
 
 echo "🚀 Fixing OT-2 Environment Variables Issue"
 echo "Target: $HOSTNAME"

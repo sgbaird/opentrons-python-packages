@@ -7,7 +7,8 @@ api_key = PREFECT_API_KEY.value()
 api_url = PREFECT_API_URL.value()
 
 print(f"API URL: {api_url}")
-print(f"API Key: {api_key[:20]}...")
+# Don't print API key for security
+print("API Key: [CONFIGURED]")
 
 headers = {"Authorization": f"Bearer {api_key}"}
 try:
