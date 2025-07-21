@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""Official Prefect v3 Quickstart Cloud Example"""
 from prefect import flow, task
 import random
 
