@@ -11,7 +11,7 @@
 Before the SSH step will work, set up the Tailscale side too:
 
 1. Create a Tailscale OAuth client and store its credentials in the repo or org as `TS_OAUTH_CLIENT_ID` and `TS_OAUTH_SECRET`.
-2. Make sure the tag used by the workflow (`tag:ot2-simulator-53ad71` in `.github/workflows/copilot-setup-steps.yml`) is allowed in your tailnet policy and can be applied by that OAuth client.
+2. Make sure the tag used by the workflow (currently `tag:ot2-simulator-53ad71` in `.github/workflows/copilot-setup-steps.yml`) is allowed in your tailnet policy and can be applied by that OAuth client; if you need a different device tag, update that workflow value to match.
 3. Confirm the OT-2 is online in the same tailnet and reachable by its Tailscale hostname.
 4. Make sure your tailnet ACLs allow the tagged GitHub runner to SSH to the OT-2.
 5. Set `OT2_SIMULATOR_SSH` to the SSH target you want the agent to use, usually `<user>@<tailscale-hostname>`.
