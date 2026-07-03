@@ -8,7 +8,7 @@
 
 ## SSH into an OT-2 over Tailscale
 
-1. Make sure the runner is on the tailnet first. This repo already wires that up in `/home/runner/work/opentrons-python-packages/opentrons-python-packages/.github/workflows/copilot-setup-steps.yml` with `tailscale/github-action@v2`.
+1. Make sure the runner is on the tailnet first. This repo already wires that up in `.github/workflows/copilot-setup-steps.yml` with `tailscale/github-action@v2`.
 2. Prefer the `OT2_SIMULATOR_SSH` secret/environment variable when it is available. Its format is `<user>@<hostname>`.
 3. Connect from a terminal, not Playwright:
 
